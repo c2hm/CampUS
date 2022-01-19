@@ -1,2 +1,2 @@
 # CampUS
-Univertisty of Sherbrooke robotics project
+University of Sherbrooke robotics project
