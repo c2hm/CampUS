@@ -3,8 +3,8 @@ To Do:
 - Code a working motor / find out about serial plugging for motors
 - Walking sequence
 - Turning algorithm with servo-motors
--UI
--Communication arduino/UI
+- UI
+- Communication arduino/UI
 
 
 Issues:
