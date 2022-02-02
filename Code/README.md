@@ -8,4 +8,4 @@ To Do:
 
 
 Issues:
-- Starting stance
+- How to get the starting stance from any position with the current motors
