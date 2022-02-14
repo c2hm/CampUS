@@ -16,7 +16,7 @@
 #include <Arduino.h>
 
 #include "Servo.h"
-#include "drv_pwm.h"
+#include "../variants/OpenCR/hw/driver/drv_pwm.h"
 
 
 
