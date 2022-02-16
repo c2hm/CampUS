@@ -1,1 +1,1 @@
-First prototype of the body and legs
+File of the first prototype
