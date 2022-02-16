@@ -1,4 +1,5 @@
 Mode 1 : Automatic
+
     Home button (default stance) : send home cmd
     wait for end message
     
@@ -8,6 +9,7 @@ Mode 1 : Automatic
     wait for end message
 
 Mode 2 : Semi-automatic
+
     Home button (default stance) : send home cmd
     wait for end message
     
@@ -21,6 +23,7 @@ Mode 2 : Semi-automatic
     wait for end message
     
 Mode 3 : Manual
+
     Home button (default stance) : send home cmd
     wait for end message
     
