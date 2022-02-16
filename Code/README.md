@@ -2,14 +2,14 @@ Wake up of the robot :
     
     Robot goes in default stance, activates magnets and waits for cmd
     
-Python code Point of view for the communications below :
+Python code point of view for the communications below :
 
     Mode 1 : Automatic
 
         Home button (default stance) : send home cmd
         wait for end message
 
-        To add action : Input distance and angle 
+        To add action : Input distance and angle and press add
         add up to 10 actions
         Then press start to send cmd
         wait for end message
