@@ -2,7 +2,9 @@ Mode 1 : Automatic
     Home button (default stance) : send home cmd
     wait for end message
     
-    Input distance and angle then press start to send cmd
+    To add action : Input distance and angle 
+    add up to 10 actions
+    Then press start to send cmd
     wait for end message
 
 Mode 2 : Semi-automatic
