@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "Servo.h"
+#include "../lib/OpenCR-master/arduino/opencr_arduino/opencr/libraries/Servo/src/Servo.cpp"
 
 #define PIN_TEST_SERVO_POWER 12
 #define PIN_TEST_SERVO_PWM 11

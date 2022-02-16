@@ -1,5 +1,9 @@
 {
     "files.associations": {
-        "selfadjointview.h": "c"
+        "selfadjointview.h": "c",
+        "stm32f746xx.h": "c",
+        "system_stm32f7xx.h": "c",
+        "stm32f7xx_hal.h": "c",
+        "stm32f7xx_hal_conf.h": "c"
     }
 }
