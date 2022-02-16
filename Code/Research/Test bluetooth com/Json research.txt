@@ -1,1 +1,17 @@
+In python : https://realpython.com/python-json/
+
+import json
+  data = {
+      "president": {
+          "name": "Zaphod Beeblebrox",
+          "species": "Betelgeusian"
+      }
+  }
+  json_string = json.dumps(data)
+  => send string with pyserial
+  
+  To receive : 
+  data = json.loads(json_string)
+  
+In arduino : https://arduinojson.org/
 
