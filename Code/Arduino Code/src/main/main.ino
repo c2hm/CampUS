@@ -1,5 +1,4 @@
-#include <Arduino.h>
-#include "../lib/OpenCR-master/arduino/opencr_arduino/opencr/libraries/Servo/src/Servo.cpp"
+#include <Servo.h>
 
 #define FRONT_LEFT_SERVO 0
 #define FRONT_RIGHT_SERVO 1
@@ -15,7 +14,10 @@
 #define PIN_REAR_RIGHT_SERVO_POWER 7
 #define PIN_REAR_RIGHT_SERVO_PWM 6
 
-void tests_moteurs(Servo servo);
+void tests_moteurs(Servo servo, int angle);
+
+Servo servo_test = Servo();
+int angle = 0;
 
 void setup() {
   //Associate pins
@@ -39,17 +41,22 @@ void setup() {
   servomotors[REAR_LEFT_SERVO].attach(PIN_REAR_LEFT_SERVO_PWM);
   servomotors[REAR_RIGHT_SERVO].attach(PIN_REAR_RIGHT_SERVO_PWM);
 
-  Servo servo_test = Servo();
+  
   servo_test.attach(PIN_FRONT_LEFT_SERVO_PWM);
-
-  tests_moteurs(servo_test);
+  digitalWrite(PIN_FRONT_LEFT_SERVO_POWER, HIGH);
+  
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if (angle != 180)
+  {
+      angle++;
+    
+  }
+  tests_moteurs(servo_test, angle);
 }
 
-void tests_moteurs(Servo servo)
+void tests_moteurs(Servo servo, int angle)
 {
-  printf("%d",servo.read());
+  servo.write(angle);
 }
