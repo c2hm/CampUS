@@ -514,7 +514,7 @@ QPushButton:hover {
              </palette>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="page_1">
              <widget class="QLabel" name="Title_Automatic">
@@ -1599,7 +1599,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                 <x>640</x>
                 <y>100</y>
                 <width>211</width>
-                <height>241</height>
+                <height>201</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1858,6 +1858,23 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                </rect>
               </property>
              </widget>
+             <widget class="QCheckBox" name="checkBox">
+              <property name="geometry">
+               <rect>
+                <x>640</x>
+                <y>310</y>
+                <width>211</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Reverse</string>
+              </property>
+             </widget>
              <zorder>listView_2</zorder>
              <zorder>label_2</zorder>
              <zorder>label</zorder>
@@ -1871,6 +1888,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
              <zorder>list_cmd</zorder>
              <zorder>label_3</zorder>
              <zorder>label_state_auto</zorder>
+             <zorder>checkBox</zorder>
             </widget>
             <widget class="QWidget" name="page_2">
              <widget class="QLabel" name="SemiAuto_Title">
@@ -2591,7 +2609,7 @@ background-color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
                <string>Jog 
-backward</string>
+backwards</string>
               </property>
              </widget>
              <widget class="QLabel" name="label_state_semi">

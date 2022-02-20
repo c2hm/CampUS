@@ -551,7 +551,7 @@ class Ui_MainWindow(object):
 "font: 12pt \"MS Shell Dlg 2\";")
         self.label_2.setObjectName("label_2")
         self.list_cmd = QtWidgets.QTableView(self.page_1)
-        self.list_cmd.setGeometry(QtCore.QRect(640, 100, 211, 241))
+        self.list_cmd.setGeometry(QtCore.QRect(640, 100, 211, 201))
         self.list_cmd.setStyleSheet("color: rgb(255, 255, 255);")
         self.list_cmd.setObjectName("list_cmd")
         self.label_3 = QtWidgets.QLabel(self.page_1)
@@ -640,6 +640,11 @@ class Ui_MainWindow(object):
         self.listView_2 = QtWidgets.QListView(self.page_1)
         self.listView_2.setGeometry(QtCore.QRect(50, 370, 801, 81))
         self.listView_2.setObjectName("listView_2")
+        self.checkBox = QtWidgets.QCheckBox(self.page_1)
+        self.checkBox.setGeometry(QtCore.QRect(640, 310, 211, 41))
+        self.checkBox.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
+"color: rgb(255, 255, 255);")
+        self.checkBox.setObjectName("checkBox")
         self.listView_2.raise_()
         self.label_2.raise_()
         self.label.raise_()
@@ -653,6 +658,7 @@ class Ui_MainWindow(object):
         self.list_cmd.raise_()
         self.label_3.raise_()
         self.label_state_auto.raise_()
+        self.checkBox.raise_()
         self.stackedWidget.addWidget(self.page_1)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -1103,7 +1109,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1122,6 +1128,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Distance (Cm):"))
         self.label_2.setText(_translate("MainWindow", "Angle (Degree):"))
         self.label_3.setText(_translate("MainWindow", "Command list:"))
+        self.checkBox.setText(_translate("MainWindow", "Reverse"))
         self.SemiAuto_Title.setText(_translate("MainWindow", "Semi-Automatic"))
         self.label_19.setText(_translate("MainWindow", "Angle (Degree):"))
         self.pb_sendcmd.setText(_translate("MainWindow", "Send Command"))
@@ -1129,7 +1136,7 @@ class Ui_MainWindow(object):
         self.pb_jogf.setText(_translate("MainWindow", "Jog \n"
 "forward"))
         self.pb_jogb.setText(_translate("MainWindow", "Jog \n"
-"backward"))
+"backwards"))
         self.Manual_Title.setText(_translate("MainWindow", "Manual"))
         self.label_4.setText(_translate("MainWindow", "Front left:"))
         self.label_5.setText(_translate("MainWindow", "Back left:"))
