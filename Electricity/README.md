@@ -19,4 +19,4 @@ The unamed sources are plugins used on OpenCR.
 
 The 12V port is used with the mosfet to give power for the electromagnets.
 
-Two TTL ports are used for the motors. 
+One TTL ports is used for the motors. (multiple can be used)
