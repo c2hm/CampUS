@@ -19,4 +19,9 @@ The unamed sources are plugins used on OpenCR.
 
 The 12V port is used with the mosfet to give power for the electromagnets.
 
-One TTL ports is used for the motors. (multiple can be used)
+Two TTL ports is used for the motors. (multiple or just one can be used)
+
+
+Module Bluetooth : 
+
+Model : HC-05
