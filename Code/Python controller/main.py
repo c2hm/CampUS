@@ -35,10 +35,10 @@ class MainWindow(QMainWindow):
 
     def addition(self):
         num1 = self.ui.distance_input.text()
-        num2 = self.ui.angle_input.text()
+        num2 = self.ui.angle_input_auto.text()
         res = int(num1) + int(num2)
 
-        self.ui.label_result.setText(str(res))
+        self.ui.label_state_auto.setText(str(res))
 
 
 if __name__ == "__main__":
