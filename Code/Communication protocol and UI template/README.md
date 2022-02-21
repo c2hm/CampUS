@@ -23,7 +23,7 @@ There are two types of messages :
     
     Information request order :
     Python controller sends order and waits for RECEIVED order returned by the arduino.
-    Python controller waits for parameter
+    Python controller waits for parameter then sends RECEIVED order.
     
     If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
   
