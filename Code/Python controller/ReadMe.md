@@ -10,13 +10,11 @@ Automatic page:
 		
 	Label:
 		State label: label_state_auto
+		State command list: label_cmdlist
 		
 	Text edits:
 		distance text edit: distance_input
 		angle text edit: angle_input_auto
-		
-	List:
-		Command list: list_cmd
 
 Semi-Automatic:
 
