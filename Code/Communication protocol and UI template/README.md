@@ -13,18 +13,21 @@ There are two types of messages :
  
  Sequence of communication:
  
-    Paring: 
-    The python controller sends order HELLO every few moments until a HELLO order is returned by the arduino.
+   Paring: 
+   The python controller sends order HELLO every few moments until a HELLO order is returned by the arduino.
    
-    Action request order :
-    Python controller sends order and waits for RECEIVED order returned by the arduino.
-    Optional : Sends parameter and waits for RECEIVED order returned by the arduino.
-    Python controller waits for finished order type of order returned by the arduino.
+   Action request order :
+   Python controller sends order and waits for RECEIVED order returned by the arduino.
+   Optional : Sends parameter and waits for RECEIVED order returned by the arduino.
+   Python controller waits for finished order type of order returned by the arduino.
     
-    Information request order :
-    Python controller sends order and waits for RECEIVED order returned by the arduino.
-    Python controller waits for parameter then sends RECEIVED order.
+   Information request order :
+   Python controller sends order and waits for RECEIVED order returned by the arduino.
+   Python controller waits for parameter then sends RECEIVED order.
     
-    If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
+   If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
+  
+      
+     
   
   
