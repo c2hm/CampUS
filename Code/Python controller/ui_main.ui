@@ -1858,7 +1858,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                </rect>
               </property>
              </widget>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="cb_Reversecmd">
               <property name="geometry">
                <rect>
                 <x>640</x>
@@ -1875,6 +1875,23 @@ color: rgb(255, 255, 255);</string>
                <string>Reverse</string>
               </property>
              </widget>
+             <widget class="QLabel" name="label_cmdlist">
+              <property name="geometry">
+               <rect>
+                <x>650</x>
+                <y>110</y>
+                <width>191</width>
+                <height>181</height>
+               </rect>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">color: rgb(255, 255, 255);
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
              <zorder>listView_2</zorder>
              <zorder>label_2</zorder>
              <zorder>label</zorder>
@@ -1888,7 +1905,8 @@ color: rgb(255, 255, 255);</string>
              <zorder>list_cmd</zorder>
              <zorder>label_3</zorder>
              <zorder>label_state_auto</zorder>
-             <zorder>checkBox</zorder>
+             <zorder>cb_Reversecmd</zorder>
+             <zorder>label_cmdlist</zorder>
             </widget>
             <widget class="QWidget" name="page_2">
              <widget class="QLabel" name="SemiAuto_Title">
