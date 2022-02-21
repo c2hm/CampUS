@@ -3,7 +3,6 @@ UI features (object) names:
 Automatic page:
 
 	Buttons:
-	
 		Home button: pb_home_auto
 		Start button: pb_start
 		Stop button: pb_stop
@@ -20,6 +19,7 @@ Automatic page:
 		Command list: list_cmd
 
 Semi-Automatic:
+
 	Buttons:
 		Home button: pb_home_semi
 		Send command button: pb_sendcmd
@@ -33,6 +33,7 @@ Semi-Automatic:
 		angle text edit: angle_input_semi
 		
 Manual:
+
 	Buttons:
 		Steppers:
 			Front left clockwise button: pb_step_flclock
