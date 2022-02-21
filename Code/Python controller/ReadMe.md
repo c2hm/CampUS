@@ -1,6 +1,7 @@
 UI features (object) names:
 
 Automatic page:
+
 	Buttons:
 		Home button: pb_home_auto
 		Start button: pb_start
@@ -9,15 +10,17 @@ Automatic page:
 		
 	Label:
 		State label: label_state_auto
+		State command list: label_cmdlist
 		
 	Text edits:
-		distance text edit: distance_input
-		angle text edit: angle_input_auto
+		Distance text edit: distance_input
+		Angle text edit: angle_input_auto
 		
-	List:
-		Command list: list_cmd
+	Ckeckbox:
+		Reverse checkbox: cb_reverse
 
 Semi-Automatic:
+
 	Buttons:
 		Home button: pb_home_semi
 		Send command button: pb_sendcmd
@@ -31,6 +34,7 @@ Semi-Automatic:
 		angle text edit: angle_input_semi
 		
 Manual:
+
 	Buttons:
 		Steppers:
 			Front left clockwise button: pb_step_flclock
@@ -60,11 +64,8 @@ Manual:
 	CheckBox:
 		Magnets:
 			Front left checkbox: cb_flmag
-			
-			Front right checkbox: cb_frmag			
-
+			Front right checkbox: cb_frmag		
 			Back left checkbox: cb_blmag
-			
 			Back right checkbox: cb_brmag
 
 			
