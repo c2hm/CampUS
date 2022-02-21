@@ -15,12 +15,11 @@ The total power consumption on 12V and 5V ports should not exceed 55W.
 
 About the circuit: 
 
-The unamed sources are plugins used on OpenCR.
-
 The 12V port is used with the mosfet to give power for the electromagnets.
 
 Two TTL ports is used for the motors. (multiple or just one can be used)
 
+The 5V port is used for the servomotors. (Power input)
 
 Module Bluetooth : 
 
