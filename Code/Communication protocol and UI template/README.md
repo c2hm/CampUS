@@ -5,12 +5,14 @@ To protocol is based on a master and slave relation. Therefore the arduino only 
 This system insures that the communication is synchronized and that no message is lost. Also, all messages are 8bit which insures the arduino buffer serial will not overflow
 
 There are two types of messages :
+
     Orders (8bit integer) : defines the type of request or response; can be immediately followed by a parameter 
     Parameters (8bit integer) : Optional number representing a precision of an order 
   
     Ex : Order : LEFT_MOTOR ; Parameter : 40; Output : Give a 40 rad/s speed to the motor 
  
  Sequence of communication:
+ 
     Paring: 
     The python controller sends order HELLO every few moments until a HELLO order is returned by the arduino.
    
