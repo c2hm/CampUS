@@ -1,7 +1,9 @@
 UI features (object) names:
 
 Automatic page:
+
 	Buttons:
+	
 		Home button: pb_home_auto
 		Start button: pb_start
 		Stop button: pb_stop
