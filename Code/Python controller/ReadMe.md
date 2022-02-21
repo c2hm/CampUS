@@ -13,8 +13,11 @@ Automatic page:
 		State command list: label_cmdlist
 		
 	Text edits:
-		distance text edit: distance_input
-		angle text edit: angle_input_auto
+		Distance text edit: distance_input
+		Angle text edit: angle_input_auto
+		
+	Ckeckbox:
+		Reverse checkbox: cb_reverse
 
 Semi-Automatic:
 
@@ -61,11 +64,8 @@ Manual:
 	CheckBox:
 		Magnets:
 			Front left checkbox: cb_flmag
-			
-			Front right checkbox: cb_frmag			
-
+			Front right checkbox: cb_frmag		
 			Back left checkbox: cb_blmag
-			
 			Back right checkbox: cb_brmag
 
 			
