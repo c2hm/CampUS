@@ -27,9 +27,10 @@ There are two types of messages :
     
    If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
    
-   
+   ![Diagramme sans nom](https://user-images.githubusercontent.com/61423054/155046882-bd427d14-defc-4da7-bac2-dcbce39e5b85.png)
+
   
-      ![Diagramme sans nom](https://user-images.githubusercontent.com/61423054/155046856-d2a400b4-af18-43f7-b89f-4412555e1a37.png)
+    
 
      
   
