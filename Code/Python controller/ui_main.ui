@@ -1040,7 +1040,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                <rect>
                 <x>340</x>
                 <y>270</y>
-                <width>231</width>
+                <width>111</width>
                 <height>71</height>
                </rect>
               </property>
@@ -1140,7 +1140,11 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
 font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
               </property>
               <property name="text">
-               <string>Add Command</string>
+               <string>Add
+Command</string>
+              </property>
+              <property name="shortcut">
+               <string>Return</string>
               </property>
              </widget>
              <widget class="QLabel" name="label">
@@ -1593,19 +1597,6 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                <string>Angle (Degree):</string>
               </property>
              </widget>
-             <widget class="QTableView" name="list_cmd">
-              <property name="geometry">
-               <rect>
-                <x>640</x>
-                <y>100</y>
-                <width>211</width>
-                <height>201</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
              <widget class="QLabel" name="label_3">
               <property name="geometry">
                <rect>
@@ -1862,9 +1853,9 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
               <property name="geometry">
                <rect>
                 <x>640</x>
-                <y>310</y>
+                <y>330</y>
                 <width>211</width>
-                <height>41</height>
+                <height>16</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -1875,21 +1866,195 @@ color: rgb(255, 255, 255);</string>
                <string>Reverse</string>
               </property>
              </widget>
-             <widget class="QLabel" name="label_cmdlist">
+             <widget class="QListView" name="listView_3">
+              <property name="geometry">
+               <rect>
+                <x>640</x>
+                <y>100</y>
+                <width>211</width>
+                <height>221</height>
+               </rect>
+              </property>
+             </widget>
+             <widget class="QWidget" name="verticalWidget" native="true">
               <property name="geometry">
                <rect>
                 <x>650</x>
                 <y>110</y>
                 <width>191</width>
-                <height>181</height>
+                <height>201</height>
                </rect>
               </property>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <widget class="QLabel" name="label_cmd1">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cmd2">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cmd3">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cmd4">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cmd5">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_cmd6">
+                 <property name="styleSheet">
+                  <string notr="true">color: rgb(255, 255, 255);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QPushButton" name="pb_clearcmd">
+              <property name="geometry">
+               <rect>
+                <x>460</x>
+                <y>270</y>
+                <width>111</width>
+                <height>71</height>
+               </rect>
+              </property>
+              <property name="palette">
+               <palette>
+                <active>
+                 <colorrole role="Button">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Window">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </active>
+                <inactive>
+                 <colorrole role="Button">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Window">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </inactive>
+                <disabled>
+                 <colorrole role="Button">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Window">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </disabled>
+               </palette>
+              </property>
               <property name="styleSheet">
-               <string notr="true">color: rgb(255, 255, 255);
+               <string notr="true">background-color: rgb(255, 255, 255);
 font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
               </property>
               <property name="text">
-               <string/>
+               <string>Clear
+Command</string>
               </property>
              </widget>
              <zorder>listView_2</zorder>
@@ -1902,11 +2067,12 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
              <zorder>distance_input</zorder>
              <zorder>angle_input_auto</zorder>
              <zorder>pb_addcmd</zorder>
-             <zorder>list_cmd</zorder>
              <zorder>label_3</zorder>
              <zorder>label_state_auto</zorder>
              <zorder>cb_Reversecmd</zorder>
-             <zorder>label_cmdlist</zorder>
+             <zorder>listView_3</zorder>
+             <zorder>verticalWidget</zorder>
+             <zorder>pb_clearcmd</zorder>
             </widget>
             <widget class="QWidget" name="page_2">
              <widget class="QLabel" name="SemiAuto_Title">
