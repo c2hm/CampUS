@@ -8,8 +8,11 @@
 //Prototypes
 void get_messages_from_serial();
 void home();
+void start();
+int get_param();
 void stop();
-void servo();
+void semi_auto();
+void servo(int angle);
 
 
 bool is_connected = false; ///< True if the connection with the master is available
@@ -21,8 +24,6 @@ void setup() {
   // Wait until the arduino is connected to master
   while(!is_connected)
   {
-    // write_order(HELLO);
-    // wait_for_bytes(1, 1000);
     get_messages_from_serial();
   }
 
@@ -73,10 +74,14 @@ void get_messages_from_serial()
         {
           write_order(RECEIVED);
           home();
-          if(DEBUG)
-          {
-            write_order(HOME);
-          }
+          break;
+        }
+
+        case START:
+        {
+          write_order(RECEIVED);
+          start();
+
           break;
         }
 
@@ -84,39 +89,62 @@ void get_messages_from_serial()
         {
           write_order(RECEIVED);
           stop();
-          if(DEBUG)
-          {
-            write_order(STOP);
-          }
+ 
+          break;
+        }
+
+        case SEMI_AUTO:
+        {
+          write_order(RECEIVED);
+          semi_auto();
+ 
           break;
         }
 
         case SERVO:
         {
-          
-          //reads parameter
-          int servo_angle = read_i16(); //doit ajouter vérification, car passe direct au travers
 
           write_order(RECEIVED); 
-          servo();
-          if(DEBUG)
+
+          //reads parameter
+          int angle = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (angle == 0)
           {
-            write_order(SERVO);
-            write_i16(servo_angle);
+              write_order(ERROR); 
           }
+          else 
+          {
+              write_order(RECEIVED); 
+              servo(angle);
+          }
+        
           break;
         }
 
   			// Unknown order
   			default:
           write_order(ERROR);
-          write_i16(404);
   				return;
       }
       
     }
     
   }
+}
+
+int get_param()
+{
+  unsigned long start_time = millis();
+  while(Serial.available() < 1)
+  {
+    delay(0.1);
+    if (millis() - start_time > 3000)
+    {
+        return 0; /////////////Revoir notion de l'erreur
+    }
+  }
+  return read_i8();
 }
 
 /********************************************
@@ -129,7 +157,17 @@ void home()
 
   //homing procedure
 
-  write_order(HOME_END); 
+  write_order(FINISHED); 
+}
+
+void start()
+{
+
+  //starting procedure
+
+
+  write_order(FINISHED); 
+  
 }
 
 void stop()
@@ -137,14 +175,29 @@ void stop()
 
   //stopping procedure
 
-  write_order(STOP_END);
+  write_order(FINISHED); 
   
 }
 
-void servo()
+void semi_auto()
 {
-  //move servo to servo_angle
-  write_order(SERVO_END);
+  delay(3000);
+  
+  write_order(FINISHED); 
+  
+}
+
+void servo(int angle)
+{
+  delay(2000);
+
+  if (angle == 40)
+  {
+    write_order(FINISHED); //to test com
+  }
+
+  //move  to angle
+  
   
   
 }
