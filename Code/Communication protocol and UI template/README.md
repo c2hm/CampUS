@@ -26,8 +26,11 @@ There are two types of messages :
    Python controller waits for parameter then sends RECEIVED order.
     
    If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
+   
+   
   
-      
+      ![Diagramme sans nom](https://user-images.githubusercontent.com/61423054/155046856-d2a400b4-af18-43f7-b89f-4412555e1a37.png)
+
      
   
   
