@@ -13,13 +13,9 @@
 #define REAR_LEFT_SERVO 2
 #define REAR_RIGHT_SERVO 3
 
-#define PIN_FRONT_LEFT_SERVO_POWER 13
 #define PIN_FRONT_LEFT_SERVO_PWM 11
-#define PIN_FRONT_RIGHT_SERVO_POWER 12
 #define PIN_FRONT_RIGHT_SERVO_PWM 10
-#define PIN_REAR_LEFT_SERVO_POWER 8
 #define PIN_REAR_LEFT_SERVO_PWM 9
-#define PIN_REAR_RIGHT_SERVO_POWER 7
 #define PIN_REAR_RIGHT_SERVO_PWM 6
 
 //Movement modes
@@ -52,16 +48,9 @@ Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 
 void setup() {
   //Associate pins
-  pinMode(PIN_FRONT_LEFT_SERVO_POWER, OUTPUT);
   pinMode(PIN_FRONT_LEFT_SERVO_PWM, INPUT);
-
-  pinMode(PIN_FRONT_RIGHT_SERVO_POWER,OUTPUT);
   pinMode(PIN_FRONT_RIGHT_SERVO_PWM,INPUT);
-
-  pinMode(PIN_REAR_LEFT_SERVO_POWER,OUTPUT);
   pinMode(PIN_REAR_LEFT_SERVO_PWM, INPUT);
-
-  pinMode(PIN_REAR_RIGHT_SERVO_POWER, OUTPUT);
   pinMode(PIN_REAR_RIGHT_SERVO_PWM, INPUT);
 
   //Servomotors
@@ -71,10 +60,6 @@ void setup() {
   servomotors[FRONT_RIGHT_SERVO].attach(PIN_FRONT_RIGHT_SERVO_PWM);
   servomotors[REAR_LEFT_SERVO].attach(PIN_REAR_LEFT_SERVO_PWM);
   servomotors[REAR_RIGHT_SERVO].attach(PIN_REAR_RIGHT_SERVO_PWM);
-
-  
-  servo_test.attach(PIN_FRONT_LEFT_SERVO_PWM);
-  digitalWrite(PIN_FRONT_LEFT_SERVO_POWER, HIGH);
 
   //Steppers
   pinMode(BDPIN_DXL_PWR_EN, OUTPUT);
@@ -95,7 +80,7 @@ void setup() {
   dxl.setOperatingMode(DXL_ID2, OP_POSITION);
   dxl.torqueOn(DXL_ID2);
 
-  dxl.setGoalPosition(DXL_ID2, 0);
+  //dxl.setGoalPosition(DXL_ID2, 0);
 
   delay(5000);
   dxl.torqueOff(DXL_ID2);
@@ -104,13 +89,9 @@ void setup() {
 }
 
 void loop() {
-  encoderPosition(dxl, DXL_ID2);
-  if (angle != 180)
-  {
-      angle++;
-    
-  }
-  tests_moteurs(servo_test, angle);
+  
+  /*encoderPosition(dxl, DXL_ID2);
+  
 
   DEBUG_SERIAL.println(mode);
   DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID2));
@@ -130,7 +111,7 @@ void loop() {
     finish(dxl,DXL_ID2);
     delay(500);
     extension(dxl, DXL_ID2,-10);
-  }
+  }*/
 }
 
 void tests_moteurs(Servo servo, int angle)
@@ -207,4 +188,8 @@ void encoderPosition(Dynamixel2Arduino dxl, int id){
     motor_position = motor_position*-1;
   }
   motor_position = motor_position % 4096;
+}
+
+void setServoPosition(Servo servo, int id){
+  
 }
