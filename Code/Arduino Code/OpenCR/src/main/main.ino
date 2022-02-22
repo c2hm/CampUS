@@ -31,6 +31,8 @@ void extension(Dynamixel2Arduino dxl, int id, int speed); //leg extension
 void retraction(Dynamixel2Arduino dxl, int id, int speed); //leg retraction
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed); //Completes a full step forward or backwards
 void encoderPosition(Dynamixel2Arduino dxl, int id);
+void setServoPosition(Servo servo, int angle);
+int getServoPosition(Servo servo);
 
 
 Servo servo_test = Servo();
@@ -45,6 +47,7 @@ const float DXL_PROTOCOL_VERSION = 2.0;
 int motor_position;
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
+Servo servomotors[4] = {};
 
 void setup() {
   //Associate pins
@@ -54,7 +57,7 @@ void setup() {
   pinMode(PIN_REAR_RIGHT_SERVO_PWM, INPUT);
 
   //Servomotors
-  Servo servomotors[4] = {};
+  
 
   servomotors[FRONT_LEFT_SERVO].attach(PIN_FRONT_LEFT_SERVO_PWM);
   servomotors[FRONT_RIGHT_SERVO].attach(PIN_FRONT_RIGHT_SERVO_PWM);
@@ -86,10 +89,15 @@ void setup() {
   dxl.torqueOff(DXL_ID2);
   dxl.setOperatingMode(DXL_ID2, OP_VELOCITY);
   dxl.torqueOn(DXL_ID2);
+
+  
 }
 
 void loop() {
-  
+  for(int i=0; i<4;i++){
+    DEBUG_SERIAL.print("Moteur %d : ",i);
+    DEBUG_SERIAL.println(getPosition(servomotors[i]));
+  }
   /*encoderPosition(dxl, DXL_ID2);
   
 
@@ -112,12 +120,6 @@ void loop() {
     delay(500);
     extension(dxl, DXL_ID2,-10);
   }*/
-}
-
-void tests_moteurs(Servo servo, int angle)
-{
-  servo.write(angle);
-  //DEBUG_SERIAL.println(servo.read());
 }
 
 void finish(Dynamixel2Arduino dxl, int id){
@@ -190,6 +192,14 @@ void encoderPosition(Dynamixel2Arduino dxl, int id){
   motor_position = motor_position % 4096;
 }
 
-void setServoPosition(Servo servo, int id){
-  
+void setServoPosition(Servo servo, int angle){
+  servo.write(angle);
+
+  delay(200);
+
+  DEBUG_SERIAL.println(getServoPosition(servo));
+}
+
+int getServoPosition(Servo servo){
+  return servo.read();
 }
