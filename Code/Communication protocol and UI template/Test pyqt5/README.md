@@ -49,6 +49,3 @@ Test :
 	# Run the program
 	sys.exit(app.exec())
 
-Tu use UI in main :
-
-
