@@ -38,10 +38,15 @@ int getServoPosition(Servo servo);
 Servo servo_test = Servo();
 int angle = 0;
 
-const uint8_t DXL_ID2 = 2;
-const uint8_t DXL_ID9 = 9;
-const uint8_t DXL_ID23 = 23;
-const uint8_t DXL_ID3 = 3;
+#define DXL_ID_REAR_LEFT 2
+#define DXL_ID_REAR_RIGHT 9
+#define DXL_ID_FRONT_LEFT 23
+#define DXL_ID_FRONT_RIGHT 3
+
+#define FRONT_LEFT_RETRACTED 993
+#define FRONT_RIGHT_RETRACTED 0
+#define REAR_LEFT_RETRACTED 2850
+#define REAR_RIGHT_RETRACTED 0
 
 const float DXL_PROTOCOL_VERSION = 2.0;
 int motor_position;
@@ -56,6 +61,7 @@ void setup() {
   pinMode(PIN_REAR_LEFT_SERVO_PWM, INPUT);
   pinMode(PIN_REAR_RIGHT_SERVO_PWM, INPUT);
 
+  
   //Servomotors
   
 
@@ -76,28 +82,52 @@ void setup() {
   // Set Port Protocol Version. This has to match with DYNAMIXEL protocol version.
   dxl.setPortProtocolVersion(DXL_PROTOCOL_VERSION);
   // Get DYNAMIXEL information
-  dxl.ping(DXL_ID2);
+  dxl.ping(DXL_ID_FRONT_LEFT);
+  dxl.ping(DXL_ID_FRONT_RIGHT);
+  dxl.ping(DXL_ID_REAR_LEFT);
+  dxl.ping(DXL_ID_REAR_RIGHT);
 
   // Turn off torque when configuring items in EEPROM area
-  dxl.torqueOff(DXL_ID2);
+  /*dxl.torqueOff(DXL_ID2);
   dxl.setOperatingMode(DXL_ID2, OP_POSITION);
   dxl.torqueOn(DXL_ID2);
+  dxl.setGoalPosition(DXL_ID2, 0);*/
 
-  //dxl.setGoalPosition(DXL_ID2, 0);
 
   delay(5000);
-  dxl.torqueOff(DXL_ID2);
-  dxl.setOperatingMode(DXL_ID2, OP_VELOCITY);
-  dxl.torqueOn(DXL_ID2);
+  dxl.torqueOff(DXL_ID_FRONT_LEFT);
+  dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_POSITION);
+  dxl.torqueOn(DXL_ID_FRONT_LEFT);
 
+  dxl.torqueOff(DXL_ID_FRONT_RIGHT);
+  dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_POSITION);
+  dxl.torqueOn(DXL_ID_FRONT_RIGHT);
+  
+  dxl.torqueOff(DXL_ID_REAR_LEFT);
+  dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_POSITION);
+  dxl.torqueOn(DXL_ID_REAR_LEFT);
+  
+  dxl.torqueOff(DXL_ID_REAR_RIGHT);
+  dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_POSITION);
+  dxl.torqueOn(DXL_ID_REAR_RIGHT);
+  
   
 }
 
 void loop() {
-  for(int i=0; i<4;i++){
-    DEBUG_SERIAL.print("Moteur %d : ",i);
-    DEBUG_SERIAL.println(getPosition(servomotors[i]));
-  }
+    
+    encoderPosition(dxl,DXL_ID_FRONT_LEFT);
+  DEBUG_SERIAL.println(motor_position);
+
+  encoderPosition(dxl,DXL_ID_FRONT_RIGHT);
+  DEBUG_SERIAL.println(motor_position);
+  
+  encoderPosition(dxl,DXL_ID_REAR_LEFT);
+  DEBUG_SERIAL.println(motor_position);
+  
+  encoderPosition(dxl,DXL_ID_REAR_RIGHT);
+  DEBUG_SERIAL.println(motor_position);
+  
   /*encoderPosition(dxl, DXL_ID2);
   
 
