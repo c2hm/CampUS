@@ -7,20 +7,18 @@ enum Order {
   // DOIT ÊTRE EXACTEMENT LA MÊME LIST/ORDRE QUE DANS LE PROG PYTHON
 
   //ORDRE GÉNÉRAL
-  HELLO = 0,
-  ALREADY_CONNECTED = 1,
-  ERROR = 2,
-  RECEIVED = 3,
+    HELLO = 0,
+    ALREADY_CONNECTED = 1,
+    ERROR = 2,
+    RECEIVED = 3,
+    FINISHED = 4,
 
-  //ORDRE D'ACTIONS
-  HOME = 4,
-  SERVO = 5,
-  STOP = 6,
-
-  //ORDRE COMPLÉTÉ
-  HOME_END = 7,
-  SERVO_END = 8,
-  STOP_END = 9,
+    HOME = 5,
+    START = 6,
+    STOP = 7,
+    SEMI_AUTO = 8,
+    SERVO = 9
+  
   
 };
 
