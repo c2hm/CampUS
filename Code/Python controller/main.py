@@ -5,9 +5,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
 from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PyQt5.QtWidgets import *
-import communication #pip install pyserial
+import communication
 from order import Order
-import time
 
 # GUI FILE
 from ui_main import Ui_MainWindow
@@ -20,7 +19,7 @@ class MainWindow(QMainWindow):
         self.setWindowModality(QtCore.Qt.ApplicationModal)
 
         ## For comm
-        #self.comm = communication.Communication() # needs a arduino
+        #self.comm = communication.Communication()
         self.listcmd = []
         self.listdist = []
 
@@ -43,10 +42,8 @@ class MainWindow(QMainWindow):
         # Add command button
         self.ui.pb_addcmd.clicked.connect(self.addcmd)
 
-        # Clear command button
+        # clear command button
         self.ui.pb_clearcmd.clicked.connect(self.clearcmd)
-
-        # Home button
         self.ui.pb_home_auto.clicked.connect(self.homeorder)
 
         ## SHOW ==> MAIN WINDOW
@@ -101,24 +98,17 @@ class MainWindow(QMainWindow):
             self.counter -= 1
 
     def homeorder(self):
-        self.ui.label_state_auto.setText("Homing...")
-        #homing = self.comm.send_order(Order.HOME, 1)
-        homing = 0
+        print("send order SEMI_AUTO")
+        """
+        self.comm.send_order(Order.SEMI_AUTO, 1)
+        print("end")
+        print("\n")
+        print("send order SERVO 40 rad/s")
+        self.comm.send_order_param(Order.SERVO, 40, 1)  # une séquence à chaque click + wait for finish
+        print("end")
+        """
 
-        if homing == 1:
-            self.ui.label_state_auto.setText("Homing done, CampUS is ready!")
-        else:
-            self.ui.label_state_auto.setText("Homing error, please try again.")
-        time.sleep(5)
 
-
-# Exemple comm
-# print(self.comm.send_order_param(Order.SERVO, 40, 1))  # une séquence à chaque click + wait for finish
-# print("end")
-# print(self.comm.send_order(Order.SEMI_AUTO, 1))
-# print("end")
-# print(self.comm.send_order_param(Order.SERVO, 40, 1))
-# print("end")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
