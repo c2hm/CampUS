@@ -44,6 +44,7 @@ class MainWindow(QMainWindow):
 
         # clear command button
         self.ui.pb_clearcmd.clicked.connect(self.clearcmd)
+
         self.ui.pb_home_auto.clicked.connect(self.homeorder)
 
         ## SHOW ==> MAIN WINDOW
@@ -107,7 +108,6 @@ class MainWindow(QMainWindow):
         self.comm.send_order_param(Order.SERVO, 40, 1)  # une séquence à chaque click + wait for finish
         print("end")
         """
-
 
 
 if __name__ == "__main__":
