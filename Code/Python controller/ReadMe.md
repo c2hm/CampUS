@@ -86,7 +86,8 @@ Next step:
     
     Bug:
         Prevent the user to press any button while sending information
-        Prevent the user to enter letter in the txt input
+        Prevent the user to enter letter in the text input
+	Always open the automatic page when the code is run
     
         
         
