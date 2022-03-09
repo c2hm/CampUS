@@ -9,6 +9,8 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFont
 from PyQt5.QtWidgets import *
 import communication
 from order import Order
+import tkinter as tk
+from tkinter import ttk
 
 # GUI FILE
 from ui_main import Ui_MainWindow
@@ -65,13 +67,15 @@ class MainWindow(QMainWindow):
         return 1
 
 
-    def addcmd(self, start):
+    def addcmd(self):
 
         dist = self.ui.distance_input.text()
         angle = self.ui.angle_input_auto.text()
 
         if self.get_int(dist) == 0 or self.get_int(angle) == 0:
             self.ui.label_state_auto.setText('Please enter an integer value')
+            self.ui.distance_input.setText("0")
+            self.ui.angle_input_auto.setText("0")
         else:
 
             self.ui.label_state_auto.setText(" ")
@@ -83,16 +87,40 @@ class MainWindow(QMainWindow):
 
             if self.counter == 1:
                 self.ui.label_cmd1.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
             elif self.counter == 2:
                 self.ui.label_cmd2.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
             elif self.counter == 3:
                 self.ui.label_cmd3.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
             elif self.counter == 4:
                 self.ui.label_cmd4.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
             elif self.counter == 5:
                 self.ui.label_cmd5.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
             elif self.counter == 6:
                 self.ui.label_cmd6.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.distance_input.setText("0")
+                self.ui.angle_input_auto.repaint()
+                self.ui.angle_input_auto.setText("0")
                 self.ui.label_state_auto.setText('List full')
                 self.ui.label_state_auto.repaint()
                 time.sleep(5)

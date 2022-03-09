@@ -12,7 +12,19 @@ void start();
 int get_param();
 void stop();
 void semi_auto();
-void servo(int angle);
+void servo_avant_droit(int state);
+void servo_avant_gauche(int state);
+void servo_arriere_droit(int state);
+void servo_arriere_gauche(int state);
+void moteur_avant_droit(int state);
+void moteur_avant_gauche(int state);
+void moteur_arriere_droit(int state);
+void moteur_arriere_gauche(int state);
+void electroaimant_avant_droit(int state);
+void electroaimant_avant_gauche(int state);
+void electroaimant_arriere_droit(int state);
+void electroaimant_arriere_gauche(int state);
+
 
 
 bool is_connected = false; ///< True if the connection with the master is available
@@ -101,26 +113,257 @@ void get_messages_from_serial()
           break;
         }
 
-        case SERVO:
+        case SERVO_AVANT_DROIT:
         {
 
           write_order(RECEIVED); 
 
           //reads parameter
-          int angle = get_param();
+          int state = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
-          if (angle == 0)
+
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        }
+        
+        case SERVO_AVANT_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+           if (state == -1 || state==1)
           {
               write_order(ERROR); 
           }
           else 
           {
               write_order(RECEIVED); 
-              servo(angle);
+              servo_avant_gauche(state);
           }
         
           break;
         }
+
+        case SERVO_ARRIERE_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+              write_order(ERROR); 
+          }
+          else 
+          {
+              write_order(RECEIVED); 
+              servo_arriere_droit(state);
+          }
+        
+          break;
+        }
+
+        case SERVO_ARRIERE_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+              write_order(ERROR); 
+          }
+          else 
+          {
+              write_order(RECEIVED); 
+              servo_arriere_gauche(state);
+          }
+        
+          break;
+        }
+
+        case MOTEUR_AVANT_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        
+          break;
+        }
+        
+        case MOTEUR_AVANT_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_gauche(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        
+          break;
+        }
+
+        case MOTEUR_ARRIERE_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_arriere_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+          break;
+        }   
+
+        case MOTEUR_ARRIERE_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_arriere_gauche(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+          break;
+        }
+
+        case ELECTROAIMANT_AVANT_DROIT:
+        {
+          
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_avant_droit(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+
+          break;
+        }    
+
+        case ELECTROAIMANT_AVANT_GAUCHE:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_avant_gauche(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+
+          break;
+        }    
+
+
+
+        case ELECTROAIMANT_ARRIERE_DROIT:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_arriere_droit(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+          
+          break;
+        }    
+
+
+        case ELECTROAIMANT_ARRIERE_GAUCHE:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_arriere_gauche(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+          
+          break;
+        }    
+
+
 
   			// Unknown order
   			default:
@@ -181,23 +424,160 @@ void stop()
 
 void semi_auto()
 {
-  delay(250);
+
   
   write_order(FINISHED); 
   
 }
 
-void servo(int angle)
+void servo_avant_droit(int state)
 {
-  delay(250);
-
-  if (angle == 40)
+  if(state==1)
   {
-    write_order(FINISHED); //to test com
+    //avancer
+  }
+  else
+  {
+    //reculer
   }
 
-  //move  to angle
+}
+
+void servo_avant_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  } 
+}
+
+void servo_arriere_droit(int state)
+{
+
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+}
+
+void servo_arriere_gauche(int state)
+{
+ 
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+}
+
+void moteur_avant_droit(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+}
+
+void moteur_avant_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+}
+
+void moteur_arriere_droit(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
   
+}
+
+void moteur_arriere_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+}
+
+void electroaimant_avant_droit(int state)
+{
+
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+}
+
+void electroaimant_avant_gauche(int state)
+{
+ 
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+}
+
+void electroaimant_arriere_droit(int state)
+{
   
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+}
+
+void electroaimant_arriere_gauche(int state)
+{
   
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
 }
