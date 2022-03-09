@@ -1,0 +1,6 @@
+Electricity tests:
+
+Test with all 4 electromagnets, result:success
+Test with 3 electromagnets, result: success
+Test with the 2 upper electromagnets result: success
+Test with 2 electromagnets in diagonal result: keeps grip but loses equilibrium
