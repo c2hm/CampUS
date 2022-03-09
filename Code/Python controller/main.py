@@ -1,4 +1,4 @@
-
+#allo
 import sys
 import platform
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.setWindowModality(QtCore.Qt.ApplicationModal)
 
         ## For comm
-        self.comm = communication.Communication()
+        #self.comm = communication.Communication()
         self.listcmd = []
         self.listdist = []
 
@@ -44,6 +44,7 @@ class MainWindow(QMainWindow):
 
         # clear command button
         self.ui.pb_clearcmd.clicked.connect(self.clearcmd)
+        self.ui.pb_home_auto.clicked.connect(self.homeorder)
 
         ## SHOW ==> MAIN WINDOW
         ########################################################################
@@ -96,13 +97,16 @@ class MainWindow(QMainWindow):
         if self.counter > 0:
             self.counter -= 1
 
-    #def homeorder(self):
-        #print(self.comm.send_order_param(Order.SERVO, 40, 1))  # une séquence à chaque click + wait for finish
-        #print("end")
-        #print(self.comm.send_order(Order.SEMI_AUTO, 1))
-        #print("end")
-        #print(self.comm.send_order_param(Order.SERVO, 40, 1))
-        #print("end")
+    def homeorder(self):
+        print("send order SEMI_AUTO")
+        """
+        self.comm.send_order(Order.SEMI_AUTO, 1)
+        print("end")
+        print("\n")
+        print("send order SERVO 40 rad/s")
+        self.comm.send_order_param(Order.SERVO, 40, 1)  # une séquence à chaque click + wait for finish
+        print("end")
+        """
 
 
 

@@ -181,7 +181,7 @@ void stop()
 
 void semi_auto()
 {
-  delay(3000);
+  delay(250);
   
   write_order(FINISHED); 
   
@@ -189,7 +189,7 @@ void semi_auto()
 
 void servo(int angle)
 {
-  delay(2000);
+  delay(250);
 
   if (angle == 40)
   {
