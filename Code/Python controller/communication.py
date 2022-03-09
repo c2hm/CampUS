@@ -25,6 +25,7 @@ class Communication(object):
                 is_connected = True
 
         print("Connected to Arduino")
+        print("\n")
 
         self.timeout = 3
         self.wait_between_read = 0.1

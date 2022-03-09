@@ -68,8 +68,29 @@ Manual:
 			Back left checkbox: cb_blmag
 			Back right checkbox: cb_brmag
 
-			
-			
+Next step:
+
+    Automatic:
+        Finish home
+        State window
+        Start/Stop
+        Check mark
+    
+    Semi-auto:
+        Jog 
+        Send command
+
+    Manual:
+        Button
+        Check mark
+    
+    Bug:
+        Prevent the user to press any button while sending information
+        Prevent the user to enter letter in the text input
+	Always open the automatic page when the code is run
+    
+        
+        
 			
 		
 		
