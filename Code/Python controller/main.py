@@ -9,8 +9,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFont
 from PyQt5.QtWidgets import *
 import communication
 from order import Order
-import tkinter as tk
-from tkinter import ttk
 
 # GUI FILE
 from ui_main import Ui_MainWindow
