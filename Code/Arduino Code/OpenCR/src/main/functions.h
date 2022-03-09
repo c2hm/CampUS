@@ -3,28 +3,68 @@
 
 int motor_position;
 //Useful functions for movement sequence
-void tests_moteurs(Servo servo, int angle);
-void finish(Dynamixel2Arduino dxl, int id); //Reset velocity to 0
-void extension(Dynamixel2Arduino dxl, int id, int speed); //leg extension
-void retraction(Dynamixel2Arduino dxl, int id, int speed); //leg retraction
-void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed); //Completes a full step forward or backwards
+void finish(Dynamixel2Arduino dxl, int id);
+void extension(Dynamixel2Arduino dxl, int id, int speed);
+void retraction(Dynamixel2Arduino dxl, int id, int speed);
+void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed);
 void encoderPosition(Dynamixel2Arduino dxl, int id);
+void findLegMode(Dynamixel2Arduino dxl, int id);
+void adjustPosition(Dynamixel2Arduino dxl, int id);
+//void raiseLeg();
+//void controlMagnet(bool switch, int magnet);
+//void home();
+//activation modes for magnets (on/off) and legs' current position (extended, retracted, raised)
+//void resetEncoder(int id, Dynamixel2Arduino dxl);
+//change extension-retraction-robotStep to adapt to dynamixel motors
+//find encoder reads for each retracted leg
+
+
 void setServoPosition(Servo servo, int angle);
 int getServoPosition(Servo servo);
 
-
+/*
+ * Sets stepper speed to 0
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ */
 void finish(Dynamixel2Arduino dxl, int id){
   dxl.setGoalVelocity(id,0);
 }
 
-void extension(Dynamixel2Arduino dxl, int id, int speed){         //speed in percentage
+/*
+ * Fully extends leg according to the required direction
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void extension(Dynamixel2Arduino dxl, int id, int speed){
   dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
 }
 
-void retraction(Dynamixel2Arduino dxl, int id, int speed){         //speed in percentage
+/*
+ * Fully retracts leg according to the required direction
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void retraction(Dynamixel2Arduino dxl, int id, int speed){
   dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
 }
 
+/*
+ *This function completes one full robot step in the inputede direction 
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param idFL robot's front left motor id
+ * @param idFR robot's front right motor id
+ * @param idRL robot's rear left motor id
+ * @param idRR robot's rear right motor id
+ * @param direction movement direction (±1)
+ * @param speed desired speed for motor movement (in percentage)
+ */
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed){
   if(direction<0){
     speed = speed*-1;
@@ -87,4 +127,192 @@ void setServoPosition(Servo servo, int angle){
 
 int getServoPosition(Servo servo){
   return servo.read();
+}
+
+/*
+ * Finds if a leg is extended, raised or retracted
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ */
+void findLegMode(Dynamixel2Arduino dxl, int id){
+    encoderPosition(dxl, id);
+
+    if(id==DXL_ID_REAR_LEFT){
+      if(abs(motor_position - REAR_LEFT_RETRACTED) < abs(motor_position - REAR_LEFT_EXTENDED) && abs(motor_position - REAR_LEFT_RETRACTED) < abs(motor_position - REAR_LEFT_RAISED)){
+        rearLeftMode = RETRACTED;
+      }
+      else if(abs(motor_position - REAR_LEFT_EXTENDED) <abs(motor_position - REAR_LEFT_RETRACTED)  && abs(motor_position - REAR_LEFT_EXTENDED) < abs(motor_position - REAR_LEFT_RAISED)){
+        rearLeftMode = EXTENDED;
+      }
+      else if(abs(motor_position - REAR_LEFT_RAISED) <abs(motor_position - REAR_LEFT_RETRACTED)  && abs(motor_position - REAR_LEFT_RAISED) < abs(motor_position - REAR_LEFT_EXTENDED)){
+        rearLeftMode = RAISED;
+      }
+    }
+    else if(id==DXL_ID_REAR_RIGHT){
+      if(abs(motor_position - REAR_RIGHT_RETRACTED) < abs(motor_position - REAR_RIGHT_EXTENDED) && abs(motor_position - REAR_RIGHT_RETRACTED) < abs(motor_position - REAR_RIGHT_RAISED)){
+        rearRightMode = RETRACTED;
+      }
+      else if(abs(motor_position - REAR_RIGHT_EXTENDED) <abs(motor_position - REAR_RIGHT_RETRACTED)  && abs(motor_position - REAR_RIGHT_EXTENDED) < abs(motor_position - REAR_RIGHT_RAISED)){
+        rearRightMode = EXTENDED;
+      }
+      else if(abs(motor_position - REAR_RIGHT_RAISED) <abs(motor_position - REAR_RIGHT_RETRACTED)  && abs(motor_position - REAR_RIGHT_RAISED) < abs(motor_position - REAR_RIGHT_EXTENDED)){
+        rearRightMode = RAISED;
+      }
+    }
+    else if(id==DXL_ID_FRONT_LEFT){
+      if(abs(motor_position - FRONT_LEFT_RETRACTED) < abs(motor_position - FRONT_LEFT_EXTENDED) && abs(motor_position - FRONT_LEFT_RETRACTED) < abs(motor_position - FRONT_LEFT_RAISED)){
+        frontLeftMode = RETRACTED;
+      }
+      else if(abs(motor_position -FRONT_LEFT_EXTENDED) <abs(motor_position - FRONT_LEFT_RETRACTED)  && abs(motor_position -FRONT_LEFT_EXTENDED) < abs(motor_position - FRONT_LEFT_RAISED)){
+        frontLeftMode = EXTENDED;
+      }
+      else if(abs(motor_position - FRONT_LEFT_RAISED) <abs(motor_position - FRONT_LEFT_RETRACTED)  && abs(motor_position - FRONT_LEFT_RAISED) < abs(motor_position - FRONT_LEFT_EXTENDED)){
+        frontLeftMode = RAISED;
+      }
+    }
+    else if(id==DXL_ID_FRONT_RIGHT){
+      if(abs(motor_position - FRONT_RIGHT_RETRACTED) < abs(motor_position - FRONT_RIGHT_EXTENDED) && abs(motor_position - FRONT_RIGHT_RETRACTED) < abs(motor_position - FRONT_RIGHT_RAISED)){
+        frontRightMode = RETRACTED;
+      }
+      else if(abs(motor_position - FRONT_RIGHT_EXTENDED) <abs(motor_position - FRONT_RIGHT_RETRACTED)  && abs(motor_position - FRONT_RIGHT_EXTENDED) < abs(motor_position - FRONT_RIGHT_RAISED)){
+        frontRightMode = EXTENDED;
+      }
+      else if(abs(motor_position - FRONT_RIGHT_RAISED) <abs(motor_position - FRONT_RIGHT_RETRACTED)  && abs(motor_position - FRONT_RIGHT_RAISED) < abs(motor_position - FRONT_RIGHT_EXTENDED)){
+        frontRightMode = RAISED;
+      }
+    }
+
+}
+
+/*
+ * Adjusts the selected leg's position to match a mode (extended, retracted, raised)
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ */
+void adjustPosition(Dynamixel2Arduino dxl, int id){
+  
+  int difference;
+  encoderPosition(dxl,id);
+  
+  switch(id){
+    
+    case DXL_ID_FRONT_LEFT:
+      dxl.torqueOff(DXL_ID_FRONT_LEFT);
+      dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_POSITION);
+      dxl.torqueOn(DXL_ID_FRONT_LEFT);
+      
+      switch(frontLeftMode){
+          case EXTENDED:
+            difference = motor_position-FRONT_LEFT_EXTENDED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+          case RETRACTED:
+            difference = motor_position-FRONT_LEFT_RETRACTED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+           case RAISED:
+            difference = motor_position-FRONT_LEFT_RAISED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+           default:
+            break;
+      }
+      
+      dxl.torqueOff(DXL_ID_FRONT_LEFT);
+      dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_VELOCITY);
+      dxl.torqueOn(DXL_ID_FRONT_LEFT);
+      break;
+
+    case DXL_ID_FRONT_RIGHT:
+      dxl.torqueOff(DXL_ID_FRONT_RIGHT);
+      dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_POSITION);
+      dxl.torqueOn(DXL_ID_FRONT_RIGHT);
+      
+      switch(frontRightMode){
+          case EXTENDED:
+            difference = motor_position-FRONT_RIGHT_EXTENDED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+          case RETRACTED:
+            difference = motor_position-FRONT_RIGHT_RETRACTED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+           case RAISED:
+            difference = motor_position-FRONT_RIGHT_RAISED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+           default:
+            break;
+      }
+      
+      dxl.torqueOff(DXL_ID_FRONT_RIGHT);
+      dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_VELOCITY);
+      dxl.torqueOn(DXL_ID_FRONT_RIGHT);
+      break;
+
+      case DXL_ID_REAR_LEFT:
+      dxl.torqueOff(DXL_ID_REAR_LEFT);
+      dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_POSITION);
+      dxl.torqueOn(DXL_ID_REAR_LEFT);
+      
+      switch(rearLeftMode){
+          case EXTENDED:
+            difference = motor_position-REAR_LEFT_EXTENDED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+          case RETRACTED:
+            difference = motor_position-REAR_LEFT_RETRACTED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+           case RAISED:
+            difference = motor_position-REAR_LEFT_RAISED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+           default:
+            break;
+      }
+      
+      dxl.torqueOff(DXL_ID_REAR_LEFT);
+      dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_VELOCITY);
+      dxl.torqueOn(DXL_ID_REAR_LEFT);
+      break;
+
+      case DXL_ID_REAR_RIGHT:
+      dxl.torqueOff(DXL_ID_REAR_RIGHT);
+      dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_POSITION);
+      dxl.torqueOn(DXL_ID_REAR_RIGHT);
+      
+      switch(rearRightMode){
+          case EXTENDED:
+            difference = motor_position-REAR_RIGHT_EXTENDED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+          case RETRACTED:
+            difference = motor_position-REAR_RIGHT_RETRACTED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+            
+          case RAISED:
+            difference = motor_position-REAR_RIGHT_RAISED;
+            dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
+            break;
+           default:
+            break;
+      }
+      
+      dxl.torqueOff(DXL_ID_REAR_RIGHT);
+      dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_VELOCITY);
+      dxl.torqueOn(DXL_ID_REAR_RIGHT);
+      break;
+  }
+  
 }

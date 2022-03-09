@@ -1,6 +1,5 @@
 #include <Servo.h>
 #include <Dynamixel2Arduino.h>
-#include "functions.h"
 
 #if defined(ARDUINO_OpenCR) // When using official ROBOTIS board with DXL circuit.
   // For OpenCR, there is a DXL Power Enable pin, so you must initialize and control it.
@@ -34,15 +33,38 @@ int angle = 0;
 #define DXL_ID_FRONT_LEFT 23
 #define DXL_ID_FRONT_RIGHT 3
 
-#define FRONT_LEFT_RETRACTED 993
+#define FRONT_LEFT_RETRACTED 0
 #define FRONT_RIGHT_RETRACTED 0
-#define REAR_LEFT_RETRACTED 2850
+#define REAR_LEFT_RETRACTED 0
 #define REAR_RIGHT_RETRACTED 0
+
+#define FRONT_LEFT_EXTENDED 0
+#define FRONT_RIGHT_EXTENDED 0
+#define REAR_LEFT_EXTENDED 0
+#define REAR_RIGHT_EXTENDED 0
+
+#define FRONT_LEFT_RAISED 0
+#define FRONT_RIGHT_RAISED 0
+#define REAR_LEFT_RAISED 0
+#define REAR_RIGHT_RAISED 0
+
+
+
+#define RETRACTED 0
+#define EXTENDED 1
+#define RAISED 2
+
+int frontLeftMode;
+int frontRightMode;
+int rearLeftMode;
+int rearRightMode;
 
 const float DXL_PROTOCOL_VERSION = 2.0;
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 Servo servomotors[4] = {};
+
+#include "functions.h"
 
 void setup() {
   //Associate pins
@@ -105,45 +127,5 @@ void setup() {
 }
 
 void loop() {
-<<<<<<< Updated upstream
-    
-    encoderPosition(dxl,DXL_ID_FRONT_LEFT);
-  DEBUG_SERIAL.println(motor_position);
-
-  encoderPosition(dxl,DXL_ID_FRONT_RIGHT);
-  DEBUG_SERIAL.println(motor_position);
-  
-  encoderPosition(dxl,DXL_ID_REAR_LEFT);
-  DEBUG_SERIAL.println(motor_position);
-  
-  encoderPosition(dxl,DXL_ID_REAR_RIGHT);
-  DEBUG_SERIAL.println(motor_position);
-  
-=======
-  for(int i=0; i<4;i++){
-    DEBUG_SERIAL.println(getServoPosition(servomotors[i]));
-  }
->>>>>>> Stashed changes
-  /*encoderPosition(dxl, DXL_ID2);
-  
-
-  DEBUG_SERIAL.println(mode);
-  DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID2));
-  if(mode == WAIT_MODE){
-    extension(dxl,DXL_ID2,-10);
-    DEBUG_SERIAL.println(mode);
-  }
-
-  if(mode == EXTENSION_MODE && motor_position>=2048){
-    DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID2));
-    finish(dxl,DXL_ID2);
-    delay(500);
-    retraction(dxl, DXL_ID2,-10);
-  }
-  if(mode == RETRACTION_MODE && motor_position<2048){
-    DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID));
-    finish(dxl,DXL_ID2);
-    delay(500);
-    extension(dxl, DXL_ID2,-10);
-  }*/
+    DEBUG_SERIAL.println("HELLO");
 }
