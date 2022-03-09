@@ -7,6 +7,9 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFont
 from PyQt5.QtWidgets import *
 import communication
 from order import Order
+import time
+
+
 
 # GUI FILE
 from ui_main import Ui_MainWindow
@@ -42,8 +45,10 @@ class MainWindow(QMainWindow):
         # Add command button
         self.ui.pb_addcmd.clicked.connect(self.addcmd)
 
-        # clear command button
+        # Clear command button
         self.ui.pb_clearcmd.clicked.connect(self.clearcmd)
+
+        # Home button
 
         self.ui.pb_home_auto.clicked.connect(self.homeorder)
 
@@ -51,6 +56,9 @@ class MainWindow(QMainWindow):
         ########################################################################
         self.show()
         ## ==> END ##
+
+    ## For UI
+
 
     def addcmd(self):
         dist = self.ui.distance_input.text()
@@ -63,17 +71,17 @@ class MainWindow(QMainWindow):
             self.counter += 1
 
         if self.counter == 1:
-            self.ui.label_cmd1.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd1.setText(self.listcmd[self.counter - 1])
         elif self.counter == 2:
-            self.ui.label_cmd2.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd2.setText(self.listcmd[self.counter - 1])
         elif self.counter == 3:
-            self.ui.label_cmd3.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd3.setText(self.listcmd[self.counter - 1])
         elif self.counter == 4:
-            self.ui.label_cmd4.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd4.setText(self.listcmd[self.counter - 1])
         elif self.counter == 5:
-            self.ui.label_cmd5.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd5.setText(self.listcmd[self.counter - 1])
         elif self.counter == 6:
-            self.ui.label_cmd6.setText(self.listcmd[self.counter-1])
+            self.ui.label_cmd6.setText(self.listcmd[self.counter - 1])
 
     def clearcmd(self):
 
@@ -98,9 +106,21 @@ class MainWindow(QMainWindow):
         if self.counter > 0:
             self.counter -= 1
 
+    ## Orders
     def homeorder(self):
-        print("send order SEMI_AUTO")
+        self.ui.label_state_auto.setText('Homing...')
+        self.ui.label_state_auto.repaint()
+        time.sleep(5)
+        # self.comm.send_order(Order.HOME, 1)
+        if answer == 0:
+            self.ui.label_state_auto.setText('Homing complete')
+        else:
+            self.ui.label_state_auto.setText('Homing failed')
+
+
+
         """
+        print("send order SEMI_AUTO")
         self.comm.send_order(Order.SEMI_AUTO, 1)
         print("end")
         print("\n")
@@ -109,8 +129,19 @@ class MainWindow(QMainWindow):
         print("end")
         """
 
+    #def startorder(self):
+
+    #def stoporder(self):
+
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
+
     sys.exit(app.exec_())
+
+
+
