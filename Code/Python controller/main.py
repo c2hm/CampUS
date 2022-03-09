@@ -48,9 +48,14 @@ class MainWindow(QMainWindow):
         # Clear command button
         self.ui.pb_clearcmd.clicked.connect(self.clearcmd)
 
-        # Home button
-
+        # Autopage button
         self.ui.pb_home_auto.clicked.connect(self.homeorder)
+        self.ui.pb_start.clicked.connect(self.startorder)
+        self.ui.pb_stop.clicked.connect(self.stoporder)
+
+        # SemiAuto Button
+        self.ui.pb_home_semi.clicked.connect(self.homeorderS)
+        self.ui.pb_sendcmd.clicked.connect(self.sendcmdorder)
 
         ## SHOW ==> MAIN WINDOW
         ########################################################################
@@ -58,31 +63,57 @@ class MainWindow(QMainWindow):
         ## ==> END ##
 
     ## For UI
-
-
+    def get_int(self, prompt):
+        while True:
+            try:
+                answer = int(prompt)
+                break
+            except ValueError:
+                return 0
+        return 1
     def addcmd(self):
         dist = self.ui.distance_input.text()
         angle = self.ui.angle_input_auto.text()
+        self.ui.distance_input.repaint()
+        self.ui.angle_input_auto.repaint()
+        self.ui.distance_input.clear()
+        self.ui.angle_input_auto.clear()
 
-        if self.counter < 6:
-            self.listcmd.append("Cmd" + str(self.counter + 1) + "-> Dist: " + dist + " Angle: " + angle)
-            self.listdist.append(dist)
-            self.listangle.append(angle)
-            self.counter += 1
+        if self.get_int(dist) == 0 or self.get_int(angle) == 0:
+            self.ui.label_state_auto.setText('Please enter an integer value')
 
-        if self.counter == 1:
-            self.ui.label_cmd1.setText(self.listcmd[self.counter - 1])
-        elif self.counter == 2:
-            self.ui.label_cmd2.setText(self.listcmd[self.counter - 1])
-        elif self.counter == 3:
-            self.ui.label_cmd3.setText(self.listcmd[self.counter - 1])
-        elif self.counter == 4:
-            self.ui.label_cmd4.setText(self.listcmd[self.counter - 1])
-        elif self.counter == 5:
-            self.ui.label_cmd5.setText(self.listcmd[self.counter - 1])
-        elif self.counter == 6:
-            self.ui.label_cmd6.setText(self.listcmd[self.counter - 1])
+        else:
+            self.ui.label_state_auto.setText(" ")
+            if self.counter < 6:
+                self.listcmd.append("Cmd" + str(self.counter + 1) + "-> Dist: " + dist + " Angle: " + angle)
+                self.listdist.append(dist)
+                self.listangle.append(angle)
+                self.counter += 1
 
+            if self.counter == 1:
+                self.ui.label_cmd1.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+            elif self.counter == 2:
+                self.ui.label_cmd2.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+            elif self.counter == 3:
+                self.ui.label_cmd3.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+            elif self.counter == 4:
+                self.ui.label_cmd4.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+
+            elif self.counter == 5:
+                self.ui.label_cmd5.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+
+            elif self.counter == 6:
+                self.ui.label_cmd6.setText(self.listcmd[self.counter-1])
+                self.ui.distance_input.repaint()
+                self.ui.label_state_auto.setText('List full')
+                self.ui.label_state_auto.repaint()
+                time.sleep(5)
+                self.ui.label_state_auto.setText('Clear some command to add others.')
     def clearcmd(self):
 
         if self.counter > 0:
@@ -110,12 +141,21 @@ class MainWindow(QMainWindow):
     def homeorder(self):
         self.ui.label_state_auto.setText('Homing...')
         self.ui.label_state_auto.repaint()
+
+        ## en attendant
         time.sleep(5)
+        answer = 0
         # self.comm.send_order(Order.HOME, 1)
         if answer == 0:
-            self.ui.label_state_auto.setText('Homing complete')
+            self.ui.label_state_auto.setText('Homing completed')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
         else:
             self.ui.label_state_auto.setText('Homing failed')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
 
 
 
@@ -128,11 +168,86 @@ class MainWindow(QMainWindow):
         self.comm.send_order_param(Order.SERVO, 40, 1)  # une séquence à chaque click + wait for finish
         print("end")
         """
+    def startorder(self):
+        self.ui.label_state_auto.setText('Starting command...')
+        self.ui.label_state_auto.repaint()
 
-    #def startorder(self):
+        ## en attendant
+        time.sleep(5)
+        answer = 0
+        # self.comm.send_order(Order.START, 1)
+        if answer == 0:
+            self.ui.label_state_auto.setText('Command completed')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
+        else:
+            self.ui.label_state_auto.setText('Command failed')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
+    def stoporder(self):
+        self.ui.label_state_auto.setText('Stop command...')
+        self.ui.label_state_auto.repaint()
 
-    #def stoporder(self):
+        ## en attendant
+        time.sleep(5)
+        answer = 0
+        # self.comm.send_order(Order.STOP, 1)
+        if answer == 0:
+            self.ui.label_state_auto.setText('Command stopped')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
+        else:
+            self.ui.label_state_auto.setText('Stop command failed')
+            self.ui.label_state_auto.repaint()
+            time.sleep(2)
+            self.ui.label_state_auto.setText(' ')
 
+    # SemiAutomatic
+    def homeorderS(self):
+        self.ui.label_state_semi.setText('Homing...')
+        self.ui.label_state_semi.repaint()
+
+        ## en attendant
+        time.sleep(5)
+        answer = 0
+        # self.comm.send_order(Order.HOME, 1)
+        if answer == 0:
+            self.ui.label_state_semi.setText('Homing completed')
+            self.ui.label_state_semi.repaint()
+            time.sleep(2)
+            self.ui.label_state_semi.setText(' ')
+        else:
+            self.ui.label_state_semi.setText('Homing failed')
+            self.ui.label_state_semi.repaint()
+            time.sleep(2)
+            self.ui.label_state_semi.setText(' ')
+    def sendcmdorder(self):
+        angle = self.ui.angle_input_semi.text()
+        self.ui.angle_input_semi.repaint()
+        self.ui.angle_input_semi.clear()
+
+        self.ui.label_state_semi.setText('Sending angle of '+angle+' degree...')
+        self.ui.label_state_semi.repaint()
+
+        ## en attendant
+        time.sleep(5)
+        answer = 0
+        # self.comm.send_order_param(Order.SEMI_AUTO, 1, angle)
+        ## commande
+
+        if answer == 0:
+            self.ui.label_state_semi.setText('Command completed')
+            self.ui.label_state_semi.repaint()
+            time.sleep(2)
+            self.ui.label_state_semi.setText(' ')
+        else:
+            self.ui.label_state_semi.setText('Command failed')
+            self.ui.label_state_semi.repaint()
+            time.sleep(2)
+            self.ui.label_state_semi.setText(' ')
 
 
 
@@ -140,7 +255,6 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
-
     sys.exit(app.exec_())
 
 
