@@ -3,20 +3,20 @@
 
 int motor_position;
 //Useful functions for movement sequence
-void finish(Dynamixel2Arduino dxl, int id);
-void extension(Dynamixel2Arduino dxl, int id, int speed);
-void retraction(Dynamixel2Arduino dxl, int id, int speed);
+void finish(Dynamixel2Arduino dxl, int id); //Complete
+void extension(Dynamixel2Arduino dxl, int id, int speed, int positionExtended);
+void retraction(Dynamixel2Arduino dxl, int id, int speed, int positionRetracted);
+void raiseLeg(Dynamixel2Arduino dxl, int id, int speed, int positionRaised);
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed);
 void encoderPosition(Dynamixel2Arduino dxl, int id);
+int encoderCount(Dynamixel2Arduino dxl, int id);
 void findLegMode(Dynamixel2Arduino dxl, int id);
 void adjustPosition(Dynamixel2Arduino dxl, int id);
-//void raiseLeg();
+
 //void controlMagnet(bool switch, int magnet);
 //void home();
 //activation modes for magnets (on/off) and legs' current position (extended, retracted, raised)
 //void resetEncoder(int id, Dynamixel2Arduino dxl);
-//change extension-retraction-robotStep to adapt to dynamixel motors
-//find encoder reads for each retracted leg
 
 
 void setServoPosition(Servo servo, int angle);
@@ -39,8 +39,24 @@ void finish(Dynamixel2Arduino dxl, int id){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extension(Dynamixel2Arduino dxl, int id, int speed){
+void extension(Dynamixel2Arduino dxl, int id, int speed, int positionExtended){
   dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
+  do{encoderPosition(dxl,id);}while(motor_position<positionExtended);
+  finish(dxl,id);
+  switch(id){
+    case DXL_ID_REAR_LEFT:
+      rearLeftMode = EXTENDED;
+      break;
+    case DXL_ID_REAR_RIGHT:
+      rearRightMode = EXTENDED;
+      break;
+    case DXL_ID_FRONT_LEFT:
+      frontLeftMode = EXTENDED;
+      break;
+    case DXL_ID_FRONT_RIGHT:
+      frontRightMode = EXTENDED;
+      break;
+  }
 }
 
 /*
@@ -50,10 +66,60 @@ void extension(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void retraction(Dynamixel2Arduino dxl, int id, int speed){
+void retraction(Dynamixel2Arduino dxl, int id, int speed, int positionRetracted){
   dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
+  do{encoderPosition(dxl,id);}while(motor_position<positionRetracted);
+  finish(dxl,id);
+
+  switch(id){
+    case DXL_ID_REAR_LEFT:
+      rearLeftMode = RETRACTED;
+      break;
+    case DXL_ID_REAR_RIGHT:
+      rearRightMode = RETRACTED;
+      break;
+    case DXL_ID_FRONT_LEFT:
+      frontLeftMode = RETRACTED;
+      break;
+    case DXL_ID_FRONT_RIGHT:
+      frontRightMode = RETRACTED;
+      break;
+  }
 }
 
+/*
+ * Fully raises leg according to the current leg's position
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void raiseLeg(Dynamixel2Arduino dxl, int id, int positionRaised){
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_POSITION);
+      dxl.torqueOn(id);
+
+      dxl.setGoalPosition(id, positionRaised);
+
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_VELOCITY);
+      dxl.torqueOn(id);
+      
+    switch(id){
+    case DXL_ID_REAR_LEFT:
+      rearLeftMode = RAISED;
+      break;
+    case DXL_ID_REAR_RIGHT:
+      rearRightMode = RAISED;
+      break;
+    case DXL_ID_FRONT_LEFT:
+      frontLeftMode = RAISED;
+      break;
+    case DXL_ID_FRONT_RIGHT:
+      frontRightMode = RAISED;
+      break;
+  }
+}
 /*
  *This function completes one full robot step in the inputede direction 
  * 
@@ -111,12 +177,30 @@ void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int di
   dxl.setGoalVelocity(idRL,0);
 }
 
+/*
+ * Reads the encoder value of selected motor to find the position in a single motor turn
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ */
 void encoderPosition(Dynamixel2Arduino dxl, int id){
   motor_position = dxl.getPresentPosition(id);
   if(motor_position<0){
     motor_position = motor_position*-1;
   }
   motor_position = motor_position % 4096;
+}
+
+/*
+ * Reads and returns the encoder value of selected motor
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * 
+ * @return encoder value
+ */
+int encoderCount(Dynamixel2Arduino dxl, int id){
+  return dxl.getPresentPosition(id);
 }
 
 void setServoPosition(Servo servo, int angle){
@@ -128,6 +212,9 @@ void setServoPosition(Servo servo, int angle){
 int getServoPosition(Servo servo){
   return servo.read();
 }
+
+
+
 
 /*
  * Finds if a leg is extended, raised or retracted
