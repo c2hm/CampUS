@@ -11,7 +11,8 @@ void home();
 void start();
 int get_param();
 void stop();
-void semi_auto();
+void semi_auto_angle(int angle);
+void semi_auto_state(int state);
 void servo_avant_droit(int state);
 void servo_avant_gauche(int state);
 void servo_arriere_droit(int state);
@@ -105,13 +106,51 @@ void get_messages_from_serial()
           break;
         }
 
-        case SEMI_AUTO:
+
+        case SEMI_AUTO_ANGLE:
         {
           write_order(RECEIVED);
-          semi_auto();
+
+          //reads parameter
+          int angle = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+          if (angle >= 0 || angle<=360)
+          {
+            write_order(RECEIVED); 
+            semi_auto_angle(angle);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
  
           break;
         }
+
+        case SEMI_AUTO_STATE:
+        {
+          write_order(RECEIVED);
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            semi_auto_state(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+ 
+          break;
+        }
+
 
         case SERVO_AVANT_DROIT:
         {
@@ -422,14 +461,26 @@ void stop()
   
 }
 
-void semi_auto()
+void semi_auto_angle(int angle)
 {
-
+ //utiliser la variable angle pour bouger les servomoteurs
   
+  write_order(FINISHED); 
+}
+
+void semi_auto_state(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
   write_order(FINISHED); 
   
 }
-
 void servo_avant_droit(int state)
 {
   if(state==1)
