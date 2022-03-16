@@ -33,20 +33,20 @@ int angle = 0;
 #define DXL_ID_FRONT_LEFT 23
 #define DXL_ID_FRONT_RIGHT 3
 
-#define FRONT_LEFT_RETRACTED 0
-#define FRONT_RIGHT_RETRACTED 0
+#define FRONT_LEFT_RETRACTED 1463
+#define FRONT_RIGHT_RETRACTED 2806
 #define REAR_LEFT_RETRACTED 0
-#define REAR_RIGHT_RETRACTED 0
+#define REAR_RIGHT_RETRACTED 1123
 
-#define FRONT_LEFT_EXTENDED 0
-#define FRONT_RIGHT_EXTENDED 0
+#define FRONT_LEFT_EXTENDED 3348
+#define FRONT_RIGHT_EXTENDED 826
 #define REAR_LEFT_EXTENDED 0
-#define REAR_RIGHT_EXTENDED 0
+#define REAR_RIGHT_EXTENDED 3288
 
-#define FRONT_LEFT_RAISED 0
-#define FRONT_RIGHT_RAISED 0
+#define FRONT_LEFT_RAISED 2422
+#define FRONT_RIGHT_RAISED 1688
 #define REAR_LEFT_RAISED 0
-#define REAR_RIGHT_RAISED 0
+#define REAR_RIGHT_RAISED 2257
 
 
 
@@ -87,7 +87,7 @@ void setup() {
   digitalWrite(BDPIN_DXL_PWR_EN, HIGH);
 
   // Use UART port of DYNAMIXEL Shield to debug.
-  DEBUG_SERIAL.begin(115200);
+  DEBUG_SERIAL.begin(57600);
   
   // Set Port baudrate to 57600bps. This has to match with DYNAMIXEL baudrate.
   dxl.begin(57600);
@@ -105,27 +105,29 @@ void setup() {
   dxl.torqueOn(DXL_ID2);
   dxl.setGoalPosition(DXL_ID2, 0);*/
 
-
-  delay(5000);
   dxl.torqueOff(DXL_ID_FRONT_LEFT);
-  dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_VELOCITY);
   dxl.torqueOn(DXL_ID_FRONT_LEFT);
 
   dxl.torqueOff(DXL_ID_FRONT_RIGHT);
-  dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_VELOCITY);
   dxl.torqueOn(DXL_ID_FRONT_RIGHT);
   
   dxl.torqueOff(DXL_ID_REAR_LEFT);
-  dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_VELOCITY);
   dxl.torqueOn(DXL_ID_REAR_LEFT);
   
   dxl.torqueOff(DXL_ID_REAR_RIGHT);
-  dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_VELOCITY);
   dxl.torqueOn(DXL_ID_REAR_RIGHT);
-  
-  
+
+  DEBUG_SERIAL.println("Extension depart");
+  extensionRearRight(dxl, DXL_ID_REAR_RIGHT, 10);
+  DEBUG_SERIAL.println("Extension complete");
+  //adjustPosition(dxl, DXL_ID_FRONT_LEFT);
+  retractionRearRight(dxl, DXL_ID_REAR_RIGHT, 10);
 }
 
 void loop() {
-    DEBUG_SERIAL.println("HELLO");
+  DEBUG_SERIAL.println("WTF");
 }

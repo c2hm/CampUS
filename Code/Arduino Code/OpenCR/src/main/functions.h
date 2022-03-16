@@ -4,8 +4,17 @@
 int motor_position;
 //Useful functions for movement sequence
 void finish(Dynamixel2Arduino dxl, int id); //Complete
-void extension(Dynamixel2Arduino dxl, int id, int speed, int positionExtended);
-void retraction(Dynamixel2Arduino dxl, int id, int speed, int positionRetracted);
+
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int speed);
+void extensionFrontRight(Dynamixel2Arduino dxl, int id, int speed);
+void extensionRearLeft(Dynamixel2Arduino dxl, int id, int speed);
+void extensionRearRight(Dynamixel2Arduino dxl, int id, int speed);
+
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int speed);
+void retractionFrontRight(Dynamixel2Arduino dxl, int id, int speed);
+void retractionRearLeft(Dynamixel2Arduino dxl, int id, int speed);
+void retractionRearRight(Dynamixel2Arduino dxl, int id, int speed);
+
 void raiseLeg(Dynamixel2Arduino dxl, int id, int speed, int positionRaised);
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed);
 void encoderPosition(Dynamixel2Arduino dxl, int id);
@@ -33,92 +42,238 @@ void finish(Dynamixel2Arduino dxl, int id){
 }
 
 /*
- * Fully extends leg according to the required direction
+ * Fully extends front left leg
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extension(Dynamixel2Arduino dxl, int id, int speed, int positionExtended){
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
   dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position<positionExtended);
+  do{encoderPosition(dxl,id);}while(motor_position<FRONT_LEFT_EXTENDED);
   finish(dxl,id);
-  switch(id){
-    case DXL_ID_REAR_LEFT:
-      rearLeftMode = EXTENDED;
-      break;
-    case DXL_ID_REAR_RIGHT:
-      rearRightMode = EXTENDED;
-      break;
-    case DXL_ID_FRONT_LEFT:
-      frontLeftMode = EXTENDED;
-      break;
-    case DXL_ID_FRONT_RIGHT:
-      frontRightMode = EXTENDED;
-      break;
-  }
+  frontLeftMode = EXTENDED;
 }
 
 /*
- * Fully retracts leg according to the required direction
+ * Fully extends front right leg
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void retraction(Dynamixel2Arduino dxl, int id, int speed, int positionRetracted){
-  dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position<positionRetracted);
+void extensionFrontRight(Dynamixel2Arduino dxl, int id, int speed){
+  dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
+  do{encoderPosition(dxl,id);}while(motor_position<FRONT_RIGHT_EXTENDED || motor_position> FRONT_RIGHT_RETRACTED);
   finish(dxl,id);
-
-  switch(id){
-    case DXL_ID_REAR_LEFT:
-      rearLeftMode = RETRACTED;
-      break;
-    case DXL_ID_REAR_RIGHT:
-      rearRightMode = RETRACTED;
-      break;
-    case DXL_ID_FRONT_LEFT:
-      frontLeftMode = RETRACTED;
-      break;
-    case DXL_ID_FRONT_RIGHT:
-      frontRightMode = RETRACTED;
-      break;
-  }
+  frontRightMode = EXTENDED;
 }
 
 /*
- * Fully raises leg according to the current leg's position
+ * Fully extends rear left leg
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void raiseLeg(Dynamixel2Arduino dxl, int id, int positionRaised){
+void extensionRearLeft(Dynamixel2Arduino dxl, int id, int speed){
+  dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
+  do{encoderPosition(dxl,id);}while(motor_position<REAR_LEFT_EXTENDED);
+  finish(dxl,id);
+  rearLeftMode = EXTENDED;
+}
+
+/*
+ * Fully extends rear right leg
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void extensionRearRight(Dynamixel2Arduino dxl, int id, int speed){
+  dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
+  do{encoderPosition(dxl,id);}while(motor_position>REAR_RIGHT_EXTENDED||motor_position<REAR_RIGHT_EXTENDED);
+  finish(dxl,id);
+  rearRightMode = EXTENDED;
+}
+
+
+/*
+ * Fully retracts front left leg
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
+  if(frontLeftMode==RAISED){
+    dxl.torqueOff(id);
+    dxl.setOperatingMode(id,OP_POSITION);
+    dxl.torqueOn(id);
+
+    encoderPosition(dxl, id);
+    int difference = motor_position - FRONT_LEFT_RETRACTED;
+    dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
+
+    dxl.torqueOff(id);
+    dxl.setOperatingMode(id,OP_VELOCITY);
+    dxl.torqueOn(id);
+  }
+  else{
+    dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
+    do{encoderPosition(dxl,id);}while(motor_position<FRONT_LEFT_RETRACTED||motor_position >FRONT_LEFT_EXTENDED);
+  
+    finish(dxl,id);
+  }
+  
+  frontLeftMode = RETRACTED;
+}
+
+/*
+ * Fully retracts front right leg
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void retractionFrontRight(Dynamixel2Arduino dxl, int id, int speed){
+  if(frontLeftMode==RAISED){
+    dxl.torqueOff(id);
+    dxl.setOperatingMode(id,OP_POSITION);
+    dxl.torqueOn(id);
+
+    encoderPosition(dxl, id);
+    int difference = motor_position - FRONT_RIGHT_RETRACTED;
+    dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
+
+    dxl.torqueOff(id);
+    dxl.setOperatingMode(id,OP_VELOCITY);
+    dxl.torqueOn(id);
+  }
+  else{
+    dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
+    do{encoderPosition(dxl,id);}while(motor_position<FRONT_RIGHT_RETRACTED||motor_position >FRONT_RIGHT_EXTENDED);
+  
+    finish(dxl,id);
+  }
+  
+  frontRightMode = RETRACTED;
+}
+
+
+
+/*
+ * Fully retracts rear right leg
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void retractionRearRight(Dynamixel2Arduino dxl, int id, int speed){
+    dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
+    do{encoderPosition(dxl,id);}while(motor_position>REAR_RIGHT_RETRACTED);
+  
+    finish(dxl,id);
+  
+  rearRightMode = RETRACTED;
+}
+
+/*
+ * Fully raises front left leg 
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void raiseFrontLeft(Dynamixel2Arduino dxl, int id){
+      encoderPosition(dxl, id);
+      
+      int difference = motor_position-FRONT_LEFT_RAISED;
+      
       dxl.torqueOff(id);
       dxl.setOperatingMode(id, OP_POSITION);
       dxl.torqueOn(id);
 
-      dxl.setGoalPosition(id, positionRaised);
+      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
+
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_VELOCITY);
+      dxl.torqueOn(id);
+
+  frontLeftMode = RAISED;
+}
+
+/*
+ * Fully raises front right leg 
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void raiseFrontRight(Dynamixel2Arduino dxl, int id){
+      encoderPosition(dxl, id);
+      
+      int difference = motor_position-FRONT_RIGHT_RAISED;
+      
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_POSITION);
+      dxl.torqueOn(id);
+
+      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
+
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_VELOCITY);
+      dxl.torqueOn(id);
+   frontRightMode = RAISED;
+}
+
+/*
+ * Fully raises rear left leg 
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void raiseRearLeft(Dynamixel2Arduino dxl, int id){
+      encoderPosition(dxl, id);
+      
+      int difference = motor_position-REAR_LEFT_RAISED;
+      
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_POSITION);
+      dxl.torqueOn(id);
+
+      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
+
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_VELOCITY);
+      dxl.torqueOn(id);
+  rearLeftMode = RAISED;
+}
+
+/*
+ * Fully raises rear right leg 
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ * @param speed wanted leg's speed (in percentage)
+ */
+void raiseRearRight(Dynamixel2Arduino dxl, int id){
+      encoderPosition(dxl, id);
+      
+      int difference = motor_position-REAR_RIGHT_RAISED;
+      
+      dxl.torqueOff(id);
+      dxl.setOperatingMode(id, OP_POSITION);
+      dxl.torqueOn(id);
+
+      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
 
       dxl.torqueOff(id);
       dxl.setOperatingMode(id, OP_VELOCITY);
       dxl.torqueOn(id);
       
-    switch(id){
-    case DXL_ID_REAR_LEFT:
-      rearLeftMode = RAISED;
-      break;
-    case DXL_ID_REAR_RIGHT:
-      rearRightMode = RAISED;
-      break;
-    case DXL_ID_FRONT_LEFT:
-      frontLeftMode = RAISED;
-      break;
-    case DXL_ID_FRONT_RIGHT:
-      frontRightMode = RAISED;
-      break;
-  }
+  rearRightMode = RAISED;
 }
 /*
  *This function completes one full robot step in the inputede direction 
@@ -185,10 +340,7 @@ void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int di
  */
 void encoderPosition(Dynamixel2Arduino dxl, int id){
   motor_position = dxl.getPresentPosition(id);
-  if(motor_position<0){
-    motor_position = motor_position*-1;
-  }
-  motor_position = motor_position % 4096;
+  motor_position = abs(motor_position) % 4096;
 }
 
 /*
@@ -283,16 +435,21 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
   int difference;
   encoderPosition(dxl,id);
   
+  dxl.torqueOff(id);
+  dxl.setOperatingMode(id, OP_POSITION);
+  dxl.torqueOn(id);
+  
   switch(id){
     
     case DXL_ID_FRONT_LEFT:
-      dxl.torqueOff(DXL_ID_FRONT_LEFT);
-      dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_POSITION);
-      dxl.torqueOn(DXL_ID_FRONT_LEFT);
+      DEBUG_SERIAL.println("Bon ID trouvé");
       
       switch(frontLeftMode){
           case EXTENDED:
+            DEBUG_SERIAL.println("Bon mode trouvé");
             difference = motor_position-FRONT_LEFT_EXTENDED;
+            DEBUG_SERIAL.print("Différence: ");
+            DEBUG_SERIAL.println(difference);
             dxl.setGoalPosition(id,dxl.getPresentPosition(id)-difference);
             break;
             
@@ -308,17 +465,9 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
            default:
             break;
       }
-      
-      dxl.torqueOff(DXL_ID_FRONT_LEFT);
-      dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_VELOCITY);
-      dxl.torqueOn(DXL_ID_FRONT_LEFT);
       break;
 
     case DXL_ID_FRONT_RIGHT:
-      dxl.torqueOff(DXL_ID_FRONT_RIGHT);
-      dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_POSITION);
-      dxl.torqueOn(DXL_ID_FRONT_RIGHT);
-      
       switch(frontRightMode){
           case EXTENDED:
             difference = motor_position-FRONT_RIGHT_EXTENDED;
@@ -337,17 +486,9 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
            default:
             break;
       }
-      
-      dxl.torqueOff(DXL_ID_FRONT_RIGHT);
-      dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_VELOCITY);
-      dxl.torqueOn(DXL_ID_FRONT_RIGHT);
       break;
 
       case DXL_ID_REAR_LEFT:
-      dxl.torqueOff(DXL_ID_REAR_LEFT);
-      dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_POSITION);
-      dxl.torqueOn(DXL_ID_REAR_LEFT);
-      
       switch(rearLeftMode){
           case EXTENDED:
             difference = motor_position-REAR_LEFT_EXTENDED;
@@ -366,17 +507,9 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
            default:
             break;
       }
-      
-      dxl.torqueOff(DXL_ID_REAR_LEFT);
-      dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_VELOCITY);
-      dxl.torqueOn(DXL_ID_REAR_LEFT);
       break;
 
       case DXL_ID_REAR_RIGHT:
-      dxl.torqueOff(DXL_ID_REAR_RIGHT);
-      dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_POSITION);
-      dxl.torqueOn(DXL_ID_REAR_RIGHT);
-      
       switch(rearRightMode){
           case EXTENDED:
             difference = motor_position-REAR_RIGHT_EXTENDED;
@@ -396,10 +529,10 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
             break;
       }
       
-      dxl.torqueOff(DXL_ID_REAR_RIGHT);
-      dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_VELOCITY);
-      dxl.torqueOn(DXL_ID_REAR_RIGHT);
+      
       break;
   }
-  
+  dxl.torqueOff(id);
+  dxl.setOperatingMode(id, OP_VELOCITY);
+  dxl.torqueOn(id);
 }
