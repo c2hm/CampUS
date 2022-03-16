@@ -3,19 +3,21 @@
 
 int motor_position;
 //Useful functions for movement sequence
-void finish(Dynamixel2Arduino dxl, int id); //Complete
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
+void extensionFrontRight(Dynamixel2Arduino dxl, int id, int direction);
+void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction);
+void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction);
 
-void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int speed);
-void extensionFrontRight(Dynamixel2Arduino dxl, int id, int speed);
-void extensionRearLeft(Dynamixel2Arduino dxl, int id, int speed);
-void extensionRearRight(Dynamixel2Arduino dxl, int id, int speed);
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
+void retractionFrontRight(Dynamixel2Arduino dxl, int id, int direction);
+void retractionRearLeft(Dynamixel2Arduino dxl, int id, int direction);
+void retractionRearRight(Dynamixel2Arduino dxl, int id, int direction);
 
-void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int speed);
-void retractionFrontRight(Dynamixel2Arduino dxl, int id, int speed);
-void retractionRearLeft(Dynamixel2Arduino dxl, int id, int speed);
-void retractionRearRight(Dynamixel2Arduino dxl, int id, int speed);
+void raiseFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
+void raiseFrontRight(Dynamixel2Arduino dxl, int id, int direction);
+void raiseRearLeft(Dynamixel2Arduino dxl, int id, int direction);
+void raiseRearRight(Dynamixel2Arduino dxl, int id, int direction);
 
-void raiseLeg(Dynamixel2Arduino dxl, int id, int speed, int positionRaised);
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed);
 void encoderPosition(Dynamixel2Arduino dxl, int id);
 int encoderCount(Dynamixel2Arduino dxl, int id);
@@ -32,26 +34,20 @@ void setServoPosition(Servo servo, int angle);
 int getServoPosition(Servo servo);
 
 /*
- * Sets stepper speed to 0
- * 
- * @param dxl dynamixel object for motor control
- * @param id motor's id
- */
-void finish(Dynamixel2Arduino dxl, int id){
-  dxl.setGoalVelocity(id,0);
-}
-
-/*
  * Fully extends front left leg
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
-  dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position<FRONT_LEFT_EXTENDED);
-  finish(dxl,id);
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_EXTENDED);
+  }
+  else{
+    dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_EXTENDED);
+  }
+  
   frontLeftMode = EXTENDED;
 }
 
@@ -62,10 +58,13 @@ void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionFrontRight(Dynamixel2Arduino dxl, int id, int speed){
-  dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position<FRONT_RIGHT_EXTENDED || motor_position> FRONT_RIGHT_RETRACTED);
-  finish(dxl,id);
+void extensionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+    dxl.setGoalPosition(id, -nbTurnsFront*4096+FRONT_RIGHT_EXTENDED);
+  }
+  else{
+    dxl.setGoalPosition(id, -nbTurnsFront*4096-FRONT_RIGHT_EXTENDED);
+  }
   frontRightMode = EXTENDED;
 }
 
@@ -76,10 +75,13 @@ void extensionFrontRight(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionRearLeft(Dynamixel2Arduino dxl, int id, int speed){
-  dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position<REAR_LEFT_EXTENDED);
-  finish(dxl,id);
+void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsRear*4096+REAR_LEFT_EXTENDED);
+  }
+  else{
+    dxl.setGoalPosition(id, nbTurnsRear*4096-REAR_LEFT_EXTENDED);
+  }
   rearLeftMode = EXTENDED;
 }
 
@@ -90,10 +92,13 @@ void extensionRearLeft(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionRearRight(Dynamixel2Arduino dxl, int id, int speed){
-  dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
-  do{encoderPosition(dxl,id);}while(motor_position>REAR_RIGHT_EXTENDED||motor_position<REAR_RIGHT_EXTENDED);
-  finish(dxl,id);
+void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+    dxl.setGoalPosition(id, -nbTurnsRear*4096-(4096-REAR_RIGHT_EXTENDED));
+  }
+  else{
+    dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_RIGHT_EXTENDED);
+  }
   rearRightMode = EXTENDED;
 }
 
@@ -105,25 +110,15 @@ void extensionRearRight(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
-  if(frontLeftMode==RAISED){
-    dxl.torqueOff(id);
-    dxl.setOperatingMode(id,OP_POSITION);
-    dxl.torqueOn(id);
-
-    encoderPosition(dxl, id);
-    int difference = motor_position - FRONT_LEFT_RETRACTED;
-    dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-    dxl.torqueOff(id);
-    dxl.setOperatingMode(id,OP_VELOCITY);
-    dxl.torqueOn(id);
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
+  if(nbTurnsFront==0){
+    dxl.setGoalPosition(id, FRONT_LEFT_RETRACTED);
+  }
+  else if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_RETRACTED);
   }
   else{
-    dxl.setGoalVelocity(id,speed,UNIT_PERCENT);
-    do{encoderPosition(dxl,id);}while(motor_position<FRONT_LEFT_RETRACTED||motor_position >FRONT_LEFT_EXTENDED);
-  
-    finish(dxl,id);
+    dxl.setGoalPosition(id, nbTurnsFront*4096-FRONT_LEFT_RETRACTED);
   }
   
   frontLeftMode = RETRACTED;
@@ -134,46 +129,58 @@ void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int speed){
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
- * @param speed wanted leg's speed (in percentage)
  */
-void retractionFrontRight(Dynamixel2Arduino dxl, int id, int speed){
-  if(frontLeftMode==RAISED){
-    dxl.torqueOff(id);
-    dxl.setOperatingMode(id,OP_POSITION);
-    dxl.torqueOn(id);
-
-    encoderPosition(dxl, id);
-    int difference = motor_position - FRONT_RIGHT_RETRACTED;
-    dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-    dxl.torqueOff(id);
-    dxl.setOperatingMode(id,OP_VELOCITY);
-    dxl.torqueOn(id);
+void retractionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
+  if(nbTurnsFront==0){
+    dxl.setGoalPosition(id, FRONT_RIGHT_RETRACTED);
+  }
+  else if(direction>=0){
+    dxl.setGoalPosition(id, -nbTurnsFront*4096+FRONT_RIGHT_RETRACTED);
   }
   else{
-    dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
-    do{encoderPosition(dxl,id);}while(motor_position<FRONT_RIGHT_RETRACTED||motor_position >FRONT_RIGHT_EXTENDED);
-  
-    finish(dxl,id);
+    dxl.setGoalPosition(id, -nbTurnsFront*4096-FRONT_RIGHT_RETRACTED);
   }
   
   frontRightMode = RETRACTED;
 }
 
 
+/*
+ * Fully retracts rear left leg
+ * 
+ * @param dxl dynamixel object for motor control
+ * @param id motor's id
+ */
+void retractionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
+  if(nbTurnsRear==0){
+    dxl.setGoalPosition(id, REAR_LEFT_RETRACTED);
+  }
+  else if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsRear*4096+REAR_LEFT_RETRACTED);
+  }
+  else{
+    dxl.setGoalPosition(id, nbTurnsRear*4096-REAR_LEFT_RETRACTED);
+  }
+  
+  rearLeftMode = RETRACTED;
+}
 
 /*
  * Fully retracts rear right leg
  * 
  * @param dxl dynamixel object for motor control
  * @param id motor's id
- * @param speed wanted leg's speed (in percentage)
  */
-void retractionRearRight(Dynamixel2Arduino dxl, int id, int speed){
-    dxl.setGoalVelocity(id,-speed,UNIT_PERCENT);
-    do{encoderPosition(dxl,id);}while(motor_position>REAR_RIGHT_RETRACTED);
-  
-    finish(dxl,id);
+void retractionRearRight(Dynamixel2Arduino dxl, int id, int direction){
+  if(nbTurnsRear==0){
+    dxl.setGoalPosition(id, REAR_RIGHT_RETRACTED);
+  }
+  else if(direction>=0){
+    dxl.setGoalPosition(id, -nbTurnsRear*4096-REAR_RIGHT_RETRACTED);
+  }
+  else{
+    dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_RIGHT_RETRACTED);
+  }
   
   rearRightMode = RETRACTED;
 }
@@ -185,22 +192,14 @@ void retractionRearRight(Dynamixel2Arduino dxl, int id, int speed){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void raiseFrontLeft(Dynamixel2Arduino dxl, int id){
-      encoderPosition(dxl, id);
-      
-      int difference = motor_position-FRONT_LEFT_RAISED;
-      
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_POSITION);
-      dxl.torqueOn(id);
-
-      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_VELOCITY);
-      dxl.torqueOn(id);
-
-  frontLeftMode = RAISED;
+void raiseFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
+    if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_RAISED);
+  }
+  else{
+    dxl.setGoalPosition(id, nbTurnsFront*4096-FRONT_LEFT_RAISED);
+  }
+    frontLeftMode = RAISED;
 }
 
 /*
@@ -210,20 +209,13 @@ void raiseFrontLeft(Dynamixel2Arduino dxl, int id){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void raiseFrontRight(Dynamixel2Arduino dxl, int id){
-      encoderPosition(dxl, id);
-      
-      int difference = motor_position-FRONT_RIGHT_RAISED;
-      
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_POSITION);
-      dxl.torqueOn(id);
-
-      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_VELOCITY);
-      dxl.torqueOn(id);
+void raiseFrontRight(Dynamixel2Arduino dxl, int id, int direction){
+   if(direction>=0){
+    dxl.setGoalPosition(id, -nbTurnsFront*4096+FRONT_RIGHT_RAISED);
+  }
+  else{
+    dxl.setGoalPosition(id, -nbTurnsFront*4096-FRONT_RIGHT_RAISED);
+  }
    frontRightMode = RAISED;
 }
 
@@ -234,20 +226,13 @@ void raiseFrontRight(Dynamixel2Arduino dxl, int id){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void raiseRearLeft(Dynamixel2Arduino dxl, int id){
-      encoderPosition(dxl, id);
-      
-      int difference = motor_position-REAR_LEFT_RAISED;
-      
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_POSITION);
-      dxl.torqueOn(id);
-
-      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_VELOCITY);
-      dxl.torqueOn(id);
+void raiseRearLeft(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+    dxl.setGoalPosition(id, nbTurnsRear*4096+REAR_LEFT_RAISED);
+  }
+  else{
+   dxl.setGoalPosition(id, nbTurnsRear*4096-REAR_LEFT_RAISED);
+  }
   rearLeftMode = RAISED;
 }
 
@@ -258,23 +243,17 @@ void raiseRearLeft(Dynamixel2Arduino dxl, int id){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void raiseRearRight(Dynamixel2Arduino dxl, int id){
-      encoderPosition(dxl, id);
-      
-      int difference = motor_position-REAR_RIGHT_RAISED;
-      
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_POSITION);
-      dxl.torqueOn(id);
-
-      dxl.setGoalPosition(id, dxl.getPresentPosition(id)-difference);
-
-      dxl.torqueOff(id);
-      dxl.setOperatingMode(id, OP_VELOCITY);
-      dxl.torqueOn(id);
-      
+void raiseRearRight(Dynamixel2Arduino dxl, int id, int direction){
+  if(direction>=0){
+   dxl.setGoalPosition(id, -nbTurnsRear*4096-REAR_RIGHT_RAISED);
+  }
+  else{
+    dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_RIGHT_RAISED);
+  }
+  
   rearRightMode = RAISED;
 }
+
 /*
  *This function completes one full robot step in the inputede direction 
  * 
@@ -286,50 +265,41 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id){
  * @param direction movement direction (±1)
  * @param speed desired speed for motor movement (in percentage)
  */
-void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed){
-  if(direction<0){
-    speed = speed*-1;
-  }
+void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction){
+    if(direction >=0){
+      //Rear left magnet off
+      retractionRearLeft(dxl,idRL, direction);
+      delay(1000);
+      //Rear left magnet on
+      
+      //Rear right magnet off
+      retractionRearRight(dxl, idRR, direction);
+      delay(1000);
+      //Rear right magnet on
+      
+      //Front left magnet off
+      extensionFrontLeft(dxl,idFL, direction);
+      delay(1000);
+      //Front left magnet on
 
-  
-  dxl.setGoalVelocity(idFL,speed,UNIT_PERCENT);
-  do{
-    encoderPosition(dxl,idFL);
-  }while(motor_position<2048);
-  dxl.setGoalVelocity(idFL,0);
+      //Front right magnet off
+      extensionFrontRight(dxl,idFR, direction);
+      nbTurnsFront++;
+      delay(1000);
+      //Front right magnet on
 
-  dxl.setGoalVelocity(idRR,-speed,UNIT_PERCENT);
-  do{
-    encoderPosition(dxl,idRR);
-  }while(motor_position<2048);
-  dxl.setGoalVelocity(idRR,0);
+      retractionFrontLeft(dxl,idFL, direction);
+      retractionFrontRight(dxl,idFR, direction);
+      extensionRearLeft(dxl,idRL, direction);
+      extensionRearRight(dxl,idRR, direction);
 
-  dxl.setGoalVelocity(idFR,-speed,UNIT_PERCENT);
-  do{
-    encoderPosition(dxl,idFR);
-  }while(motor_position<2048);
-  dxl.setGoalVelocity(idFR,0);
-
-  dxl.setGoalVelocity(idRL,speed,UNIT_PERCENT);
-  do{
-    encoderPosition(dxl,idRL);
-  }while(motor_position<2048);
-  dxl.setGoalVelocity(idRL,0);
-
-  delay(500);
-  dxl.setGoalVelocity(idFL,speed,UNIT_PERCENT);
-  dxl.setGoalVelocity(idRR,-speed,UNIT_PERCENT);
-  dxl.setGoalVelocity(idFR,-speed,UNIT_PERCENT);
-  dxl.setGoalVelocity(idRL,speed,UNIT_PERCENT);
-
-  do{
-    encoderPosition(dxl,idFL);
-  }while(motor_position>2048);
-  
-  dxl.setGoalVelocity(idFL,0);
-  dxl.setGoalVelocity(idRR,0);
-  dxl.setGoalVelocity(idFR,0);
-  dxl.setGoalVelocity(idRL,0);
+      nbTurnsRear++;
+      delay(1000);
+      
+    }
+    else{
+      
+    }
 }
 
 /*
