@@ -9,9 +9,12 @@ class Order(Enum):
     ERROR = 2
     RECEIVED = 3
     FINISHED = 4
+
     HOME = 5
-    START = 6
-    STOP = 7
+    ANGLE = 6
+    AUTO_DISTANCE = 7
+    AUTO_REVERSE = 22
+
     SEMI_AUTO_ANGLE = 8
     SEMI_AUTO_STATE = 9
     SERVO_AVANT_DROIT = 10

@@ -14,8 +14,10 @@ enum Order {
     FINISHED = 4,
 
     HOME = 5,
-    START = 6,
-    STOP = 7,
+    ANGLE=6,
+    AUTO_DISTANCE=7, 
+    AUTO_REVERSE=22,
+    
     SEMI_AUTO_ANGLE = 8,
     SEMI_AUTO_STATE = 9,
     SERVO_AVANT_DROIT = 10,
@@ -30,7 +32,7 @@ enum Order {
     ELECTROAIMANT_AVANT_GAUCHE = 19,
     ELECTROAIMANT_ARRIERE_DROIT = 20,
     ELECTROAIMANT_ARRIERE_GAUCHE = 21,
-  
+
 };
 
 typedef enum Order Order;

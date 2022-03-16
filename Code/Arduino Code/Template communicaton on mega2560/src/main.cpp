@@ -8,10 +8,10 @@
 //Prototypes
 void get_messages_from_serial();
 void home();
-void start();
 int get_param();
-void stop();
-void semi_auto_angle(int angle);
+void auto_distance(int dist);
+void auto_reverse(int dist);
+void set_angle(int angle);
 void semi_auto_state(int state);
 void servo_avant_droit(int state);
 void servo_avant_gauche(int state);
@@ -90,24 +90,31 @@ void get_messages_from_serial()
           break;
         }
 
-        case START:
+        case AUTO_DISTANCE:
         {
-          write_order(RECEIVED);
-          start();
+          //reads parameter
+          int dist = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+            write_order(dist); 
+            auto_distance(dist);
 
           break;
         }
 
-        case STOP:
+        case AUTO_REVERSE:
         {
-          write_order(RECEIVED);
-          stop();
- 
+          //reads parameter
+          int dist = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+            write_order(dist); 
+            auto_reverse(dist);
+
           break;
         }
 
-
-        case SEMI_AUTO_ANGLE:
+        case ANGLE:
         {
           write_order(RECEIVED);
 
@@ -115,10 +122,10 @@ void get_messages_from_serial()
           int angle = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
 
-          if (angle >= 0 || angle<=360)
+          if (angle >= 0 && angle<=360)
           {
             write_order(RECEIVED); 
-            semi_auto_angle(angle);
+            set_angle(angle);
           
           }
           else 
@@ -137,7 +144,7 @@ void get_messages_from_serial()
           int state = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
 
-          if (state == -1 || state==1)
+          if (state==-1 || state==1)
           {
             write_order(RECEIVED); 
             semi_auto_state(state);
@@ -442,29 +449,28 @@ void home()
   write_order(FINISHED); 
 }
 
-void start()
+void auto_distance(int dist)
 {
 
-  //starting procedure
+  //starting procedure to move
 
 
   write_order(FINISHED); 
   
 }
 
-void stop()
+void auto_reverse(int dist)
 {
 
-  //stopping procedure
+  //stopping procedure to move in reverse
 
   write_order(FINISHED); 
   
 }
 
-void semi_auto_angle(int angle)
+void set_angle(int angle)
 {
  //utiliser la variable angle pour bouger les servomoteurs
-  
   write_order(FINISHED); 
 }
 
@@ -474,7 +480,7 @@ void semi_auto_state(int state)
   {
     //avancer
   }
-  else
+  else if(state==-1)
   {
     //reculer
   }
@@ -491,7 +497,7 @@ void servo_avant_droit(int state)
   {
     //reculer
   }
-
+  write_order(FINISHED);
 }
 
 void servo_avant_gauche(int state)
@@ -503,7 +509,8 @@ void servo_avant_gauche(int state)
   else
   {
     //reculer
-  } 
+  }
+   write_order(FINISHED);  
 }
 
 void servo_arriere_droit(int state)
@@ -517,6 +524,7 @@ void servo_arriere_droit(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
 }
 
 void servo_arriere_gauche(int state)
@@ -530,6 +538,7 @@ void servo_arriere_gauche(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
 }
 
 void moteur_avant_droit(int state)
@@ -542,6 +551,7 @@ void moteur_avant_droit(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
 }
 
 void moteur_avant_gauche(int state)
@@ -554,6 +564,7 @@ void moteur_avant_gauche(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
 }
 
 void moteur_arriere_droit(int state)
@@ -566,6 +577,7 @@ void moteur_arriere_droit(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
   
 }
 
@@ -579,6 +591,7 @@ void moteur_arriere_gauche(int state)
   {
     //reculer
   }
+    write_order(FINISHED);
 }
 
 void electroaimant_avant_droit(int state)
@@ -592,6 +605,7 @@ void electroaimant_avant_droit(int state)
   {
     //desactiver electroaimant
   }
+    write_order(FINISHED);
 }
 
 void electroaimant_avant_gauche(int state)
@@ -604,7 +618,10 @@ void electroaimant_avant_gauche(int state)
   else
   {
     //desactiver electroaimant
+
+
   }
+    write_order(FINISHED);
 }
 
 void electroaimant_arriere_droit(int state)
@@ -618,6 +635,7 @@ void electroaimant_arriere_droit(int state)
   {
     //desactiver electroaimant
   }
+    write_order(FINISHED);
 }
 
 void electroaimant_arriere_gauche(int state)
@@ -631,4 +649,5 @@ void electroaimant_arriere_gauche(int state)
   {
     //desactiver electroaimant
   }
+    write_order(FINISHED);
 }
