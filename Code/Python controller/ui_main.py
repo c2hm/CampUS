@@ -636,11 +636,11 @@ class Ui_MainWindow(object):
         self.listView_2 = QtWidgets.QListView(self.page_1)
         self.listView_2.setGeometry(QtCore.QRect(50, 370, 801, 81))
         self.listView_2.setObjectName("listView_2")
-        self.cb_Reversecmd = QtWidgets.QCheckBox(self.page_1)
-        self.cb_Reversecmd.setGeometry(QtCore.QRect(640, 330, 211, 16))
-        self.cb_Reversecmd.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
+        self.cb_reversecmd = QtWidgets.QCheckBox(self.page_1)
+        self.cb_reversecmd.setGeometry(QtCore.QRect(640, 330, 211, 16))
+        self.cb_reversecmd.setStyleSheet("font: 12pt \"MS Shell Dlg 2\";\n"
 "color: rgb(255, 255, 255);")
-        self.cb_Reversecmd.setObjectName("cb_Reversecmd")
+        self.cb_reversecmd.setObjectName("cb_reversecmd")
         self.listView_3 = QtWidgets.QListView(self.page_1)
         self.listView_3.setGeometry(QtCore.QRect(640, 100, 211, 221))
         self.listView_3.setObjectName("listView_3")
@@ -726,7 +726,7 @@ class Ui_MainWindow(object):
         self.pb_addcmd.raise_()
         self.label_3.raise_()
         self.label_state_auto.raise_()
-        self.cb_Reversecmd.raise_()
+        self.cb_reversecmd.raise_()
         self.listView_3.raise_()
         self.verticalWidget.raise_()
         self.pb_clearcmd.raise_()
@@ -1201,7 +1201,7 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Distance (Cm):"))
         self.label_2.setText(_translate("MainWindow", "Angle (Degree):"))
         self.label_3.setText(_translate("MainWindow", "Command list:"))
-        self.cb_Reversecmd.setText(_translate("MainWindow", "Reverse"))
+        self.cb_reversecmd.setText(_translate("MainWindow", "Reverse"))
         self.pb_clearcmd.setText(_translate("MainWindow", "Clear\n"
 "Command"))
         self.SemiAuto_Title.setText(_translate("MainWindow", "Semi-Automatic"))
