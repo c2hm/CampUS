@@ -404,11 +404,6 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
   
   int difference;
   encoderPosition(dxl,id);
-  
-  dxl.torqueOff(id);
-  dxl.setOperatingMode(id, OP_POSITION);
-  dxl.torqueOn(id);
-  
   switch(id){
     
     case DXL_ID_FRONT_LEFT:
@@ -502,7 +497,4 @@ void adjustPosition(Dynamixel2Arduino dxl, int id){
       
       break;
   }
-  dxl.torqueOff(id);
-  dxl.setOperatingMode(id, OP_VELOCITY);
-  dxl.torqueOn(id);
 }
