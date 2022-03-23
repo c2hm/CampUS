@@ -24,8 +24,8 @@ int encoderCount(Dynamixel2Arduino dxl, int id);
 void findLegMode(Dynamixel2Arduino dxl, int id);
 void adjustPosition(Dynamixel2Arduino dxl, int id);
 
-void controlMagnet(bool switch, int magnet);
-//void home();
+void controlMagnet(bool power, int magnet);
+void home(Servo servo[]);
 //activation modes for magnets (on/off) and legs' current position (extended, retracted, raised)
 //void resetEncoder(int id, Dynamixel2Arduino dxl);
 
@@ -335,6 +335,24 @@ int getServoPosition(Servo servo){
   return servo.read();
 }
 
+void home(Servo servomotors[]){      //angle servo[19(126deg),2(117deg),4(74deg),20(71deg)]
+/*servomotors[FRONT_LEFT_SERVO];
+servomotors[FRONT_RIGHT_SERVO];
+servomotors[REAR_LEFT_SERVO];
+servomotors[REAR_RIGHT_SERVO];*/
+}
+
+void controlMagnet(bool power, int pinmagnet){
+  pinMode(pinmagnet, OUTPUT);
+
+  if(power = 1){  
+    digitalWrite(pinmagnet, HIGH); 
+  }
+  
+  if(power = 0){  
+    digitalWrite(pinmagnet, LOW); 
+  }  
+}
 
 
 
