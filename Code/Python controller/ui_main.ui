@@ -1849,7 +1849,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
                </rect>
               </property>
              </widget>
-             <widget class="QCheckBox" name="cb_Reversecmd">
+             <widget class="QCheckBox" name="cb_reversecmd">
               <property name="geometry">
                <rect>
                 <x>640</x>
@@ -2069,7 +2069,7 @@ Command</string>
              <zorder>pb_addcmd</zorder>
              <zorder>label_3</zorder>
              <zorder>label_state_auto</zorder>
-             <zorder>cb_Reversecmd</zorder>
+             <zorder>cb_reversecmd</zorder>
              <zorder>listView_3</zorder>
              <zorder>verticalWidget</zorder>
              <zorder>pb_clearcmd</zorder>

@@ -8,11 +8,24 @@
 //Prototypes
 void get_messages_from_serial();
 void home();
-void start();
 int get_param();
-void stop();
-void semi_auto();
-void servo(int angle);
+void auto_distance(int dist);
+void auto_reverse(int dist);
+void set_angle(int angle);
+void semi_auto_state(int state);
+void servo_avant_droit(int state);
+void servo_avant_gauche(int state);
+void servo_arriere_droit(int state);
+void servo_arriere_gauche(int state);
+void moteur_avant_droit(int state);
+void moteur_avant_gauche(int state);
+void moteur_arriere_droit(int state);
+void moteur_arriere_gauche(int state);
+void electroaimant_avant_droit(int state);
+void electroaimant_avant_gauche(int state);
+void electroaimant_arriere_droit(int state);
+void electroaimant_arriere_gauche(int state);
+
 
 
 bool is_connected = false; ///< True if the connection with the master is available
@@ -77,50 +90,326 @@ void get_messages_from_serial()
           break;
         }
 
-        case START:
+        case AUTO_DISTANCE:
         {
-          write_order(RECEIVED);
-          start();
+          //reads parameter
+          int dist = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+            write_order(dist); 
+            auto_distance(dist);
 
           break;
         }
 
-        case STOP:
+        case AUTO_REVERSE:
+        {
+          //reads parameter
+          int dist = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+            write_order(dist); 
+            auto_reverse(dist);
+
+          break;
+        }
+
+        case ANGLE:
         {
           write_order(RECEIVED);
-          stop();
+
+          //reads parameter
+          int angle = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+          if (angle >= 0 && angle<=360)
+          {
+            write_order(RECEIVED); 
+            set_angle(angle);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
  
           break;
         }
 
-        case SEMI_AUTO:
+        case SEMI_AUTO_STATE:
         {
           write_order(RECEIVED);
-          semi_auto();
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED); 
+            semi_auto_state(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
  
           break;
         }
 
-        case SERVO:
+
+        case SERVO_AVANT_DROIT:
         {
 
           write_order(RECEIVED); 
 
           //reads parameter
-          int angle = get_param();
+          int state = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
-          if (angle == 0)
+
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        }
+        
+        case SERVO_AVANT_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+           if (state == -1 || state==1)
           {
               write_order(ERROR); 
           }
           else 
           {
               write_order(RECEIVED); 
-              servo(angle);
+              servo_avant_gauche(state);
           }
         
           break;
         }
+
+        case SERVO_ARRIERE_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+              write_order(ERROR); 
+          }
+          else 
+          {
+              write_order(RECEIVED); 
+              servo_arriere_droit(state);
+          }
+        
+          break;
+        }
+
+        case SERVO_ARRIERE_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+              write_order(ERROR); 
+          }
+          else 
+          {
+              write_order(RECEIVED); 
+              servo_arriere_gauche(state);
+          }
+        
+          break;
+        }
+
+        case MOTEUR_AVANT_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        
+          break;
+        }
+        
+        case MOTEUR_AVANT_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_avant_gauche(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+        
+          break;
+        }
+
+        case MOTEUR_ARRIERE_DROIT:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_arriere_droit(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+          break;
+        }   
+
+        case MOTEUR_ARRIERE_GAUCHE:
+        {
+
+          write_order(RECEIVED); 
+
+          //reads parameter
+          int state = get_param();
+          Serial.flush(); //avoid multiple instaces of param in serial
+          if (state == -1 || state==1)
+          {
+            write_order(RECEIVED); 
+            moteur_arriere_gauche(state);
+          
+          }
+          else 
+          {
+            write_order(ERROR); 
+          }
+        
+          break;
+        }
+
+        case ELECTROAIMANT_AVANT_DROIT:
+        {
+          
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_avant_droit(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+
+          break;
+        }    
+
+        case ELECTROAIMANT_AVANT_GAUCHE:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_avant_gauche(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+
+          break;
+        }    
+
+
+
+        case ELECTROAIMANT_ARRIERE_DROIT:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_arriere_droit(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+          
+          break;
+        }    
+
+
+        case ELECTROAIMANT_ARRIERE_GAUCHE:
+        {
+          write_order(RECEIVED);
+          int state = get_param();
+          Serial.flush();
+          if (state==-1 || state==1)
+          {
+            write_order(RECEIVED);
+            electroaimant_arriere_gauche(state);
+          }
+          else
+          {
+            write_order(ERROR); 
+          }
+          
+          break;
+        }    
+
+
 
   			// Unknown order
   			default:
@@ -160,44 +449,205 @@ void home()
   write_order(FINISHED); 
 }
 
-void start()
+void auto_distance(int dist)
 {
 
-  //starting procedure
+  //starting procedure to move
 
 
   write_order(FINISHED); 
   
 }
 
-void stop()
+void auto_reverse(int dist)
 {
 
-  //stopping procedure
+  //stopping procedure to move in reverse
 
   write_order(FINISHED); 
   
 }
 
-void semi_auto()
+void set_angle(int angle)
 {
-  delay(250);
-  
+ //utiliser la variable angle pour bouger les servomoteurs
   write_order(FINISHED); 
-  
 }
 
-void servo(int angle)
+void semi_auto_state(int state)
 {
-  delay(250);
-
-  if (angle == 40)
+  if(state==1)
   {
-    write_order(FINISHED); //to test com
+    //avancer
   }
+  else if(state==-1)
+  {
+    //reculer
+  }
+  write_order(FINISHED); 
+  
+}
+void servo_avant_droit(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+  write_order(FINISHED);
+}
 
-  //move  to angle
+void servo_avant_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+   write_order(FINISHED);  
+}
+
+void servo_arriere_droit(int state)
+{
+
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
+}
+
+void servo_arriere_gauche(int state)
+{
+ 
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
+}
+
+void moteur_avant_droit(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
+}
+
+void moteur_avant_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
+}
+
+void moteur_arriere_droit(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
   
+}
+
+void moteur_arriere_gauche(int state)
+{
+  if(state==1)
+  {
+    //avancer
+  }
+  else
+  {
+    //reculer
+  }
+    write_order(FINISHED);
+}
+
+void electroaimant_avant_droit(int state)
+{
+
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+    write_order(FINISHED);
+}
+
+void electroaimant_avant_gauche(int state)
+{
+ 
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+
+
+  }
+    write_order(FINISHED);
+}
+
+void electroaimant_arriere_droit(int state)
+{
   
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+    write_order(FINISHED);
+}
+
+void electroaimant_arriere_gauche(int state)
+{
   
+  if(state==1)
+  {
+    //activer electroaimant
+  }
+  else
+  {
+    //desactiver electroaimant
+  }
+    write_order(FINISHED);
 }
