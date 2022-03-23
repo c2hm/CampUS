@@ -1,6 +1,5 @@
 #include <Servo.h>
 #include <Dynamixel2Arduino.h>
-
 int motor_position;
 //Useful functions for movement sequence
 void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
@@ -268,27 +267,26 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id, int direction){
  */
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction){
     if(direction >=0){
-      
-      controlMagnet(LOW,PIN_RL_ELECTRO);
+      //Rear left magnet off
       retractionRearLeft(dxl,idRL, direction);
       delay(1000);
-      controlMagnet(HIGH,PIN_RL_ELECTRO);
+      //Rear left magnet on
       
-      controlMagnet(LOW,PIN_RR_ELECTRO);
+      //Rear right magnet off
       retractionRearRight(dxl, idRR, direction);
       delay(1000);
-      controlMagnet(HIGH,PIN_RR_ELECTRO);
+      //Rear right magnet on
       
-      controlMagnet(LOW,PIN_FL_ELECTRO);
+      //Front left magnet off
       extensionFrontLeft(dxl,idFL, direction);
       delay(1000);
-      controlMagnet(HIGH,PIN_FL_ELECTRO);
+      //Front left magnet on
 
-      controlMagnet(LOW,PIN_FR_ELECTRO);
+      //Front right magnet off
       extensionFrontRight(dxl,idFR, direction);
       nbTurnsFront++;
       delay(1000);
-      controlMagnet(HIGH,PIN_FR_ELECTRO);
+      //Front right magnet on
 
       retractionFrontLeft(dxl,idFL, direction);
       retractionFrontRight(dxl,idFR, direction);
@@ -354,7 +352,6 @@ void controlMagnet(bool power, int pinmagnet){
   if(power = 0){  
     digitalWrite(pinmagnet, LOW); 
   }  
-  delay(200);
 }
 
 /*
