@@ -11,12 +11,17 @@ class Order(Enum):
     FINISHED = 4
 
     HOME = 5
+
+    START = 6
+    STOP = 7
+
     ANGLE = 6
     AUTO_DISTANCE = 7
     AUTO_REVERSE = 22
 
     SEMI_AUTO_ANGLE = 8
     SEMI_AUTO_STATE = 9
+
     SERVO_AVANT_DROIT = 10
     SERVO_AVANT_GAUCHE = 11
     SERVO_ARRIERE_DROIT = 12
