@@ -24,7 +24,7 @@ int encoderCount(Dynamixel2Arduino dxl, int id);
 void findLegMode(Dynamixel2Arduino dxl, int id);
 void adjustPosition(Dynamixel2Arduino dxl, int id);
 
-//void controlMagnet(bool switch, int magnet);
+void controlMagnet(bool switch, int magnet);
 //void home();
 //activation modes for magnets (on/off) and legs' current position (extended, retracted, raised)
 //void resetEncoder(int id, Dynamixel2Arduino dxl);
