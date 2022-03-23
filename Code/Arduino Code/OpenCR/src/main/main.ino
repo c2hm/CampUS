@@ -1,6 +1,5 @@
 #include <Servo.h>
 #include <Dynamixel2Arduino.h>
-#include "functions.h"
 
 #if defined(ARDUINO_OpenCR) // When using official ROBOTIS board with DXL circuit.
   // For OpenCR, there is a DXL Power Enable pin, so you must initialize and control it.
@@ -14,8 +13,8 @@
 #define REAR_LEFT_SERVO 2
 #define REAR_RIGHT_SERVO 3
 
-#define PIN_FRONT_LEFT_SERVO_PWM 11
-#define PIN_FRONT_RIGHT_SERVO_PWM 10
+#define PIN_FRONT_LEFT_SERVO_PWM 5
+#define PIN_FRONT_RIGHT_SERVO_PWM 3
 #define PIN_REAR_LEFT_SERVO_PWM 9
 #define PIN_REAR_RIGHT_SERVO_PWM 6
 
@@ -29,20 +28,53 @@ uint8_t mode = WAIT_MODE;
 Servo servo_test = Servo();
 int angle = 0;
 
-#define DXL_ID_REAR_LEFT 2
+#define DXL_ID_REAR_LEFT 4
 #define DXL_ID_REAR_RIGHT 9
 #define DXL_ID_FRONT_LEFT 23
 #define DXL_ID_FRONT_RIGHT 3
 
-#define FRONT_LEFT_RETRACTED 993
-#define FRONT_RIGHT_RETRACTED 0
-#define REAR_LEFT_RETRACTED 2850
-#define REAR_RIGHT_RETRACTED 0
+#define FRONT_LEFT_RETRACTED 873
+#define FRONT_RIGHT_RETRACTED 3256
+#define REAR_LEFT_RETRACTED 0
+#define REAR_RIGHT_RETRACTED 1010
+
+#define FRONT_LEFT_EXTENDED 3459
+#define FRONT_RIGHT_EXTENDED 626
+#define REAR_LEFT_EXTENDED 0
+#define REAR_RIGHT_EXTENDED 3358
+
+#define FRONT_LEFT_RAISED 2422
+#define FRONT_RIGHT_RAISED 1688
+#define REAR_LEFT_RAISED 0
+#define REAR_RIGHT_RAISED 2257
+
+#define FRONT_LEFT_LOW 4200
+#define FRONT_RIGHT_LOW 1688
+#define REAR_LEFT_LOW 0
+#define REAR_RIGHT_LOW 2257
+
+#define PIN_FL_ELECTRO 4
+#define PIN_FR_ELECTRO 2
+#define PIN_RL_ELECTRO 12
+#define PIN_RR_ELECTRO 7
+
+#define RETRACTED 0
+#define EXTENDED 1
+#define RAISED 2
+
+int nbTurnsFront;
+int nbTurnsRear;
+int frontLeftMode;
+int frontRightMode;
+int rearLeftMode;
+int rearRightMode;
 
 const float DXL_PROTOCOL_VERSION = 2.0;
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 Servo servomotors[4] = {};
+
+#include "functions.h"
 
 void setup() {
   //Associate pins
@@ -65,7 +97,7 @@ void setup() {
   digitalWrite(BDPIN_DXL_PWR_EN, HIGH);
 
   // Use UART port of DYNAMIXEL Shield to debug.
-  DEBUG_SERIAL.begin(115200);
+  DEBUG_SERIAL.begin(57600);
   
   // Set Port baudrate to 57600bps. This has to match with DYNAMIXEL baudrate.
   dxl.begin(57600);
@@ -83,67 +115,56 @@ void setup() {
   dxl.torqueOn(DXL_ID2);
   dxl.setGoalPosition(DXL_ID2, 0);*/
 
-
-  delay(5000);
   dxl.torqueOff(DXL_ID_FRONT_LEFT);
-  dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_FRONT_LEFT, OP_EXTENDED_POSITION);
   dxl.torqueOn(DXL_ID_FRONT_LEFT);
 
   dxl.torqueOff(DXL_ID_FRONT_RIGHT);
-  dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_FRONT_RIGHT, OP_EXTENDED_POSITION);
   dxl.torqueOn(DXL_ID_FRONT_RIGHT);
   
   dxl.torqueOff(DXL_ID_REAR_LEFT);
-  dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_REAR_LEFT, OP_EXTENDED_POSITION);
   dxl.torqueOn(DXL_ID_REAR_LEFT);
   
   dxl.torqueOff(DXL_ID_REAR_RIGHT);
-  dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_POSITION);
+  dxl.setOperatingMode(DXL_ID_REAR_RIGHT, OP_EXTENDED_POSITION);
   dxl.torqueOn(DXL_ID_REAR_RIGHT);
-  
-  
+
+
+  nbTurnsFront=0;
+  nbTurnsRear=0;
 }
 
 void loop() {
-<<<<<<< Updated upstream
-    
-    encoderPosition(dxl,DXL_ID_FRONT_LEFT);
-  DEBUG_SERIAL.println(motor_position);
+  
+      
+      /*//Front left magnet off
+      extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, 1);
+      delay(1000);
+      //Front left magnet on
 
-  encoderPosition(dxl,DXL_ID_FRONT_RIGHT);
-  DEBUG_SERIAL.println(motor_position);
-  
-  encoderPosition(dxl,DXL_ID_REAR_LEFT);
-  DEBUG_SERIAL.println(motor_position);
-  
-  encoderPosition(dxl,DXL_ID_REAR_RIGHT);
-  DEBUG_SERIAL.println(motor_position);
-  
-=======
-  for(int i=0; i<4;i++){
-    DEBUG_SERIAL.println(getServoPosition(servomotors[i]));
-  }
->>>>>>> Stashed changes
-  /*encoderPosition(dxl, DXL_ID2);
-  
+      //Front right magnet off
+      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT, 1);
+      nbTurnsFront++;
+      delay(1000);
+      //Front right magnet on
 
-  DEBUG_SERIAL.println(mode);
-  DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID2));
-  if(mode == WAIT_MODE){
-    extension(dxl,DXL_ID2,-10);
-    DEBUG_SERIAL.println(mode);
-  }
+      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT, 1);
+      retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT, 1);
+      extensionRearLeft(dxl,DXL_ID_REAR_LEFT, 1);
+      extensionRearRight(dxl,DXL_ID_REAR_RIGHT, 1);
 
-  if(mode == EXTENSION_MODE && motor_position>=2048){
-    DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID2));
-    finish(dxl,DXL_ID2);
-    delay(500);
-    retraction(dxl, DXL_ID2,-10);
-  }
-  if(mode == RETRACTION_MODE && motor_position<2048){
-    DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID));
-    finish(dxl,DXL_ID2);
-    delay(500);
-    extension(dxl, DXL_ID2,-10);
-  }*/
+      nbTurnsRear++;
+      delay(1000);
+      //Rear left magnet off
+      retractionRearLeft(dxl,DXL_ID_REAR_LEFT, 1);
+      delay(1000);
+      //Rear left magnet on
+      
+      //Rear right magnet off
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, 1);
+      delay(1000);
+      //Rear right magnet on*/
+  robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
 }
