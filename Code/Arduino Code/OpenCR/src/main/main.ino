@@ -28,7 +28,7 @@ uint8_t mode = WAIT_MODE;
 Servo servo_test = Servo();
 int angle = 0;
 
-#define DXL_ID_REAR_LEFT 2
+#define DXL_ID_REAR_LEFT 4
 #define DXL_ID_REAR_RIGHT 9
 #define DXL_ID_FRONT_LEFT 23
 #define DXL_ID_FRONT_RIGHT 3
