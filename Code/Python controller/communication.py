@@ -8,7 +8,7 @@ class Communication(object):
     def __init__(self):
 
         try:
-            self.s = serial.Serial(port='COM4', baudrate=115200, timeout=0.1)
+            self.s = serial.Serial(port='COM5', baudrate=115200, timeout=0.1)
         except Exception as e:
             raise e
         is_connected = False
