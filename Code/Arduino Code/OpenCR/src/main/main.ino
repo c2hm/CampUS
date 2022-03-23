@@ -14,8 +14,8 @@
 #define REAR_RIGHT_SERVO 3
 
 #define PIN_FRONT_LEFT_SERVO_PWM 5
-#define PIN_FRONT_RIGHT_SERVO_PWM 3
-#define PIN_REAR_LEFT_SERVO_PWM 9
+#define PIN_FRONT_RIGHT_SERVO_PWM 9
+#define PIN_REAR_LEFT_SERVO_PWM 3
 #define PIN_REAR_RIGHT_SERVO_PWM 6
 
 //Movement modes
@@ -53,10 +53,10 @@ int angle = 0;
 #define REAR_LEFT_LOW 0
 #define REAR_RIGHT_LOW 2257
 
-#define PIN_FL_ELECTRO 4
-#define PIN_FR_ELECTRO 2
-#define PIN_RL_ELECTRO 12
-#define PIN_RR_ELECTRO 7
+#define PIN_FL_ELECTRO 11
+#define PIN_FR_ELECTRO 10
+#define PIN_RL_ELECTRO 13
+#define PIN_RR_ELECTRO 12
 
 #define RETRACTED 0
 #define EXTENDED 1
@@ -77,13 +77,19 @@ Servo servomotors[4] = {};
 #include "functions.h"
 
 void setup() {
-  //Associate pins
-  pinMode(PIN_FRONT_LEFT_SERVO_PWM, INPUT);
-  pinMode(PIN_FRONT_RIGHT_SERVO_PWM,INPUT);
-  pinMode(PIN_REAR_LEFT_SERVO_PWM, INPUT);
-  pinMode(PIN_REAR_RIGHT_SERVO_PWM, INPUT);
+  //Associate magnets
+  pinMode(PIN_FL_ELECTRO, OUTPUT);
+  pinMode(PIN_FR_ELECTRO,OUTPUT);
+  pinMode(PIN_RL_ELECTRO, OUTPUT);
+  pinMode(PIN_RL_ELECTRO, OUTPUT);
 
-  
+  digitalWrite(10,LOW);
+  digitalWrite(11,LOW);
+  digitalWrite(12,LOW);
+  digitalWrite(13,LOW);
+
+
+  digitalWrite(13,HIGH);
   //Servomotors
   
 
@@ -166,5 +172,5 @@ void loop() {
       retractionRearRight(dxl, DXL_ID_REAR_RIGHT, 1);
       delay(1000);
       //Rear right magnet on*/
-  robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
+  //robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
 }
