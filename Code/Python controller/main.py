@@ -169,17 +169,16 @@ class MainWindow(QMainWindow):
         self.ui.label_state_auto.setText('Homing...')
         self.ui.label_state_auto.repaint()
 
-        ## en attendant
         answer = self.comm.send_order(Order.HOME, 1)
         if answer == 0:
             self.ui.label_state_auto.setText('Homing completed!')
             self.ui.label_state_auto.repaint()
-            time.sleep(2)
+            time.sleep(5)
             self.ui.label_state_auto.setText(' ')
         else:
             self.ui.label_state_auto.setText('Homing failed, please try again')
             self.ui.label_state_auto.repaint()
-            time.sleep(2)
+            time.sleep(5)
             self.ui.label_state_auto.setText(' ')
     def start_order(self):
         self.setEnabled(False)
@@ -226,14 +225,14 @@ class MainWindow(QMainWindow):
                 else:
                     self.ui.label_state_auto.setText('Command failed, please try again')
                     self.ui.label_state_auto.repaint()
-                    time.sleep(2)
+                    time.sleep(5)
 
                     break
             if self.ui.label_state_auto.text() != 'Command failed, please try again':
                 print(self.ui.label_state_auto.text())
                 self.ui.label_state_auto.setText('Command complete successfully! Campus is back to the start!')
                 self.ui.label_state_auto.repaint()
-                time.sleep(2)
+                time.sleep(5)
                 self.ui.label_state_auto.setText(' ')
                 self.ui.label_state_auto.repaint()
             else:
