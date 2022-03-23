@@ -77,6 +77,7 @@ Servo servomotors[4] = {};
 #include "functions.h"
 
 void setup() {
+
   //Associate magnets
   pinMode(PIN_FL_ELECTRO, OUTPUT);
   pinMode(PIN_FR_ELECTRO,OUTPUT);
@@ -90,6 +91,7 @@ void setup() {
 
 
   digitalWrite(13,HIGH);
+
   //Servomotors
   
 
@@ -172,5 +174,6 @@ void loop() {
       retractionRearRight(dxl, DXL_ID_REAR_RIGHT, 1);
       delay(1000);
       //Rear right magnet on*/
+
   //robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
 }
