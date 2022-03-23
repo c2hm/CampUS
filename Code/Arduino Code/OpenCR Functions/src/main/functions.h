@@ -268,26 +268,27 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id, int direction){
  */
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction){
     if(direction >=0){
-      //Rear left magnet off
+      
+      controlMagnet(LOW,PIN_RL_ELECTRO);
       retractionRearLeft(dxl,idRL, direction);
       delay(1000);
-      //Rear left magnet on
+      controlMagnet(HIGH,PIN_RL_ELECTRO);
       
-      //Rear right magnet off
+      controlMagnet(LOW,PIN_RR_ELECTRO);
       retractionRearRight(dxl, idRR, direction);
       delay(1000);
-      //Rear right magnet on
+      controlMagnet(HIGH,PIN_RR_ELECTRO);
       
-      //Front left magnet off
+      controlMagnet(LOW,PIN_FL_ELECTRO);
       extensionFrontLeft(dxl,idFL, direction);
       delay(1000);
-      //Front left magnet on
+      controlMagnet(HIGH,PIN_FL_ELECTRO);
 
-      //Front right magnet off
+      controlMagnet(LOW,PIN_FR_ELECTRO);
       extensionFrontRight(dxl,idFR, direction);
       nbTurnsFront++;
       delay(1000);
-      //Front right magnet on
+      controlMagnet(HIGH,PIN_FR_ELECTRO);
 
       retractionFrontLeft(dxl,idFL, direction);
       retractionFrontRight(dxl,idFR, direction);
@@ -353,6 +354,7 @@ void controlMagnet(bool power, int pinmagnet){
   if(power = 0){  
     digitalWrite(pinmagnet, LOW); 
   }  
+  delay(200);
 }
 
 /*
