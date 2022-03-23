@@ -1,0 +1,13 @@
+Manual mode :
+see if the buttons to turn works : checked
+see if the box buttons for the electromagnets works : checked
+
+semi-auto mode : 
+see if the jog buttons works : checked
+see if the angle writing boxes works : checked
+
+auto :
+see if the list receives the informations well : checked
+
+Communication in general :
+see if the python code communicates well with the arduino code (sends and receives all the necessary informations) : checked
