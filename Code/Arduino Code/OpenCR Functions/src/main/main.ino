@@ -12,7 +12,7 @@ int frontLeftMode;
 int frontRightMode;
 int rearLeftMode;
 int rearRightMode;
-
+int objectif;
 const float DXL_PROTOCOL_VERSION = 2.0;
 
 #include "functions.h"
@@ -81,14 +81,35 @@ void setup() {
 
   nbTurnsFront=0;
   nbTurnsRear=0;
+  retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+  retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+  retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+  delay(1000);
+  digitalWrite(10,HIGH);
+  digitalWrite(11,HIGH);
+  digitalWrite(12,HIGH);
+  digitalWrite(13,HIGH);
+  delay(2000);
 }
 
 void loop() {
-  
-      extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      /*extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      delay(1000);
+      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+      delay(1000);
+      retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+      nbTurnsFront++;
+      nbTurnsRear++;
+      delay(3000);
+      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+      extensionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+      
+      delay(2000);*/
+      /*extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
       retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
       nbTurnsFront++;
-      /*//Front left magnet off
+      //Front left magnet off
       extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, 1);
       delay(1000);
       //Front left magnet on
@@ -116,5 +137,5 @@ void loop() {
       delay(1000);
       //Rear right magnet on*/
 
-  //robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
+  robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
 }

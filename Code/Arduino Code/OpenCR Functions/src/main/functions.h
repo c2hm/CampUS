@@ -45,7 +45,7 @@ void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
     dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_EXTENDED);
   }
   else{
-    dxl.setGoalPosition(id, nbTurnsFront*4096+FRONT_LEFT_EXTENDED);
+    dxl.setGoalPosition(id, nbTurnsFront*4096-FRONT_LEFT_EXTENDED);
   }
   
   frontLeftMode = EXTENDED;
@@ -80,7 +80,7 @@ void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
     dxl.setGoalPosition(id, nbTurnsRear*4096+REAR_LEFT_EXTENDED);
   }
   else{
-    dxl.setGoalPosition(id, nbTurnsRear*4096-REAR_LEFT_EXTENDED);
+   dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_LEFT_EXTENDED);
   }
   rearLeftMode = EXTENDED;
 }
@@ -94,7 +94,7 @@ void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
  */
 void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction){
   if(direction>=0){
-    dxl.setGoalPosition(id, -nbTurnsRear*4096-(4096-REAR_RIGHT_EXTENDED));
+    dxl.setGoalPosition(id, -(nbTurnsRear*4096-REAR_RIGHT_EXTENDED));
   }
   else{
     dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_RIGHT_EXTENDED);
@@ -176,7 +176,8 @@ void retractionRearRight(Dynamixel2Arduino dxl, int id, int direction){
     dxl.setGoalPosition(id, REAR_RIGHT_RETRACTED);
   }
   else if(direction>=0){
-    dxl.setGoalPosition(id, -nbTurnsRear*4096-REAR_RIGHT_RETRACTED);
+    objectif=-(nbTurnsRear*4096+REAR_RIGHT_RETRACTED);
+    dxl.setGoalPosition(id, -(nbTurnsRear*4096-REAR_RIGHT_RETRACTED));
   }
   else{
     dxl.setGoalPosition(id, -nbTurnsRear*4096+REAR_RIGHT_RETRACTED);
@@ -267,33 +268,42 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id, int direction){
  */
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction){
     if(direction >=0){
-      //Rear left magnet off
+      controlMagnet(0,PIN_RL_ELECTRO);
+      delay(500);
       retractionRearLeft(dxl,idRL, direction);
       delay(1000);
-      //Rear left magnet on
+      controlMagnet(1,PIN_RL_ELECTRO);
+      delay(1000);
       
-      //Rear right magnet off
+      controlMagnet(0,PIN_RR_ELECTRO);
+      delay(500);
       retractionRearRight(dxl, idRR, direction);
       delay(1000);
-      //Rear right magnet on
+      controlMagnet(1,PIN_RR_ELECTRO);
+      delay(1000);
       
-      //Front left magnet off
+      controlMagnet(0,PIN_FL_ELECTRO);
+      delay(500);
       extensionFrontLeft(dxl,idFL, direction);
       delay(1000);
-      //Front left magnet on
+      controlMagnet(1,PIN_FL_ELECTRO);
+      delay(1000);
 
-      //Front right magnet off
+      controlMagnet(0,PIN_FR_ELECTRO);
+      delay(500);
       extensionFrontRight(dxl,idFR, direction);
       nbTurnsFront++;
+      nbTurnsRear++;
       delay(1000);
-      //Front right magnet on
+      controlMagnet(1,PIN_FR_ELECTRO);
+      delay(1000);
 
       retractionFrontLeft(dxl,idFL, direction);
       retractionFrontRight(dxl,idFR, direction);
       extensionRearLeft(dxl,idRL, direction);
       extensionRearRight(dxl,idRR, direction);
 
-      nbTurnsRear++;
+      
       delay(1000);
       
     }
