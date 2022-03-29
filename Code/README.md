@@ -1,3 +1,7 @@
+Arduino Code : 
+
+    This folder contains all the code related to the robot's movement.
+    
 Wake up of the robot : 
     
     Robot goes in default stance, activates magnets and waits for cmd
