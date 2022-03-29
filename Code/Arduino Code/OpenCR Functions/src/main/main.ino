@@ -1,7 +1,7 @@
 #include <Servo.h>
 #include <Dynamixel2Arduino.h>
 #include "definitions.h"
-#include "functions.h"
+
 
 int angle = 0;
 
@@ -12,8 +12,10 @@ int frontLeftMode;
 int frontRightMode;
 int rearLeftMode;
 int rearRightMode;
-
+int objectif;
 const float DXL_PROTOCOL_VERSION = 2.0;
+
+#include "functions.h"
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 Servo servomotors[4] = {};
@@ -31,12 +33,7 @@ void setup() {
   digitalWrite(12,LOW);
   digitalWrite(13,LOW);
 
-
-  digitalWrite(13,HIGH);
-
   //Servomotors
-  
-
   servomotors[FRONT_LEFT_SERVO].attach(PIN_FRONT_LEFT_SERVO_PWM);
   servomotors[FRONT_RIGHT_SERVO].attach(PIN_FRONT_RIGHT_SERVO_PWM);
   servomotors[REAR_LEFT_SERVO].attach(PIN_REAR_LEFT_SERVO_PWM);
@@ -84,12 +81,35 @@ void setup() {
 
   nbTurnsFront=0;
   nbTurnsRear=0;
+  retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+  retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+  retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+  delay(1000);
+  digitalWrite(10,HIGH);
+  digitalWrite(11,HIGH);
+  digitalWrite(12,HIGH);
+  digitalWrite(13,HIGH);
+  delay(2000);
 }
 
 void loop() {
-  
+      /*extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      delay(1000);
+      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+      delay(1000);
+      retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+      nbTurnsFront++;
+      nbTurnsRear++;
+      delay(3000);
+      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+      extensionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
       
-      /*//Front left magnet off
+      delay(2000);*/
+      /*extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+      nbTurnsFront++;
+      //Front left magnet off
       extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, 1);
       delay(1000);
       //Front left magnet on
@@ -117,5 +137,5 @@ void loop() {
       delay(1000);
       //Rear right magnet on*/
 
-  //robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
+  robotStep(dxl,DXL_ID_FRONT_LEFT,DXL_ID_FRONT_RIGHT,DXL_ID_REAR_LEFT,DXL_ID_REAR_RIGHT,1);
 }
