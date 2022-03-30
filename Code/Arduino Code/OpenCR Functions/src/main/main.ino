@@ -81,15 +81,7 @@ void setup() {
 
   nbTurnsFront=0;
   nbTurnsRear=0;
-  retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
-  retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
-  retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
-  delay(1000);
-  digitalWrite(10,HIGH);
-  digitalWrite(11,HIGH);
-  digitalWrite(12,HIGH);
-  digitalWrite(13,HIGH);
-  delay(2000);
+  home(servomotors,dxl);
 }
 
 void loop() {
