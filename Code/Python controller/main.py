@@ -166,6 +166,7 @@ class MainWindow(QMainWindow):
     ## Orders
     # Automatic
     def home_order(self):
+        self.setEnabled(False)
         self.ui.label_state_auto.setText('Homing...')
         self.ui.label_state_auto.repaint()
 
@@ -173,134 +174,152 @@ class MainWindow(QMainWindow):
         if answer == 0:
             self.ui.label_state_auto.setText('Homing completed!')
             self.ui.label_state_auto.repaint()
-            time.sleep(5)
+            time.sleep(3)
             self.ui.label_state_auto.setText(' ')
         else:
             self.ui.label_state_auto.setText('Homing failed, please try again')
             self.ui.label_state_auto.repaint()
-            time.sleep(5)
+            time.sleep(3)
             self.ui.label_state_auto.setText(' ')
+        self.setEnabled(True)
     def start_order(self):
         self.setEnabled(False)
-        self.ui.label_state_auto.setText('Starting command...')
-        self.ui.label_state_auto.repaint()
+        if not self.listcmd:
+            self.ui.label_state_auto.setText('Add some commands! you fucking idiot. Fucking piece of bacon')
+            self.ui.label_state_auto.repaint()
+            time.sleep(3)
+            self.ui.label_state_auto.setText(" ")
+            self.ui.label_state_auto.repaint()
 
-        if self.ui.cb_reversecmd.isChecked() == True:
-            print('in if')
-            for i in range(self.counter):
-                self.listdistrev.append(self.listdist[self.counter-1-i])
-                self.listanglerev.append(self.listangle[self.counter-1-i])
-
-            ################################## Send start order with both list rev##################################
-            for i in range(self.counter):
-                j = self.counter - i
-                k = j - 1
-                answer = self.comm.send_order_param(Order.ANGLE, int(self.listanglerev[i]), 1)
-                if answer == 0:
-
-                    self.ui.label_state_auto.setText('The angle of reverse command ' + str(j) + ' has been completed! Angle changed to ' +self.listanglerev[i] + ' degree!')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    self.ui.label_state_auto.setText('Starting reverse command ' + str(j) + ' distance...')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                else:
-                    self.ui.label_state_auto.setText('Command failed, please try again')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    break
-                answer = self.comm.send_order_param(Order.AUTO_REVERSE, int(self.listdistrev[i]), 1)
-                if answer == 0:
-                    self.ui.label_state_auto.setText('The distance of reverse command ' + str(j) + ' has been completed! Campus advanced ' +self.listdistrev[i] + ' cm!')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    if i + 1 != self.counter:
-                        self.ui.label_state_auto.setText('Starting next angle reverse command: command ' + str(k) + ' ...')
-                        self.ui.label_state_auto.repaint()
-                        time.sleep(2)
-                    else:
-                        self.ui.label_state_auto.setText(' ')
-                        self.ui.label_state_auto.repaint()
-
-                else:
-                    self.ui.label_state_auto.setText('Command failed, please try again')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(5)
-
-                    break
-            if self.ui.label_state_auto.text() != 'Command failed, please try again':
-                print(self.ui.label_state_auto.text())
-                self.ui.label_state_auto.setText('Command complete successfully! Campus is back to the start!')
-                self.ui.label_state_auto.repaint()
-                time.sleep(5)
-                self.ui.label_state_auto.setText(' ')
-                self.ui.label_state_auto.repaint()
-            else:
-                self.ui.label_state_auto.setText(' ')
-                self.ui.label_state_auto.repaint()
         else:
-            ############################# Send start order with normal lists#################################3
-            for i in range(self.counter):
-                j = i + 1
-                k = j + 1
-                answer = self.comm.send_order_param(Order.ANGLE, int(self.listangle[i]), 1)
-                if answer == 0:
+            self.ui.label_state_auto.setText('Starting command...')
+            self.ui.label_state_auto.repaint()
 
-                    self.ui.label_state_auto.setText('The angle of command '+str(j)+' has been completed! Angle changed to '+self.listangle[i]+' degree!')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    self.ui.label_state_auto.setText('Starting command '+str(j)+' distance...')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                else:
-                    self.ui.label_state_auto.setText('Command failed, please try again')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    break
-                answer = self.comm.send_order_param(Order.AUTO_DISTANCE, int(self.listdist[i]), 1)
-                if answer == 0:
-                    self.ui.label_state_auto.setText('The distance of command '+str(j)+' has been completed! Campus advanced '+self.listdist[i]+' cm!')
-                    self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-                    if i+1 != self.counter:
-                        self.ui.label_state_auto.setText('Starting next angle command: command '+str(k)+' ...')
+            if self.ui.cb_reversecmd.isChecked() == True:
+                print('in if')
+                for i in range(self.counter):
+                    self.listdistrev.append(self.listdist[self.counter-1-i])
+                    self.listanglerev.append(self.listangle[self.counter-1-i])
+
+                ################################## Send start order with both list rev##################################
+                for i in range(self.counter):
+                    j = self.counter - i
+                    k = j - 1
+                    answer = self.comm.send_order_param(Order.ANGLE, int(self.listanglerev[i]), 1)
+                    if answer == 0:
+
+                        self.ui.label_state_auto.setText('The angle of reverse command ' + str(j) + ' has been completed! Angle changed to ' +self.listanglerev[i] + ' degree!')
                         self.ui.label_state_auto.repaint()
-                        time.sleep(2)
+                        time.sleep(3)
+                        self.ui.label_state_auto.setText('Starting reverse command ' + str(j) + ' distance...')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
                     else:
-                        self.ui.label_state_auto.setText(' ')
+                        self.ui.label_state_auto.setText('Command failed, please try again')
                         self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                        break
+                    if int(self.listdistrev[i]) < 0:
+                        answer = self.comm.send_order_param(Order.AUTO_DISTANCE, int(self.listdistrev[i]), 1)
+                    else:
+                        answer = self.comm.send_order_param(Order.AUTO_REVERSE, int(self.listdistrev[i]), 1)
+                    if answer == 0:
+                        self.ui.label_state_auto.setText('The distance of reverse command ' + str(j) + ' has been completed! Campus advanced ' +self.listdistrev[i] + ' cm!')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                        if i + 1 != self.counter:
+                            self.ui.label_state_auto.setText('Starting next angle reverse command: command ' + str(k) + ' ...')
+                            self.ui.label_state_auto.repaint()
+                            time.sleep(3)
+                        else:
+                            self.ui.label_state_auto.setText(' ')
+                            self.ui.label_state_auto.repaint()
 
-                else:
-                    self.ui.label_state_auto.setText('Command failed, please try again')
+                    else:
+                        self.ui.label_state_auto.setText('Command failed, please try again')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+
+                        break
+                if self.ui.label_state_auto.text() != 'Command failed, please try again':
+                    print(self.ui.label_state_auto.text())
+                    self.ui.label_state_auto.setText('Command complete successfully! Campus is back to the start!')
                     self.ui.label_state_auto.repaint()
-                    time.sleep(2)
-
-                    break
-            if self.ui.label_state_auto.text() != 'Command failed, please try again':
-                print(self.ui.label_state_auto.text())
-                self.ui.label_state_auto.setText('Command complete successfully! You can now enter a new command')
-                self.ui.label_state_auto.repaint()
-                time.sleep(2)
-                self.ui.label_state_auto.setText(' ')
-                self.ui.label_state_auto.repaint()
+                    time.sleep(3)
+                    self.ui.label_state_auto.setText(' ')
+                    self.ui.label_state_auto.repaint()
+                else:
+                    self.ui.label_state_auto.setText(' ')
+                    self.ui.label_state_auto.repaint()
             else:
-                self.ui.label_state_auto.setText(' ')
-                self.ui.label_state_auto.repaint()
+                ############################# Send start order with normal lists#################################3
+                for i in range(self.counter):
+                    j = i + 1
+                    k = j + 1
+                    answer = self.comm.send_order_param(Order.ANGLE, int(self.listangle[i]), 1)
+                    if answer == 0:
 
-        if self.ui.cb_reversecmd.isChecked() == True:
-            #Reset reverse lists
-            for i in range(self.counter):
-                self.listdistrev.pop()
-                self.listanglerev.pop()
-            # Reset lists
-            for i in range(self.counter):
-                self.clearcmd()
-        else:
-            # Reset lists
-            for i in range(self.counter):
-                self.clearcmd()
+                        self.ui.label_state_auto.setText('The angle of command '+str(j)+' has been completed! Angle changed to '+self.listangle[i]+' degree!')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                        self.ui.label_state_auto.setText('Starting command '+str(j)+' distance...')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                    else:
+                        self.ui.label_state_auto.setText('Command failed, please try again')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                        break
+                    if int(self.listdist[i]) < 0:
+                        answer = self.comm.send_order_param(Order.AUTO_REVERSE, int(self.listdist[i]), 1)
+                    else:
+                        answer = self.comm.send_order_param(Order.AUTO_DISTANCE, int(self.listdist[i]), 1)
+
+                    if answer == 0:
+                        self.ui.label_state_auto.setText('The distance of command '+str(j)+' has been completed! Campus advanced '+self.listdist[i]+' cm!')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+                        if i+1 != self.counter:
+                            self.ui.label_state_auto.setText('Starting next angle command: command '+str(k)+' ...')
+                            self.ui.label_state_auto.repaint()
+                            time.sleep(3)
+                        else:
+                            self.ui.label_state_auto.setText(' ')
+                            self.ui.label_state_auto.repaint()
+
+                    else:
+                        self.ui.label_state_auto.setText('Command failed, please try again')
+                        self.ui.label_state_auto.repaint()
+                        time.sleep(3)
+
+                        break
+                if self.ui.label_state_auto.text() != 'Command failed, please try again':
+                    print(self.ui.label_state_auto.text())
+                    self.ui.label_state_auto.setText('Command complete successfully! You can now enter a new command')
+                    self.ui.label_state_auto.repaint()
+                    time.sleep(3)
+                    self.ui.label_state_auto.setText(' ')
+                    self.ui.label_state_auto.repaint()
+                else:
+                    self.ui.label_state_auto.setText(' ')
+                    self.ui.label_state_auto.repaint()
+
+            if self.ui.cb_reversecmd.isChecked() == True:
+                #Reset reverse lists
+                for i in range(self.counter):
+                    self.listdistrev.pop()
+                    self.listanglerev.pop()
+                # Reset lists
+                for i in range(self.counter):
+                    self.clearcmd()
+            else:
+                # Reset lists
+                for i in range(self.counter):
+                    self.clearcmd()
+
         self.setEnabled(True)
     def stop_order(self):
+        self.setEnabled(False)
         self.ui.label_state_auto.setText('Stop command...')
         self.ui.label_state_auto.repaint()
 
@@ -316,9 +335,11 @@ class MainWindow(QMainWindow):
             self.ui.label_state_auto.repaint()
             time.sleep(2)
             self.ui.label_state_auto.setText(' ')
+        self.setEnabled(True)
 
     # SemiAutomatic
     def homeS_order(self):
+        self.setEnabled(False)
         self.ui.label_state_semi.setText('Homing...')
         self.ui.label_state_semi.repaint()
 
@@ -334,7 +355,9 @@ class MainWindow(QMainWindow):
             self.ui.label_state_semi.repaint()
             time.sleep(2)
             self.ui.label_state_semi.setText(' ')
+        self.setEnabled(True)
     def sendcmd_order(self):
+        self.setEnabled(False)
         self.ui.angle_input_semi.setFocus()
         angle = self.ui.angle_input_semi.text()
         self.ui.angle_input_semi.repaint()
@@ -348,20 +371,22 @@ class MainWindow(QMainWindow):
             self.ui.label_state_semi.setText('Sending angle of '+angle+' degree...')
             self.ui.label_state_semi.repaint()
 
-            answer = self.comm.send_order_param(Order.SEMI_AUTO_ANGLE, int(angle), 1)
+            answer = self.comm.send_order_param(Order.ANGLE, int(angle), 1)
 
             ## commande
             if answer == 0:
                 self.ui.label_state_semi.setText('Command completed!')
                 self.ui.label_state_semi.repaint()
-                time.sleep(2)
+                time.sleep(3)
                 self.ui.label_state_semi.setText(' ')
             else:
                 self.ui.label_state_semi.setText('Command failed, please try again')
                 self.ui.label_state_semi.repaint()
-                time.sleep(2)
+                time.sleep(3)
                 self.ui.label_state_semi.setText(' ')
+        self.setEnabled(True)
     def jogf_order(self):
+        self.setEnabled(False)
         self.ui.label_state_semi.setText('Jogging forward...')
         self.ui.label_state_semi.repaint()
 
@@ -379,7 +404,9 @@ class MainWindow(QMainWindow):
             self.ui.label_state_semi.repaint()
             time.sleep(2)
             self.ui.label_state_semi.setText(' ')
+        self.setEnabled(True)
     def jogb_order(self):
+        self.setEnabled(False)
         self.ui.label_state_semi.setText('Jogging backwards...')
         self.ui.label_state_semi.repaint()
 
@@ -397,9 +424,11 @@ class MainWindow(QMainWindow):
             self.ui.label_state_semi.repaint()
             time.sleep(2)
             self.ui.label_state_semi.setText(' ')
+        self.setEnabled(True)
 
     # Manual
     def step_flclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_flclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_flclock.repaint()
         ## send cmd
@@ -411,7 +440,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_flclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_flcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_flcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_flcounter.repaint()
         ## send cmd
@@ -423,7 +454,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_flcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_frclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_frclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_frclock.repaint()
         ## send cmd
@@ -435,7 +468,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_frclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_frcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_frcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_frcounter.repaint()
 
@@ -448,7 +483,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_frcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_blclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_blclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_blclock.repaint()
         ## send cmd
@@ -460,7 +497,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_blclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_blcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_blcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_blcounter.repaint()
         ## send cmd
@@ -472,7 +511,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_blcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_brclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_brclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_brclock.repaint()
         ## send cmd
@@ -484,7 +525,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_brclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def step_brcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_step_brcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_step_brcounter.repaint()
         ## send cmd
@@ -496,8 +539,10 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_step_brcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
 
     def ser_flclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_flclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_flclock.repaint()
         ## send cmd
@@ -509,7 +554,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_flclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_flcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_flcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_flcounter.repaint()
         ## send cmd
@@ -521,7 +568,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_flcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_frclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_frclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_frclock.repaint()
         ## send cmd
@@ -533,7 +582,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_frclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_frcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_frcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_frcounter.repaint()
         ## send cmd
@@ -545,7 +596,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_frcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(False)
     def ser_blclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_blclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_blclock.repaint()
         ## send cmd
@@ -557,7 +610,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_blclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_blcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_blcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_blcounter.repaint()
         ## send cmd
@@ -569,7 +624,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_blcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_brclock_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_brclock.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_brclock.repaint()
         ## send cmd
@@ -581,7 +638,9 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_brclock.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
     def ser_brcounter_order(self):
+        self.setEnabled(False)
         self.ui.pb_ser_brcounter.setStyleSheet("background-color: rgb(0, 255, 0);")
         self.ui.pb_ser_brcounter.repaint()
         ## send cmd
@@ -593,6 +652,7 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_brcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.setEnabled(True)
 
     def flmag_order(self):
         if self.ui.cb_flmag.isChecked() == True:
