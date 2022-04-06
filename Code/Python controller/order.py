@@ -19,7 +19,6 @@ class Order(Enum):
     AUTO_DISTANCE = 7
     AUTO_REVERSE = 22
 
-    SEMI_AUTO_ANGLE = 8
     SEMI_AUTO_STATE = 9
 
     SERVO_AVANT_DROIT = 10
