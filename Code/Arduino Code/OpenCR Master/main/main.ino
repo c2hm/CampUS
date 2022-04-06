@@ -11,7 +11,7 @@ void home();
 int get_param();
 void auto_distance(int dist);
 void auto_reverse(int dist);
-void set_angle(int angle);
+void set_angle(int paramAngle);
 void semi_auto_state(int state);
 void servo_avant_droit(int state);
 void servo_avant_gauche(int state);
@@ -26,11 +26,11 @@ void electroaimant_avant_gauche(int state);
 void electroaimant_arriere_droit(int state);
 void electroaimant_arriere_gauche(int state);
 
-
+int angle = 0;
 
 bool is_connected = false; ///< True if the connection with the master is available
 
-int ERROR_PARAM = -10;
+int ERROR_PARAM = -1000;
 
 void setup() {
 
@@ -141,7 +141,7 @@ void get_messages_from_serial()
           write_order(RECEIVED);
 
           //reads parameter
-          int angle = get_param();
+          angle = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
 
           if (angle >= 0 && angle<=360)
@@ -491,7 +491,7 @@ void auto_reverse(int dist)
   
 }
 
-void set_angle(int angle)
+void set_angle(int ParamAngle)
 {
  //utiliser la variable angle pour bouger les servomoteurs
   write_order(FINISHED); 
