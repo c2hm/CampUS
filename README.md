@@ -13,7 +13,7 @@ The CampUS robot is a quadriped articulated robot. Each leg is independent and c
   
 # Conception 
 
-  This folder contains all the prototypes created on SolidWorks and the complete manual of assembly of the mechanical and electrical parts
+  This folder contains all the prototypes created on SolidWorks and the complete assembly manual of the mechanical and electrical parts
 
 # Demo 
 
