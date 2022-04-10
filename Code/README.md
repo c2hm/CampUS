@@ -1,9 +1,10 @@
-Arduino Code : 
+# Contents of the folders :
+    Arduino Code : Code for the openCR and the template on Arduino mega
+    Pthon controller : Code for the user interface and setup of pyqt5 on pycharm
 
-    This folder contains all the code related to the robot's movement.
-    
+# Behavior of the robot 
 Wake up of the robot : 
-    
+
     Robot goes in default stance, activates magnets and waits for cmd
     
 Python code point of view for the communications below :
