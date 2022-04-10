@@ -148,7 +148,7 @@ void get_messages_from_serial()
           angle = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
 
-          if (angle >= 0 && angle<=360)
+          if (angle >= -25 && angle<=25)
           {
             write_order(RECEIVED); 
             set_angle(angle);
@@ -157,7 +157,6 @@ void get_messages_from_serial()
           {
             write_order(ERROR1); 
           }
- 
           break;
         }
 
@@ -471,6 +470,7 @@ void homeMaster()
 {
 
   //homing procedure
+  angle = 0;
   home(servomotors,dxl);
   write_order(FINISHED); 
 }
@@ -498,35 +498,27 @@ void auto_reverse(int dist)
 void set_angle(int ParamAngle)
 {
  //utiliser la variable angle pour bouger les servomoteurs
- 
+  setAngle(servomotors,dxl, ParamAngle);
   write_order(FINISHED); 
 }
 
 void semi_auto_state(int state)
 {
-  if(state==1)
-  {
-    //avancer
-  }
-  else if(state==-1)
-  {
-    //reculer
-  }
+  robotStep(dxl,state);
   write_order(FINISHED); 
-  
 }
 void servo_avant_droit(int state)
 {
- controlMagnet(0,PIN_FR_ELECTRO);
+ digitalWrite(PIN_FR_ELECTRO,LOW);
  delay(200);
  if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   write_order(FINISHED);
@@ -534,16 +526,16 @@ void servo_avant_droit(int state)
 
 void servo_avant_gauche(int state)
 {
-  controlMagnet(0,PIN_FL_ELECTRO);
+  digitalWrite(PIN_FL_ELECTRO,LOW);
   delay(200);
   if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
    write_order(FINISHED);  
@@ -551,16 +543,16 @@ void servo_avant_gauche(int state)
 
 void servo_arriere_droit(int state)
 {
-  controlMagnet(0,PIN_RR_ELECTRO);
+  digitalWrite(PIN_RR_ELECTRO,LOW);
   delay(200);
   if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
     write_order(FINISHED);
@@ -568,16 +560,16 @@ void servo_arriere_droit(int state)
 
 void servo_arriere_gauche(int state)
 {
-  controlMagnet(0,PIN_RL_ELECTRO);
+  digitalWrite(PIN_RL_ELECTRO,LOW);
   delay(200);
   if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
   }
     write_order(FINISHED);
@@ -585,79 +577,156 @@ void servo_arriere_gauche(int state)
 
 void moteur_avant_droit(int state)
 {
-//  digitalWrite(PIN_FR_ELECTRO,LOW);
-//  if(state==1)
-//  {
-//    if(frontRightMode == RETRACTED)
-//    {
-//      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
-//      nbTurnsFront++;
-//    }
-//    else if(frontRightMode == RAISED)
-//    {
-//      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
-//    }
-//    else if(frontRightMode == EXTENDED)
-//    {
-//      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
-//    }
-//  }
-//  else
-//  {
-//    if(frontRightMode == RETRACTED)
-//    {
-//      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
-//      nbTurnsFront--;
-//    }
-//    else if(frontRightMode == RAISED)
-//    {
-//      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
-//    }
-//    else if(frontRightMode == EXTENDED)
-//    {
-//      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
-//    }
-//  }
-//    write_order(FINISHED);
-//}
-//
-//void moteur_avant_gauche(int state)
-//{
-//  if(state==1)
-//  {
-//    //avancer
-//  }
-//  else
-//  {
-//    //reculer
-//  }
-//    write_order(FINISHED);
+  digitalWrite(PIN_FR_ELECTRO,LOW);
+  delay(200);
+  if(state==1)
+  {
+    if(frontRightMode == RETRACTED)
+    {
+      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
+    }
+    else if(frontRightMode == RAISED)
+    {
+      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      nbTurnsFrontRight++;
+    }
+    else if(frontRightMode == EXTENDED)
+    {
+      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+    }
+  }
+  else
+  {
+    if(frontRightMode == RETRACTED)
+    {
+      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
+    }
+    else if(frontRightMode == RAISED)
+    {
+      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      nbTurnsFrontRight--;
+    }
+    else if(frontRightMode == EXTENDED)
+    {
+      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+    }
+  }
+    write_order(FINISHED);
+}
+
+void moteur_avant_gauche(int state)
+{
+  digitalWrite(PIN_FL_ELECTRO,LOW);
+  delay(200);
+  if(state==1)
+  {
+    if(frontLeftMode == RETRACTED)
+    {
+      raiseFrontLeft(dxl, DXL_ID_FRONT_LEFT);
+      nbTurnsFrontLeft++;
+    }
+    else if(frontLeftMode == RAISED)
+    {
+      extensionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+    }
+    else if(frontLeftMode == EXTENDED)
+    {
+      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+    }
+  }
+  else
+  {
+    if(frontLeftMode == RETRACTED)
+    {
+      extensionFrontLeft(dxl, DXL_ID_FRONT_LEFT);
+      nbTurnsFrontLeft--;
+    }
+    else if(frontLeftMode == RAISED)
+    {
+      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+    }
+    else if(frontLeftMode == EXTENDED)
+    {
+      raiseFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+    }
+  }
+    write_order(FINISHED);
 }
 
 void moteur_arriere_droit(int state)
 {
+  digitalWrite(PIN_RR_ELECTRO,LOW);
+  delay(200);
   if(state==1)
   {
-    //avancer
+    if(rearRightMode == RETRACTED)
+    {
+      raiseRearRight(dxl, DXL_ID_REAR_RIGHT);
+    }
+    else if(rearRightMode == RAISED)
+    {
+      extensionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+    }
+    else if(rearRightMode == EXTENDED)
+    {
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      nbTurnsRearRight++;
+    }
   }
   else
   {
-    //reculer
+    if(rearRightMode == RETRACTED)
+    {
+      raiseRearRight(dxl, DXL_ID_REAR_RIGHT);
+    }
+    else if(rearRightMode == RAISED)
+    {
+      extensionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      nbTurnsRearRight--;
+    }
+    else if(rearRightMode == EXTENDED)
+    {
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+    }
   }
     write_order(FINISHED);
-  
 }
 
 void moteur_arriere_gauche(int state)
 {
-  
+  digitalWrite(PIN_RL_ELECTRO,LOW);
+  delay(200);
   if(state==1)
   {
-    //avancer
+    if(rearLeftMode == RETRACTED)
+    {
+      extensionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+    }
+    else if(rearLeftMode == RAISED)
+    {
+      retractionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      nbTurnsRearLeft++;
+    }
+    else if(rearLeftMode == EXTENDED)
+    {
+      raiseRearLeft(dxl, DXL_ID_REAR_LEFT);
+    }
   }
   else
   {
-    //reculer
+    if(rearLeftMode == RETRACTED)
+    {
+      raiseRearLeft(dxl, DXL_ID_REAR_LEFT);
+    }
+    else if(rearLeftMode == RAISED)
+    {
+      extensionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      nbTurnsRearLeft--;
+    }
+    else if(rearLeftMode == EXTENDED)
+    {
+      retractionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+    }
   }
     write_order(FINISHED);
 }

@@ -596,7 +596,7 @@ class MainWindow(QMainWindow):
             time.sleep(2)
 
         self.ui.pb_ser_frcounter.setStyleSheet("background-color: rgb(255, 255, 255);")
-        self.setEnabled(False)
+        self.setEnabled(True)
     def ser_blclock_order(self):
         self.setEnabled(False)
         self.ui.pb_ser_blclock.setStyleSheet("background-color: rgb(0, 255, 0);")
