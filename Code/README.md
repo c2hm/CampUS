@@ -1,4 +1,4 @@
-# Contents of the folders :
+# Contents of the folders
     Arduino Code : Code for the openCR and the template on Arduino mega
     Pthon controller : Code for the user interface and setup of pyqt5 on pycharm
 
@@ -59,7 +59,6 @@ There are two types of messages :
 
     Orders (8bit integer) : defines the type of request or response; can be immediately followed by a parameter 
     Parameters (8bit integer) : Optional number representing a precision of an order 
-  
     Ex : Order : LEFT_MOTOR ; Parameter : 40; Output : Give a 40 rad/s speed to the motor 
  
  Sequence of communication:
@@ -78,5 +77,5 @@ There are two types of messages :
     
    If RECEIVED order is not received by the python controller, the order or paramter is either resent or an error is raised.
    
-   ![Diagramme sans nom](https://user-images.githubusercontent.com/61423054/155046882-bd427d14-defc-4da7-bac2-dcbce39e5b85.png)
+![Diagramme sans nom](https://user-images.githubusercontent.com/61423054/155046882-bd427d14-defc-4da7-bac2-dcbce39e5b85.png)
     
