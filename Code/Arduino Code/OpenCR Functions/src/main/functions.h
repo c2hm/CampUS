@@ -269,22 +269,24 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
 
       if(rearRightMode!=EXTENDED){
         digitalWrite(11,LOW);
-        delay(1000);
+        delay(1500);
         extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
-        delay(1000);
+        delay(3000);
         digitalWrite(11,HIGH);
-        delay(1000);
+        delay(1500);
       }
-      nbTurnsFrontLeft--;
-        nbTurnsRearRight--;
 
+      nbTurnsFrontRight--;
+      nbTurnsRearLeft--;
+      nbTurnsRearRight--;
+      
       retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
       retractionRearRight(dxl,DXL_ID_REAR_RIGHT);
       extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
       extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
 
       nbTurnsFrontLeft--;
-      delay(1000);
+      delay(3000);
     }
 }
 
