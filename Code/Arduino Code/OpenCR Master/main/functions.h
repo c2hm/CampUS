@@ -2,15 +2,15 @@
 #include <Dynamixel2Arduino.h>
 int motor_position;
 //Useful functions for movement sequence
-void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
-void extensionFrontRight(Dynamixel2Arduino dxl, int id, int direction);
-void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction);
-void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction);
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id);
+void extensionFrontRight(Dynamixel2Arduino dxl, int id);
+void extensionRearLeft(Dynamixel2Arduino dxl, int id);
+void extensionRearRight(Dynamixel2Arduino dxl, int id);
 
-void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int direction);
-void retractionFrontRight(Dynamixel2Arduino dxl, int id, int direction);
-void retractionRearLeft(Dynamixel2Arduino dxl, int id, int direction);
-void retractionRearRight(Dynamixel2Arduino dxl, int id, int direction);
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id);
+void retractionFrontRight(Dynamixel2Arduino dxl, int idn);
+void retractionRearLeft(Dynamixel2Arduino dxl, int id);
+void retractionRearRight(Dynamixel2Arduino dxl, int id);
 
 void raiseFrontLeft(Dynamixel2Arduino dxl, int id);
 void raiseFrontRight(Dynamixel2Arduino dxl, int id);
@@ -40,14 +40,8 @@ int getServoPosition(Servo servo);
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
-  if(direction>=0){
-    dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED);
-  }
-  else{
-    dxl.setGoalPosition(id, nbTurnsFrontLeft*4096-FRONT_LEFT_EXTENDED);
-  }
-  
+void extensionFrontLeft(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED);
   frontLeftMode = EXTENDED;
 }
 
@@ -58,13 +52,8 @@ void extensionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
-  if(direction>=0){
-    dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED);
-  }
-  else{
-    dxl.setGoalPosition(id, -nbTurnsFrontRight*4096-FRONT_RIGHT_EXTENDED);
-  }
+void extensionFrontRight(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED);
   frontRightMode = EXTENDED;
 }
 
@@ -75,13 +64,8 @@ void extensionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
-  if(direction>=0){
-    dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED);
-  }
-  else{
-   dxl.setGoalPosition(id, -nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED);
-  }
+void extensionRearLeft(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED);
   rearLeftMode = EXTENDED;
 }
 
@@ -92,13 +76,8 @@ void extensionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction){
-  if(direction>=0){
-    dxl.setGoalPosition(id, -(nbTurnsRearRight*4096-REAR_RIGHT_EXTENDED));
-  }
-  else{
-    dxl.setGoalPosition(id, -nbTurnsRearRight*4096+REAR_RIGHT_EXTENDED);
-  }
+void extensionRearRight(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, -(nbTurnsRearRight*4096-REAR_RIGHT_EXTENDED));
   rearRightMode = EXTENDED;
 }
 
@@ -110,17 +89,8 @@ void extensionRearRight(Dynamixel2Arduino dxl, int id, int direction){
  * @param id motor's id
  * @param speed wanted leg's speed (in percentage)
  */
-void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
-  if(nbTurnsFrontLeft==0){
-    dxl.setGoalPosition(id, FRONT_LEFT_RETRACTED);
-  }
-  else if(direction>=0){
-    dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED);
-  }
-  else{
-    dxl.setGoalPosition(id, nbTurnsFrontLeft*4096-FRONT_LEFT_RETRACTED);
-  }
-  
+void retractionFrontLeft(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED);
   frontLeftMode = RETRACTED;
 }
 
@@ -130,17 +100,8 @@ void retractionFrontLeft(Dynamixel2Arduino dxl, int id, int direction){
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  */
-void retractionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
-  if(nbTurnsFrontRight==0){
-    dxl.setGoalPosition(id, FRONT_RIGHT_RETRACTED);
-  }
-  else if(direction>=0){
-    dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED);
-  }
-  else{
-    dxl.setGoalPosition(id, -nbTurnsFrontRight*4096-FRONT_RIGHT_RETRACTED);
-  }
-  
+void retractionFrontRight(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED);
   frontRightMode = RETRACTED;
 }
 
@@ -151,17 +112,8 @@ void retractionFrontRight(Dynamixel2Arduino dxl, int id, int direction){
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  */
-void retractionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
-  if(nbTurnsRearLeft==0){
-    dxl.setGoalPosition(id, REAR_LEFT_RETRACTED);
-  }
-  else if(direction>=0){
-    dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED);
-  }
-  else{
-    dxl.setGoalPosition(id, nbTurnsRearLeft*4096-REAR_LEFT_RETRACTED);
-  }
-  
+void retractionRearLeft(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED);
   rearLeftMode = RETRACTED;
 }
 
@@ -171,17 +123,8 @@ void retractionRearLeft(Dynamixel2Arduino dxl, int id, int direction){
  * @param dxl dynamixel object for motor control
  * @param id motor's id
  */
-void retractionRearRight(Dynamixel2Arduino dxl, int id, int direction){
-  if(nbTurnsRearRight==0){
-    dxl.setGoalPosition(id, REAR_RIGHT_RETRACTED);
-  }
-  else if(direction>=0){
-    dxl.setGoalPosition(id, -(nbTurnsRearRight*4096-REAR_RIGHT_RETRACTED));
-  }
-  else{
-    dxl.setGoalPosition(id, -nbTurnsRearRight*4096+REAR_RIGHT_RETRACTED);
-  }
-  
+void retractionRearRight(Dynamixel2Arduino dxl, int id){
+  dxl.setGoalPosition(id, -(nbTurnsRearRight*4096-REAR_RIGHT_RETRACTED));
   rearRightMode = RETRACTED;
 }
 
@@ -246,84 +189,101 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id){
  */
 void robotStep(Dynamixel2Arduino dxl, int direction){
     if(direction >=0){
+      if(rearLeftMode!=RETRACTED){
+        digitalWrite(10,LOW);
+        delay(1500);
+        retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
+        delay(3000);
+        digitalWrite(10,HIGH);
+        delay(1500);
+      }
       
-      digitalWrite(10,LOW);
-      delay(1500);
-      retractionRearLeft(dxl,DXL_ID_REAR_LEFT, direction);
-      delay(3000);
-      digitalWrite(10,HIGH);
-      delay(1500);
+      if(rearRightMode!=RETRACTED){
+        digitalWrite(11,LOW);
+        delay(1500);
+        retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
+        delay(3000);
+        digitalWrite(11,HIGH);;
+        delay(1500);
+      }
       
-      digitalWrite(11,LOW);
-      delay(1500);
-      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, direction);
-      delay(3000);
-      digitalWrite(11,HIGH);;
-      delay(1500);
-     
-      digitalWrite(12,LOW);
-      delay(1500);
-      extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, direction);
-      delay(3000);
-      digitalWrite(12,HIGH);;
-      delay(1500);
-
-      digitalWrite(13,LOW);
-      delay(1500);
-      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT, direction);
-      delay(3000);
-      digitalWrite(13,HIGH);
-      delay(1500);
+      if(frontLeftMode!=EXTENDED){
+        digitalWrite(12,LOW);
+        delay(1500);
+        extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        delay(3000);
+        digitalWrite(12,HIGH);;
+        delay(1500);
+      }
+      
+      if(frontRightMode!=EXTENDED){
+        digitalWrite(13,LOW);
+        delay(1500);
+        extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+        delay(3000);
+        digitalWrite(13,HIGH);
+        delay(1500);
+      }
+      
 
       nbTurnsRearLeft++;
       nbTurnsRearRight++;
       nbTurnsFrontRight++;
       
-      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT, direction);
-      retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT, direction);
-      extensionRearLeft(dxl,DXL_ID_REAR_LEFT, direction);
-      extensionRearRight(dxl,DXL_ID_REAR_RIGHT, direction);
+      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+      retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+      extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
+      extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
       
       delay(3000);
       nbTurnsFrontLeft++;
     }
     else{
-      controlMagnet(0,PIN_FL_ELECTRO);
-      delay(1000);
-      retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT, direction);
-      delay(1000);
-      controlMagnet(1,PIN_FL_ELECTRO);
-      delay(1000);
+      if(frontLeftMode!=RETRACTED){
+        digitalWrite(12,LOW);
+        delay(1500);
+        retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        delay(3000);
+        digitalWrite(12,HIGH);
+        delay(1500);
+        }
       
-      controlMagnet(0,PIN_FR_ELECTRO);
-      delay(1000);
-      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, direction);
-      delay(1000);
-      controlMagnet(1,PIN_FR_ELECTRO);
-      delay(1000);
+      if(frontRightMode!=RETRACTED){
+        digitalWrite(13,LOW);
+        delay(1500);
+        retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
+        delay(3000);
+        digitalWrite(13,HIGH);
+        delay(1500);
+      }
+     
+      if(rearLeftMode!=EXTENDED){
+        digitalWrite(10,LOW);
+        delay(1500);
+        extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
+        delay(3000);
+        digitalWrite(10,HIGH);
+        delay(1500);
+      }
       
-      controlMagnet(0,PIN_RL_ELECTRO);
-      delay(1000);
-      extensionRearLeft(dxl,DXL_ID_REAR_LEFT, direction);
-      delay(1000);
-      controlMagnet(1,PIN_RL_ELECTRO);
-      delay(1000);
 
-      controlMagnet(0,PIN_RR_ELECTRO);
-      delay(1000);
-      extensionRearRight(dxl,DXL_ID_REAR_RIGHT, direction);
+      if(rearRightMode!=EXTENDED){
+        digitalWrite(11,LOW);
+        delay(1000);
+        extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
+        delay(1000);
+        digitalWrite(11,HIGH);
+        delay(1000);
+      }
       nbTurnsFrontLeft--;
-      nbTurnsRearRight--;
-      delay(1000);
-      controlMagnet(1,PIN_RR_ELECTRO);
-      delay(1000);
+        nbTurnsRearRight--;
 
-      retractionRearLeft(dxl,DXL_ID_REAR_LEFT, direction);
-      retractionRearRight(dxl,DXL_ID_REAR_RIGHT, direction);
-      extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, direction);
-      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT, direction);
+      retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
+      retractionRearRight(dxl,DXL_ID_REAR_RIGHT);
+      extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+      extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
 
-      
+      nbTurnsFrontLeft--;
       delay(1000);
     }
 }
@@ -360,54 +320,6 @@ void setServoPosition(Servo servo, int angle){
 int getServoPosition(Servo servo){
   return servo.read();
 }
-
-void home(Servo servomotors[],Dynamixel2Arduino dxl){
-
-    digitalWrite(12,LOW);
-    delay(1000);
-    raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
-    delay(500);
-    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME);
-    delay(500);
-    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
-    delay(500);
-    digitalWrite(12,HIGH);
-    delay(1000);
-
-   digitalWrite(13,LOW);
-    delay(1000);
-    raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
-    delay(500);
-    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME);
-    delay(200);
-    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
-    delay(500);
-    digitalWrite(13,HIGH);
-    delay(1000);
-
-    digitalWrite(10,LOW);
-    delay(1000);
-    raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
-    delay(500);
-    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME);
-    delay(200);
-    retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
-    delay(500);
-    digitalWrite(10,HIGH);
-    delay(1000);
-
-    digitalWrite(11,LOW);
-    delay(1000);
-    raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
-    delay(500);
-    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME);
-    delay(200);
-    retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
-    delay(500);
-    digitalWrite(11,HIGH);
-    delay(1000);
-}
-
 void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
 {
   if (angle >= 0)
@@ -418,7 +330,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
     delay(500);
-    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
     delay(500);
     digitalWrite(12,HIGH);
     delay(1000);
@@ -429,7 +341,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
     delay(200);
-    retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+    retractionRearRight(dxl,DXL_ID_REAR_RIGHT);
     delay(500);
     digitalWrite(11,HIGH);
     delay(1000);
@@ -440,7 +352,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
     delay(200);
-    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
     delay(500);
     digitalWrite(13,HIGH);
     delay(1000);
@@ -451,7 +363,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
     delay(200);
-    retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
+    retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
     delay(500);
     digitalWrite(10,HIGH);
     delay(1000);
@@ -464,7 +376,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
     delay(200);
-    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
     delay(500);
     digitalWrite(13,HIGH);
     delay(1000);
@@ -475,7 +387,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
     delay(200);
-    retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
+    retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
     delay(500);
     digitalWrite(10,HIGH);
     delay(1000);
@@ -486,7 +398,7 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
     delay(500);
-    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
     delay(500);
     digitalWrite(12,HIGH);
     delay(1000);
@@ -497,11 +409,58 @@ void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
     delay(500);
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
     delay(200);
-    retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+    retractionRearRight(dxl,DXL_ID_REAR_RIGHT);
     delay(500);
     digitalWrite(11,HIGH);
     delay(1000);
   }
+}
+
+void home(Servo servomotors[],Dynamixel2Arduino dxl){
+    
+    digitalWrite(12,LOW);
+    delay(1000);
+    raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+    delay(500);
+    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME);
+    delay(500);
+    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+    delay(500);
+    digitalWrite(12,HIGH);
+    delay(1000);
+
+   digitalWrite(13,LOW);
+    delay(1000);
+    raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+    delay(500);
+    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME);
+    delay(200);
+    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+    delay(500);
+    digitalWrite(13,HIGH);
+    delay(1000);
+
+    digitalWrite(10,LOW);
+    delay(1000);
+    raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
+    delay(500);
+    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME);
+    delay(200);
+    retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
+    delay(500);
+    digitalWrite(10,HIGH);
+    delay(1000);
+
+    digitalWrite(11,LOW);
+    delay(1000);
+    raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
+    delay(500);
+    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME);
+    delay(200);
+    retractionRearRight(dxl,DXL_ID_REAR_RIGHT);
+    delay(500);
+    digitalWrite(11,HIGH);
+    delay(1000);
 }
 
 void controlMagnet(bool power, int pinmagnet){
@@ -606,9 +565,6 @@ void init(Servo servomotors[], Dynamixel2Arduino dxl){
   dxl.ping(DXL_ID_FRONT_RIGHT);
   dxl.ping(DXL_ID_REAR_LEFT);
   dxl.ping(DXL_ID_REAR_RIGHT);
-
-
-  
   
   // Turn off torque when configuring items in EEPROM area
 

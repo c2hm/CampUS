@@ -587,12 +587,12 @@ void moteur_avant_droit(int state)
     }
     else if(frontRightMode == RAISED)
     {
-      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
       nbTurnsFrontRight++;
     }
     else if(frontRightMode == EXTENDED)
     {
-      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
     }
   }
   else
@@ -603,12 +603,12 @@ void moteur_avant_droit(int state)
     }
     else if(frontRightMode == RAISED)
     {
-      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
       nbTurnsFrontRight--;
     }
     else if(frontRightMode == EXTENDED)
     {
-      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
     }
   }
     write_order(FINISHED);
@@ -627,11 +627,11 @@ void moteur_avant_gauche(int state)
     }
     else if(frontLeftMode == RAISED)
     {
-      extensionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+      extensionFrontLeft(dxl, DXL_ID_FRONT_LEFT);
     }
     else if(frontLeftMode == EXTENDED)
     {
-      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT);
     }
   }
   else
@@ -643,11 +643,11 @@ void moteur_avant_gauche(int state)
     }
     else if(frontLeftMode == RAISED)
     {
-      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+      retractionFrontLeft(dxl, DXL_ID_FRONT_LEFT);
     }
     else if(frontLeftMode == EXTENDED)
     {
-      raiseFrontLeft(dxl, DXL_ID_FRONT_LEFT, state);
+      raiseFrontLeft(dxl, DXL_ID_FRONT_LEFT);
     }
   }
     write_order(FINISHED);
@@ -665,11 +665,11 @@ void moteur_arriere_droit(int state)
     }
     else if(rearRightMode == RAISED)
     {
-      extensionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      extensionRearRight(dxl, DXL_ID_REAR_RIGHT);
     }
     else if(rearRightMode == EXTENDED)
     {
-      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
       nbTurnsRearRight++;
     }
   }
@@ -681,12 +681,12 @@ void moteur_arriere_droit(int state)
     }
     else if(rearRightMode == RAISED)
     {
-      extensionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      extensionRearRight(dxl, DXL_ID_REAR_RIGHT);
       nbTurnsRearRight--;
     }
     else if(rearRightMode == EXTENDED)
     {
-      retractionRearRight(dxl, DXL_ID_REAR_RIGHT, state);
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
     }
   }
     write_order(FINISHED);
@@ -700,11 +700,11 @@ void moteur_arriere_gauche(int state)
   {
     if(rearLeftMode == RETRACTED)
     {
-      extensionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      extensionRearLeft(dxl, DXL_ID_REAR_LEFT);
     }
     else if(rearLeftMode == RAISED)
     {
-      retractionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      retractionRearLeft(dxl, DXL_ID_REAR_LEFT);
       nbTurnsRearLeft++;
     }
     else if(rearLeftMode == EXTENDED)
@@ -720,12 +720,12 @@ void moteur_arriere_gauche(int state)
     }
     else if(rearLeftMode == RAISED)
     {
-      extensionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      extensionRearLeft(dxl, DXL_ID_REAR_LEFT);
       nbTurnsRearLeft--;
     }
     else if(rearLeftMode == EXTENDED)
     {
-      retractionRearLeft(dxl, DXL_ID_REAR_LEFT, state);
+      retractionRearLeft(dxl, DXL_ID_REAR_LEFT);
     }
   }
     write_order(FINISHED);
