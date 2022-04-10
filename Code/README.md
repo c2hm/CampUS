@@ -61,7 +61,7 @@ There are two types of messages :
     Parameters (8bit integer) : Optional number representing a precision of an order 
     Ex : Order : LEFT_MOTOR ; Parameter : 40; Output : Give a 40 rad/s speed to the motor 
  
- Sequence of communication:
+ Sequence of communication :
  
    Paring: 
    The python controller sends order HELLO every few moments until a HELLO order is returned by the arduino.
