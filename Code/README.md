@@ -48,8 +48,7 @@ Python code point of view for the communications below :
         Check box to enable/disable
         To disable a magnet, at least 3 magnets must be enabled (security factor)
 
-#Communication protocol
-
+# Communication protocol
 The communication is based on the Robust Arduino Serial Protocol in Python:
 https://github.com/araffin/python-arduino-serial
 
