@@ -247,32 +247,32 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id){
 void robotStep(Dynamixel2Arduino dxl, int direction){
     if(direction >=0){
       
-      controlMagnet(0,10);
+      digitalWrite(10,LOW);
       delay(1500);
       retractionRearLeft(dxl,DXL_ID_REAR_LEFT, direction);
       delay(3000);
-      controlMagnet(1,10);
+      digitalWrite(10,HIGH);
       delay(1500);
       
-      controlMagnet(0,11);
+      digitalWrite(11,LOW);
       delay(1500);
       retractionRearRight(dxl, DXL_ID_REAR_RIGHT, direction);
       delay(3000);
-      controlMagnet(1,11);
+      digitalWrite(11,HIGH);;
       delay(1500);
      
-      controlMagnet(0,12);
+      digitalWrite(12,LOW);
       delay(1500);
       extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT, direction);
       delay(3000);
-      controlMagnet(1,12);
+      digitalWrite(12,HIGH);;
       delay(1500);
 
-      controlMagnet(0,13);
+      digitalWrite(13,LOW);
       delay(1500);
       extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT, direction);
       delay(3000);
-      controlMagnet(1,13);
+      digitalWrite(13,HIGH);
       delay(1500);
 
       nbTurnsRearLeft++;
@@ -363,7 +363,7 @@ int getServoPosition(Servo servo){
 
 void home(Servo servomotors[],Dynamixel2Arduino dxl){
 
-    /*controlMagnet(0,PIN_FL_ELECTRO);
+    digitalWrite(12,LOW);
     delay(1000);
     raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
     delay(500);
@@ -371,10 +371,10 @@ void home(Servo servomotors[],Dynamixel2Arduino dxl){
     delay(500);
     retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
     delay(500);
-    controlMagnet(1,PIN_FL_ELECTRO);
+    digitalWrite(12,HIGH);
     delay(1000);
 
-    controlMagnet(0,PIN_FR_ELECTRO);
+   digitalWrite(13,LOW);
     delay(1000);
     raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
     delay(500);
@@ -382,10 +382,10 @@ void home(Servo servomotors[],Dynamixel2Arduino dxl){
     delay(200);
     retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
     delay(500);
-    controlMagnet(1,PIN_FR_ELECTRO);
-    delay(1000);*/
+    digitalWrite(13,HIGH);
+    delay(1000);
 
-    controlMagnet(0,PIN_RL_ELECTRO);
+    digitalWrite(10,LOW);
     delay(1000);
     raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
     delay(500);
@@ -393,10 +393,10 @@ void home(Servo servomotors[],Dynamixel2Arduino dxl){
     delay(200);
     retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
     delay(500);
-    controlMagnet(1,PIN_RL_ELECTRO);
+    digitalWrite(10,HIGH);
     delay(1000);
 
-    /*controlMagnet(0,PIN_RR_ELECTRO);
+    digitalWrite(11,LOW);
     delay(1000);
     raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
     delay(500);
@@ -404,8 +404,104 @@ void home(Servo servomotors[],Dynamixel2Arduino dxl){
     delay(200);
     retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
     delay(500);
-    controlMagnet(1,PIN_RR_ELECTRO);
-    delay(1000);*/
+    digitalWrite(11,HIGH);
+    delay(1000);
+}
+
+void setAngle(Servo servomotors[],Dynamixel2Arduino dxl, int angle)
+{
+  if (angle >= 0)
+  {
+    digitalWrite(12,LOW);
+    delay(1000);
+    raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+    delay(500);
+    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
+    delay(500);
+    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+    delay(500);
+    digitalWrite(12,HIGH);
+    delay(1000);
+
+    digitalWrite(11,LOW);
+    delay(1000);
+    raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
+    delay(500);
+    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
+    delay(200);
+    retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+    delay(500);
+    digitalWrite(11,HIGH);
+    delay(1000);
+
+    digitalWrite(13,LOW);
+    delay(1000);
+    raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+    delay(500);
+    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
+    delay(200);
+    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+    delay(500);
+    digitalWrite(13,HIGH);
+    delay(1000);
+
+    digitalWrite(10,LOW);
+    delay(1000);
+    raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
+    delay(500);
+    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
+    delay(200);
+    retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
+    delay(500);
+    digitalWrite(10,HIGH);
+    delay(1000);
+  }
+  else
+  {
+    digitalWrite(13,LOW);
+    delay(1000);
+    raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+    delay(500);
+    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
+    delay(200);
+    retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT,1);
+    delay(500);
+    digitalWrite(13,HIGH);
+    delay(1000);
+
+    digitalWrite(10,LOW);
+    delay(1000);
+    raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
+    delay(500);
+    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
+    delay(200);
+    retractionRearLeft(dxl,DXL_ID_REAR_LEFT,1);
+    delay(500);
+    digitalWrite(10,HIGH);
+    delay(1000);
+
+    digitalWrite(12,LOW);
+    delay(1000);
+    raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+    delay(500);
+    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
+    delay(500);
+    retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT,1);
+    delay(500);
+    digitalWrite(12,HIGH);
+    delay(1000);
+
+    digitalWrite(11,LOW);
+    delay(1000);
+    raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
+    delay(500);
+    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
+    delay(200);
+    retractionRearRight(dxl,DXL_ID_REAR_RIGHT,1);
+    delay(500);
+    digitalWrite(11,HIGH);
+    delay(1000);
+  }
 }
 
 void controlMagnet(bool power, int pinmagnet){
@@ -546,10 +642,11 @@ void init(Servo servomotors[], Dynamixel2Arduino dxl){
   digitalWrite(11,HIGH);
   digitalWrite(12,HIGH);
   digitalWrite(13,HIGH);
+
   
   nbTurnsFrontLeft=0;
   nbTurnsFrontRight=0;
   nbTurnsRearLeft=0;
   nbTurnsRearRight=0;
-  //home(servomotors,dxl);
+  home(servomotors,dxl);
 }
