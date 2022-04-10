@@ -1,7 +1,5 @@
-To Do:
-- Learn all useful libraries from openCR project
-- Code a working motor / find out about serial plugging for motors
-- Walking sequence:
+
+Walking sequence:
 -  1. Get to starting stance
 -  2. Reset position variables
 -  3. disable front-left magnet
@@ -18,10 +16,3 @@ To Do:
 -  14. rear-right leg retracts
 -  15. enable rear-right magnet
 -  16. repeat steps 3 to 15 until goal is reached
-- Turning algorithm with servo-motors
-- UI
-- Communication arduino/UI
-
-
-Issues:
-- How to get the starting stance from any position with the current motors
