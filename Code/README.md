@@ -59,8 +59,8 @@ There are two types of messages :
 
     Orders (8bit integer) : defines the type of request or response; can be immediately followed by a parameter 
     Parameters (8bit integer) : Optional number representing a precision of an order 
-    Ex : Order : LEFT_MOTOR ; Parameter : 40; Output : Give a 40 rad/s speed to the motor 
- 
+    Ex : Order : LEFT_MOTOR ; Parameter : 40; Output : Give a 40 rad/s speed to the motor
+    
 Sequence of communication :
  
    Paring: 
