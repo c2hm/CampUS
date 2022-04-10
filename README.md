@@ -10,11 +10,11 @@ The CampUS robot is a quadriped articulated robot. Each leg is independent and c
 
 # Code
 
-  This folder contains all the code for communication and movement
+  This folder contains all the code for Python interface and the C++ Arduino controller code
   
 # Conception 
 
-  This folder contains all the prototypes created on SolidWorks
+  This folder contains all the prototypes created on SolidWorks and the complete manual of assembly of the mechanical and electrical parts
 
 # Demo 
 
@@ -22,7 +22,7 @@ The CampUS robot is a quadriped articulated robot. Each leg is independent and c
   
 # Electricity
 
-  This folder contains the information about the OpenCR board, the protoboard and overall circuit   connections
+  This folder contains the information about the OpenCR board, the protoboard and overall circuit connections
   
 # Tests
 
