@@ -504,16 +504,8 @@ void set_angle(int ParamAngle)
 
 void semi_auto_state(int state)
 {
-  if(state==1)
-  {
-    //avancer
-  }
-  else if(state==-1)
-  {
-    //reculer
-  }
+  robotStep(dxl,state);
   write_order(FINISHED); 
-  
 }
 void servo_avant_droit(int state)
 {
@@ -521,12 +513,12 @@ void servo_avant_droit(int state)
  delay(200);
  if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   write_order(FINISHED);
@@ -538,12 +530,12 @@ void servo_avant_gauche(int state)
   delay(200);
   if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
    write_order(FINISHED);  
@@ -555,12 +547,12 @@ void servo_arriere_droit(int state)
   delay(200);
   if(state==1)
   {
-    angle = angle + angleToAdd;
+    angle = angle - angleToAdd;
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    angle = angle - angleToAdd;
+    angle = angle + angleToAdd;
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
     write_order(FINISHED);
