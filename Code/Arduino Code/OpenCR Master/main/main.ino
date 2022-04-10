@@ -661,16 +661,16 @@ void moteur_arriere_droit(int state)
   {
     if(rearRightMode == RETRACTED)
     {
-      raiseRearRight(dxl, DXL_ID_REAR_RIGHT);
+      extensionRearRight(dxl, DXL_ID_REAR_RIGHT);
     }
     else if(rearRightMode == RAISED)
     {
-      extensionRearRight(dxl, DXL_ID_REAR_RIGHT);
+      retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
+      nbTurnsRearRight++;
     }
     else if(rearRightMode == EXTENDED)
     {
-      retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
-      nbTurnsRearRight++;
+      raiseRearRight(dxl, DXL_ID_REAR_RIGHT);
     }
   }
   else
