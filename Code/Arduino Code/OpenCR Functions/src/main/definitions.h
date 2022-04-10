@@ -10,43 +10,44 @@
 #define REAR_LEFT_SERVO 2
 #define REAR_RIGHT_SERVO 3
 
-#define PIN_FRONT_LEFT_SERVO_PWM 5
-#define PIN_FRONT_RIGHT_SERVO_PWM 9
-#define PIN_REAR_LEFT_SERVO_PWM 3
-#define PIN_REAR_RIGHT_SERVO_PWM 6
+#define FRONT_LEFT_SERVO_HOME 71
+#define FRONT_RIGHT_SERVO_HOME 117
+#define REAR_LEFT_SERVO_HOME 126
+#define REAR_RIGHT_SERVO_HOME 74
+
+#define PIN_FRONT_LEFT_SERVO_PWM 6
+#define PIN_FRONT_RIGHT_SERVO_PWM 3
+#define PIN_REAR_LEFT_SERVO_PWM 9
+#define PIN_REAR_RIGHT_SERVO_PWM 5
 
 //Movement modes
 #define WAIT_MODE 0
 #define EXTENSION_MODE 1
 #define RETRACTION_MODE 2
 uint8_t mode = WAIT_MODE;
+using namespace ControlTableItem;
 
 Servo servo_test = Servo();
 
 #define DXL_ID_REAR_LEFT 3
 #define DXL_ID_REAR_RIGHT 23
 #define DXL_ID_FRONT_LEFT 9
-#define DXL_ID_FRONT_RIGHT 4
+#define DXL_ID_FRONT_RIGHT 22
 
-#define FRONT_LEFT_RETRACTED 1252
-#define FRONT_RIGHT_RETRACTED 0
-#define REAR_LEFT_RETRACTED 2820
-#define REAR_RIGHT_RETRACTED 1042
+#define FRONT_LEFT_RETRACTED 2316
+#define FRONT_RIGHT_RETRACTED 2702
+#define REAR_LEFT_RETRACTED 3040
+#define REAR_RIGHT_RETRACTED 964
 
-#define FRONT_LEFT_EXTENDED 3410
-#define FRONT_RIGHT_EXTENDED 0 
-#define REAR_LEFT_EXTENDED 766
-#define REAR_RIGHT_EXTENDED 3289
+#define FRONT_LEFT_EXTENDED 188
+#define FRONT_RIGHT_EXTENDED 520
+#define REAR_LEFT_EXTENDED 727
+#define REAR_RIGHT_EXTENDED 3474
 
-#define FRONT_LEFT_RAISED 2567
-#define FRONT_RIGHT_RAISED 0
-#define REAR_LEFT_RAISED 1594
-#define REAR_RIGHT_RAISED 2267
-
-#define FRONT_LEFT_LOW 2257
-#define FRONT_RIGHT_LOW 0
-#define REAR_LEFT_LOW 1688
-#define REAR_RIGHT_LOW 4200
+#define FRONT_LEFT_RAISED 3209
+#define FRONT_RIGHT_RAISED 1661
+#define REAR_LEFT_RAISED 1807
+#define REAR_RIGHT_RAISED 2363
 
 #define PIN_FL_ELECTRO 12
 #define PIN_FR_ELECTRO 13
@@ -59,12 +60,16 @@ Servo servo_test = Servo();
 
 int angle = 0;
 
-int nbTurnsFront;
-int nbTurnsRear;
-
+int nbTurnsFrontLeft;
+int nbTurnsFrontRight;
+int nbTurnsRearLeft;
+int nbTurnsRearRight;
 int frontLeftMode;
 int frontRightMode;
 int rearLeftMode;
 int rearRightMode;
 int objectif;
 const float DXL_PROTOCOL_VERSION = 2.0;
+
+Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
+Servo servomotors[4] = {};
