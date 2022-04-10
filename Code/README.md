@@ -47,12 +47,30 @@ Python code point of view for the communications below :
         For each magnet :
         Check box to enable/disable
         To disable a magnet, at least 3 magnets must be enabled (security factor)
+# Walking sequence:
+
+1. Get to starting stance
+2. Reset position variables
+3. disable front-left magnet
+4. front-left leg extends
+5. enable front-left magnet
+6. disable front-right magnet
+7. front-right leg extends
+8. enable front-right magnet
+9. front legs retract while rear legs extend
+10. disable rear-left magnet
+11. rear-left leg retracts
+12. enable rear-left magnet
+13. disable rear-right magnet
+14. rear-right leg retracts
+15. enable rear-right magnet
+16. repeat steps 3 to 15 until goal is reached
 
 # Communication protocol
 The communication is based on the Robust Arduino Serial Protocol in Python:
 https://github.com/araffin/python-arduino-serial
 
-To protocol is based on a master and slave relation. Therefore the arduino only speaks to when it is talked to by the python controller.
+The protocol is based on a master and slave relation. Therefore the arduino only speaks to when it is talked to by the python controller.
 This system insures that the communication is synchronized and that no message is lost. Also, all messages are 8bit which insures the arduino buffer serial will not overflow
 
 There are two types of messages :
