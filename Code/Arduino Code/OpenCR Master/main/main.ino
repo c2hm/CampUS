@@ -1,17 +1,23 @@
+
 //https://www.instructables.com/Cheap-2-Way-Bluetooth-Connection-Between-Arduino-a/
 
 #include <Arduino.h>
 #include "order.h"
 #include "parameters.h"
 #include "slave.h"
+#include <Servo.h>
+#include <Dynamixel2Arduino.h>
+#include "definitions.h"
+#include "functions.h"
+
 
 //Prototypes
 void get_messages_from_serial();
-void home();
+void homeMaster();
 int get_param();
 void auto_distance(int dist);
 void auto_reverse(int dist);
-void set_angle(int angle);
+void set_angle(int paramAngle);
 void semi_auto_state(int state);
 void servo_avant_droit(int state);
 void servo_avant_gauche(int state);
@@ -26,11 +32,9 @@ void electroaimant_avant_gauche(int state);
 void electroaimant_arriere_droit(int state);
 void electroaimant_arriere_gauche(int state);
 
-
-
 bool is_connected = false; ///< True if the connection with the master is available
 
-int ERROR_PARAM = -10;
+int ERROR_PARAM = -1000;
 
 void setup() {
 
@@ -41,7 +45,7 @@ void setup() {
   {
     get_messages_from_serial();
   }
-
+  init(servomotors,dxl);
 }
 
 void loop() 
@@ -88,7 +92,7 @@ void get_messages_from_serial()
         case HOME:
         {
           write_order(RECEIVED);
-          home();
+          homeMaster();
           break;
         }
 
@@ -141,7 +145,7 @@ void get_messages_from_serial()
           write_order(RECEIVED);
 
           //reads parameter
-          int angle = get_param();
+          angle = get_param();
           Serial.flush(); //avoid multiple instaces of param in serial
 
           if (angle >= 0 && angle<=360)
@@ -463,11 +467,11 @@ int get_param()
  * Functions to be called when an order is processed
  * 
  * ********************************************/
-void home()
+void homeMaster()
 {
 
   //homing procedure
-  delay(5000);
+  home(servomotors,dxl);
   write_order(FINISHED); 
 }
 
@@ -491,9 +495,10 @@ void auto_reverse(int dist)
   
 }
 
-void set_angle(int angle)
+void set_angle(int ParamAngle)
 {
  //utiliser la variable angle pour bouger les servomoteurs
+ 
   write_order(FINISHED); 
 }
 
@@ -512,82 +517,121 @@ void semi_auto_state(int state)
 }
 void servo_avant_droit(int state)
 {
-  if(state==1)
+ controlMagnet(0,PIN_FR_ELECTRO);
+ delay(200);
+ if(state==1)
   {
-    //avancer
+    angle = angle + angleToAdd;
+    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    //reculer
+    angle = angle - angleToAdd;
+    servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
   write_order(FINISHED);
 }
 
 void servo_avant_gauche(int state)
 {
+  controlMagnet(0,PIN_FL_ELECTRO);
+  delay(200);
   if(state==1)
   {
-    //avancer
+    angle = angle + angleToAdd;
+    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
   else
   {
-    //reculer
+    angle = angle - angleToAdd;
+    servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
    write_order(FINISHED);  
 }
 
 void servo_arriere_droit(int state)
 {
-
+  controlMagnet(0,PIN_RR_ELECTRO);
+  delay(200);
   if(state==1)
   {
-    //avancer
+    angle = angle + angleToAdd;
+    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
   else
   {
-    //reculer
+    angle = angle - angleToAdd;
+    servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
     write_order(FINISHED);
 }
 
 void servo_arriere_gauche(int state)
 {
- 
+  controlMagnet(0,PIN_RL_ELECTRO);
+  delay(200);
   if(state==1)
   {
-    //avancer
+    angle = angle + angleToAdd;
+    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
   }
   else
   {
-    //reculer
+    angle = angle - angleToAdd;
+    servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
   }
     write_order(FINISHED);
 }
 
 void moteur_avant_droit(int state)
 {
-  if(state==1)
-  {
-    //avancer
-  }
-  else
-  {
-    //reculer
-  }
-    write_order(FINISHED);
-}
-
-void moteur_avant_gauche(int state)
-{
-  if(state==1)
-  {
-    //avancer
-  }
-  else
-  {
-    //reculer
-  }
-    write_order(FINISHED);
+//  digitalWrite(PIN_FR_ELECTRO,LOW);
+//  if(state==1)
+//  {
+//    if(frontRightMode == RETRACTED)
+//    {
+//      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
+//      nbTurnsFront++;
+//    }
+//    else if(frontRightMode == RAISED)
+//    {
+//      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+//    }
+//    else if(frontRightMode == EXTENDED)
+//    {
+//      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+//    }
+//  }
+//  else
+//  {
+//    if(frontRightMode == RETRACTED)
+//    {
+//      raiseFrontRight(dxl, DXL_ID_FRONT_RIGHT);
+//      nbTurnsFront--;
+//    }
+//    else if(frontRightMode == RAISED)
+//    {
+//      extensionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+//    }
+//    else if(frontRightMode == EXTENDED)
+//    {
+//      retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT, state);
+//    }
+//  }
+//    write_order(FINISHED);
+//}
+//
+//void moteur_avant_gauche(int state)
+//{
+//  if(state==1)
+//  {
+//    //avancer
+//  }
+//  else
+//  {
+//    //reculer
+//  }
+//    write_order(FINISHED);
 }
 
 void moteur_arriere_droit(int state)
@@ -606,6 +650,7 @@ void moteur_arriere_droit(int state)
 
 void moteur_arriere_gauche(int state)
 {
+  
   if(state==1)
   {
     //avancer
@@ -619,58 +664,56 @@ void moteur_arriere_gauche(int state)
 
 void electroaimant_avant_droit(int state)
 {
-
+  digitalWrite(PIN_FR_ELECTRO,LOW);
   if(state==1)
   {
-    //activer electroaimant
+    digitalWrite(PIN_FR_ELECTRO,HIGH);
   }
   else
   {
-    //desactiver electroaimant
+    digitalWrite(PIN_FR_ELECTRO,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_avant_gauche(int state)
 {
- 
+  digitalWrite(PIN_FL_ELECTRO,LOW);
   if(state==1)
   {
-    //activer electroaimant
+    digitalWrite(PIN_FL_ELECTRO,HIGH);
   }
   else
   {
-    //desactiver electroaimant
-
-
+    digitalWrite(PIN_FL_ELECTRO,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_arriere_droit(int state)
 {
-  
+  digitalWrite(PIN_RR_ELECTRO,LOW);
   if(state==1)
   {
-    //activer electroaimant
+    digitalWrite(PIN_RR_ELECTRO,HIGH);
   }
   else
   {
-    //desactiver electroaimant
+    digitalWrite(PIN_RR_ELECTRO,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_arriere_gauche(int state)
 {
-  
+  digitalWrite(PIN_RL_ELECTRO,LOW);
   if(state==1)
   {
-    //activer electroaimant
+    digitalWrite(PIN_RL_ELECTRO,HIGH);
   }
   else
   {
-    //desactiver electroaimant
+    digitalWrite(PIN_RL_ELECTRO,LOW);
   }
     write_order(FINISHED);
 }
