@@ -26,10 +26,6 @@ void controlMagnet(bool power, int magnet);
 void home(Servo servo[],Dynamixel2Arduino dxl);
 void init(Servo servomotors[],Dynamixel2Arduino dxl);
 
-//activation modes for magnets (on/off) and legs' current position (extended, retracted, raised)
-//void resetEncoder(int id, Dynamixel2Arduino dxl);
-
-
 void setServoPosition(Servo servo, int angle);
 int getServoPosition(Servo servo);
 
@@ -193,7 +189,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(10,LOW);
         delay(1500);
         retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
-        delay(3000);
+        delay(2000);
         digitalWrite(10,HIGH);
         delay(1500);
       }
@@ -202,7 +198,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(11,LOW);
         delay(1500);
         retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
-        delay(3000);
+        delay(2000);
         digitalWrite(11,HIGH);;
         delay(1500);
       }
@@ -211,7 +207,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(12,LOW);
         delay(1500);
         extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
-        delay(3000);
+        delay(2000);
         digitalWrite(12,HIGH);;
         delay(1500);
       }
@@ -220,7 +216,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(13,LOW);
         delay(1500);
         extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
-        delay(3000);
+        delay(2000);
         digitalWrite(13,HIGH);
         delay(1500);
       }
@@ -235,7 +231,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
       extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
       extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
       
-      delay(3000);
+      delay(2000);
       nbTurnsFrontLeft++;
     }
     else{
@@ -243,7 +239,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(12,LOW);
         delay(1500);
         retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
-        delay(3000);
+        delay(2000);
         digitalWrite(12,HIGH);
         delay(1500);
         }
@@ -252,7 +248,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(13,LOW);
         delay(1500);
         retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
-        delay(3000);
+        delay(2000);
         digitalWrite(13,HIGH);
         delay(1500);
       }
@@ -261,7 +257,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(10,LOW);
         delay(1500);
         extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
-        delay(3000);
+        delay(2000);
         digitalWrite(10,HIGH);
         delay(1500);
       }
@@ -271,7 +267,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(11,LOW);
         delay(1500);
         extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
-        delay(3000);
+        delay(2000);
         digitalWrite(11,HIGH);
         delay(1500);
       }
@@ -286,7 +282,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
       extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
 
       nbTurnsFrontLeft--;
-      delay(3000);
+      delay(2000);
     }
 }
 
