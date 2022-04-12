@@ -196,7 +196,6 @@ void get_messages_from_serial()
           {
             write_order(RECEIVED); 
             servo_avant_droit(state);
-          
           }
           else 
           {
@@ -361,7 +360,7 @@ void get_messages_from_serial()
 
         case ELECTROAIMANT_AVANT_DROIT:
         {
-          
+          write_order(RECEIVED);
           int state = get_param();
           Serial.flush();
           if (state==-1 || state==1)
