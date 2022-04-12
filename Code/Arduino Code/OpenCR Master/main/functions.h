@@ -206,6 +206,9 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
       if(frontLeftMode!=EXTENDED){
         digitalWrite(12,LOW);
         delay(1500);
+        raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        delay(1000);
+        dxl.setGoalPosition(DXL_ID_FRONT_RIGHT,-nbTurnsFrontRight*4096+FRONT_RIGHT_PULL);
         extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
         delay(2000);
         digitalWrite(12,HIGH);;
