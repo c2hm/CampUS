@@ -202,7 +202,7 @@ void get_messages_from_serial()
           {
             write_order(ERROR1); 
           }
-        
+        break;
         }
         
         case SERVO_AVANT_GAUCHE:
