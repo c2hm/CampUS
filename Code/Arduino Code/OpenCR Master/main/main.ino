@@ -509,7 +509,7 @@ void semi_auto_state(int state)
 }
 void servo_avant_droit(int state)
 {
- digitalWrite(PIN_FR_ELECTRO,LOW);
+ digitalWrite(13,LOW);
  delay(200);
  if(state==1)
   {
@@ -521,12 +521,13 @@ void servo_avant_droit(int state)
     angle = angle + angleToAdd;
     servomotors[FRONT_RIGHT_SERVO].write(FRONT_RIGHT_SERVO_HOME + angle);
   }
+  digitalWrite(13,HIGH);
   write_order(FINISHED);
 }
 
 void servo_avant_gauche(int state)
 {
-  digitalWrite(PIN_FL_ELECTRO,LOW);
+  digitalWrite(12,LOW);
   delay(200);
   if(state==1)
   {
@@ -538,12 +539,13 @@ void servo_avant_gauche(int state)
     angle = angle + angleToAdd;
     servomotors[FRONT_LEFT_SERVO].write(FRONT_LEFT_SERVO_HOME + angle);
   }
+   digitalWrite(12,HIGH);
    write_order(FINISHED);  
 }
 
 void servo_arriere_droit(int state)
 {
-  digitalWrite(PIN_RR_ELECTRO,LOW);
+  digitalWrite(11,LOW);
   delay(200);
   if(state==1)
   {
@@ -555,12 +557,13 @@ void servo_arriere_droit(int state)
     angle = angle + angleToAdd;
     servomotors[REAR_RIGHT_SERVO].write(REAR_RIGHT_SERVO_HOME + angle);
   }
-    write_order(FINISHED);
+  digitalWrite(11,HIGH);
+  write_order(FINISHED);
 }
 
 void servo_arriere_gauche(int state)
 {
-  digitalWrite(PIN_RL_ELECTRO,LOW);
+  digitalWrite(10,LOW);
   delay(200);
   if(state==1)
   {
@@ -572,12 +575,13 @@ void servo_arriere_gauche(int state)
     angle = angle + angleToAdd;
     servomotors[REAR_LEFT_SERVO].write(REAR_LEFT_SERVO_HOME + angle);
   }
+  digitalWrite(10,HIGH);
     write_order(FINISHED);
 }
 
 void moteur_avant_droit(int state)
 {
-  digitalWrite(PIN_FR_ELECTRO,LOW);
+  digitalWrite(13,LOW);
   delay(200);
   if(state==1)
   {
@@ -616,7 +620,7 @@ void moteur_avant_droit(int state)
 
 void moteur_avant_gauche(int state)
 {
-  digitalWrite(PIN_FL_ELECTRO,LOW);
+  digitalWrite(12,LOW);
   delay(200);
   if(state==1)
   {
@@ -655,7 +659,7 @@ void moteur_avant_gauche(int state)
 
 void moteur_arriere_droit(int state)
 {
-  digitalWrite(PIN_RR_ELECTRO,LOW);
+  digitalWrite(11,LOW);
   delay(200);
   if(state==1)
   {
@@ -694,7 +698,7 @@ void moteur_arriere_droit(int state)
 
 void moteur_arriere_gauche(int state)
 {
-  digitalWrite(PIN_RL_ELECTRO,LOW);
+  digitalWrite(10,LOW);
   delay(200);
   if(state==1)
   {
@@ -733,56 +737,56 @@ void moteur_arriere_gauche(int state)
 
 void electroaimant_avant_droit(int state)
 {
-  digitalWrite(PIN_FR_ELECTRO,LOW);
+  digitalWrite(13,LOW);
   if(state==1)
   {
-    digitalWrite(PIN_FR_ELECTRO,HIGH);
+    digitalWrite(13,HIGH);
   }
   else
   {
-    digitalWrite(PIN_FR_ELECTRO,LOW);
+    digitalWrite(13,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_avant_gauche(int state)
 {
-  digitalWrite(PIN_FL_ELECTRO,LOW);
+  digitalWrite(12,LOW);
   if(state==1)
   {
-    digitalWrite(PIN_FL_ELECTRO,HIGH);
+    digitalWrite(12,HIGH);
   }
   else
   {
-    digitalWrite(PIN_FL_ELECTRO,LOW);
+    digitalWrite(12,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_arriere_droit(int state)
 {
-  digitalWrite(PIN_RR_ELECTRO,LOW);
+  digitalWrite(11,LOW);
   if(state==1)
   {
-    digitalWrite(PIN_RR_ELECTRO,HIGH);
+    digitalWrite(11,HIGH);
   }
   else
   {
-    digitalWrite(PIN_RR_ELECTRO,LOW);
+    digitalWrite(11,LOW);
   }
     write_order(FINISHED);
 }
 
 void electroaimant_arriere_gauche(int state)
 {
-  digitalWrite(PIN_RL_ELECTRO,LOW);
+  digitalWrite(10,LOW);
   if(state==1)
   {
-    digitalWrite(PIN_RL_ELECTRO,HIGH);
+    digitalWrite(10,HIGH);
   }
   else
   {
-    digitalWrite(PIN_RL_ELECTRO,LOW);
+    digitalWrite(10,LOW);
   }
     write_order(FINISHED);
 }
