@@ -45,7 +45,7 @@ int getServoPosition(Servo servo);
 void extensionFrontLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED);
 
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED+50||dxl.getPresentPosition(id)<nbTurnsFrontLeft*4096+FRONT_LEFT_EXTENDED-50){};};
   frontLeftMode = EXTENDED;
 }
 
@@ -58,7 +58,7 @@ void extensionFrontLeft(Dynamixel2Arduino dxl, int id){
  */
 void extensionFrontRight(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=-nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>-nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED+50||dxl.getPresentPosition(id)<-nbTurnsFrontRight*4096+FRONT_RIGHT_EXTENDED-50){};};
   frontRightMode = EXTENDED;
 }
 
@@ -71,7 +71,7 @@ void extensionFrontRight(Dynamixel2Arduino dxl, int id){
  */
 void extensionRearLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED+50||dxl.getPresentPosition(id)<nbTurnsRearLeft*4096+REAR_LEFT_EXTENDED-50){};};
   rearLeftMode = EXTENDED;
 }
 
@@ -84,7 +84,7 @@ void extensionRearLeft(Dynamixel2Arduino dxl, int id){
  */
 void extensionRearRight(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, -(nbTurnsRearRight*4096-REAR_RIGHT_EXTENDED));
-  if(!synchro){while(dxl.getPresentPosition(id)!=-nbTurnsRearRight*4096+REAR_RIGHT_EXTENDED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>-nbTurnsRearRight*4096+REAR_RIGHT_EXTENDED+50||dxl.getPresentPosition(id)<-nbTurnsRearRight*4096+REAR_RIGHT_EXTENDED-50){};};
   rearRightMode = EXTENDED;
 }
 
@@ -98,7 +98,7 @@ void extensionRearRight(Dynamixel2Arduino dxl, int id){
  */
 void retractionFrontLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED+50||dxl.getPresentPosition(id)<nbTurnsFrontLeft*4096+FRONT_LEFT_RETRACTED-50){};};
   frontLeftMode = RETRACTED;
 }
 
@@ -110,7 +110,7 @@ void retractionFrontLeft(Dynamixel2Arduino dxl, int id){
  */
 void retractionFrontRight(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=-nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>-nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED+50||dxl.getPresentPosition(id)<-nbTurnsFrontRight*4096+FRONT_RIGHT_RETRACTED-50){};};
   frontRightMode = RETRACTED;
 }
 
@@ -123,7 +123,7 @@ void retractionFrontRight(Dynamixel2Arduino dxl, int id){
  */
 void retractionRearLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED+50||dxl.getPresentPosition(id)<nbTurnsRearLeft*4096+REAR_LEFT_RETRACTED-50){};};
   rearLeftMode = RETRACTED;
 }
 
@@ -135,7 +135,7 @@ void retractionRearLeft(Dynamixel2Arduino dxl, int id){
  */
 void retractionRearRight(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, -nbTurnsRearRight*4096+REAR_RIGHT_RETRACTED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=-nbTurnsRearRight*4096+REAR_RIGHT_RETRACTED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>-nbTurnsRearRight*4096+REAR_RIGHT_RETRACTED+50||dxl.getPresentPosition(id)<-nbTurnsRearRight*4096+REAR_RIGHT_RETRACTED-50){};};
   rearRightMode = RETRACTED;
 }
 
@@ -148,7 +148,7 @@ void retractionRearRight(Dynamixel2Arduino dxl, int id){
  */
 void raiseFrontLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsFrontLeft*4096+FRONT_LEFT_RAISED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsFrontLeft*4096+FRONT_LEFT_RAISED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsFrontLeft*4096+FRONT_LEFT_RAISED+50||dxl.getPresentPosition(id)<nbTurnsFrontLeft*4096+FRONT_LEFT_RAISED-50){};};
   frontLeftMode = RAISED;
 }
 
@@ -161,7 +161,7 @@ void raiseFrontLeft(Dynamixel2Arduino dxl, int id){
  */
 void raiseFrontRight(Dynamixel2Arduino dxl, int id){
    dxl.setGoalPosition(id, -nbTurnsFrontRight*4096+FRONT_RIGHT_RAISED);
-   if(!synchro){while(dxl.getPresentPosition(id)!=-nbTurnsFrontRight*4096+FRONT_RIGHT_RAISED){};};
+   if(!synchro){while(dxl.getPresentPosition(id)>-nbTurnsFrontRight*4096+FRONT_RIGHT_RAISED+50||dxl.getPresentPosition(id)<-nbTurnsFrontRight*4096+FRONT_RIGHT_RAISED-50){};};
    frontRightMode = RAISED;
 }
 
@@ -174,7 +174,7 @@ void raiseFrontRight(Dynamixel2Arduino dxl, int id){
  */
 void raiseRearLeft(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, nbTurnsRearLeft*4096+REAR_LEFT_RAISED);
-  if(!synchro){while(dxl.getPresentPosition(id)!=nbTurnsRearLeft*4096+REAR_LEFT_RAISED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)>nbTurnsRearLeft*4096+REAR_LEFT_RAISED+50||dxl.getPresentPosition(id)<nbTurnsRearLeft*4096+REAR_LEFT_RAISED-50){};};
   rearLeftMode = RAISED;
 }
 
@@ -187,7 +187,7 @@ void raiseRearLeft(Dynamixel2Arduino dxl, int id){
  */
 void raiseRearRight(Dynamixel2Arduino dxl, int id){
   dxl.setGoalPosition(id, -nbTurnsRearRight*4096+REAR_RIGHT_RAISED);
-  if(!synchro){while(dxl.getPresentPosition(id)!= -nbTurnsRearRight*4096+REAR_RIGHT_RAISED){};};
+  if(!synchro){while(dxl.getPresentPosition(id)> -nbTurnsRearRight*4096+REAR_RIGHT_RAISED+50||dxl.getPresentPosition(id)< -nbTurnsRearRight*4096+REAR_RIGHT_RAISED-50){};};
   rearRightMode = RAISED;
 }
 
