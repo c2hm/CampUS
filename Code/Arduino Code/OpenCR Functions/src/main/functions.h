@@ -514,5 +514,5 @@ void init(Servo servomotors[], Dynamixel2Arduino dxl){
   nbTurnsFrontRight=0;
   nbTurnsRearLeft=0;
   nbTurnsRearRight=0;
-  home(servomotors,dxl);
+  //home(servomotors,dxl);
 }

@@ -8,6 +8,5 @@ void setup() {
 }
 
 void loop() {
- robotStep(dxl,-1);
- //robotStep(dxl,-1);
+ DEBUG_SERIAL.println(dxl.getPresentPosition(DXL_ID_FRONT_RIGHT));
 }
