@@ -83,6 +83,10 @@ class MainWindow(QMainWindow):
         self.ui.pb_ser_brcounter.clicked.connect(self.ser_brcounter_order)
 
         ## Magnets
+        self.ui.cb_flmag.setChecked(True)
+        self.ui.cb_frmag.setChecked(True)
+        self.ui.cb_blmag.setChecked(True)
+        self.ui.cb_brmag.setChecked(True)
         self.ui.cb_flmag.stateChanged.connect(self.flmag_order)
         self.ui.cb_frmag.stateChanged.connect(self.frmag_order)
         self.ui.cb_blmag.stateChanged.connect(self.blmag_order)
@@ -181,6 +185,14 @@ class MainWindow(QMainWindow):
             self.ui.label_state_auto.repaint()
             time.sleep(3)
             self.ui.label_state_auto.setText(' ')
+        self.ui.cb_flmag.setChecked(True)
+        self.ui.cb_flmag.repaint()
+        self.ui.cb_frmag.setChecked(True)
+        self.ui.cb_frmag.repaint()
+        self.ui.cb_blmag.setChecked(True)
+        self.ui.cb_blmag.repaint()
+        self.ui.cb_brmag.setChecked(True)
+        self.ui.cb_brmag.repaint()
         self.setEnabled(True)
     def start_order(self):
         self.setEnabled(False)
