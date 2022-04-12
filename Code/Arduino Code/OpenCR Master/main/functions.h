@@ -17,6 +17,12 @@ void raiseFrontRight(Dynamixel2Arduino dxl, int id);
 void raiseRearLeft(Dynamixel2Arduino dxl, int id);
 void raiseRearRight(Dynamixel2Arduino dxl, int id);
 
+void pullFrontLeft(Dynamixel2Arduino dxl, int id);
+void pullFrontRight(Dynamixel2Arduino dxl, int id);
+void pullRearLeft(Dynamixel2Arduino dxl, int id);
+void pullRearRight(Dynamixel2Arduino dxl, int id);
+
+
 void robotStep(Dynamixel2Arduino dxl, int idFL,int idFR,int idRL,int idRR,int direction, int speed);
 void encoderPosition(Dynamixel2Arduino dxl, int id);
 int encoderCount(Dynamixel2Arduino dxl, int id);
@@ -172,6 +178,49 @@ void raiseRearRight(Dynamixel2Arduino dxl, int id){
   rearRightMode = RAISED;
 }
 
+void pullFrontLeft(Dynamixel2Arduino dxl, int id)
+{
+  if(frontLeftMode==RAISED)
+  {
+    retractionFrontLeft(dxl,id);
+    digitalWrite(12,HIGH);
+    delay(500);
+  }
+  dxl.setGoalPosition(id,dxl.getPresentPosition(DXL_ID_FRONT_LEFT)-500);
+}
+
+void pullFrontRight(Dynamixel2Arduino dxl, int id)
+{
+  if(frontRightMode==RAISED)
+  {
+    retractionFrontRight(dxl,id);
+    digitalWrite(13,HIGH);
+    delay(500);
+  }
+  dxl.setGoalPosition(id,dxl.getPresentPosition(DXL_ID_FRONT_RIGHT)-500);
+}
+
+void pullRearLeft(Dynamixel2Arduino dxl, int id)
+{
+  if(rearLeftMode==RAISED)
+  {
+    retractionRearLeft(dxl,id);
+    digitalWrite(10,HIGH);
+    delay(500);
+  }
+  dxl.setGoalPosition(id,dxl.getPresentPosition(DXL_ID_REAR_LEFT)-500);
+}
+
+void pullRearRight(Dynamixel2Arduino dxl, int id)
+{
+  if(rearRightMode==RAISED)
+  {
+    retractionRearRight(dxl,id);
+    digitalWrite(11,HIGH);
+    delay(500);
+  }
+  dxl.setGoalPosition(id,dxl.getPresentPosition(DXL_ID_REAR_RIGHT)+500);
+}
 /*
  *This function completes one full robot step in the inputede direction 
  * 
@@ -189,28 +238,32 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
         digitalWrite(10,LOW);
         delay(1500);
         retractionRearLeft(dxl,DXL_ID_REAR_LEFT);
-        delay(2000);
+        delay(4000);
         digitalWrite(10,HIGH);
         delay(1500);
+        
       }
       
       if(rearRightMode!=RETRACTED){
         digitalWrite(11,LOW);
         delay(1500);
         retractionRearRight(dxl, DXL_ID_REAR_RIGHT);
-        delay(2000);
+        delay(4000);
         digitalWrite(11,HIGH);;
         delay(1500);
+        
       }
       
       if(frontLeftMode!=EXTENDED){
         digitalWrite(12,LOW);
         delay(1500);
         raiseFrontLeft(dxl,DXL_ID_FRONT_LEFT);
-        delay(1000);
-        dxl.setGoalPosition(DXL_ID_FRONT_RIGHT,-nbTurnsFrontRight*4096+FRONT_RIGHT_PULL);
-        extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        nbTurnsFrontLeft++;
         delay(2000);
+        pullFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+        delay(1000);
+        extensionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        delay(4000);
         digitalWrite(12,HIGH);;
         delay(1500);
       }
@@ -218,63 +271,76 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
       if(frontRightMode!=EXTENDED){
         digitalWrite(13,LOW);
         delay(1500);
-        extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+        raiseFrontRight(dxl,DXL_ID_FRONT_RIGHT);
         delay(2000);
+        pullFrontLeft(dxl,DXL_ID_FRONT_LEFT);
+        delay(1000);
+        extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
+        delay(4000);
         digitalWrite(13,HIGH);
         delay(1500);
+        
       }
-      
-
       nbTurnsRearLeft++;
-      nbTurnsRearRight++;
       nbTurnsFrontRight++;
-      
+      nbTurnsRearRight++;
       retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
       retractionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
       extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
       extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
       
-      delay(2000);
-      nbTurnsFrontLeft++;
+      delay(4000);
     }
     else{
       if(frontLeftMode!=RETRACTED){
         digitalWrite(12,LOW);
         delay(1500);
         retractionFrontLeft(dxl,DXL_ID_FRONT_LEFT);
-        delay(2000);
+        delay(4000);
         digitalWrite(12,HIGH);
         delay(1500);
-        }
+        
+      }
       
       if(frontRightMode!=RETRACTED){
         digitalWrite(13,LOW);
         delay(1500);
         retractionFrontRight(dxl, DXL_ID_FRONT_RIGHT);
-        delay(2000);
+        delay(4000);
         digitalWrite(13,HIGH);
         delay(1500);
+      
       }
      
       if(rearLeftMode!=EXTENDED){
         digitalWrite(10,LOW);
         delay(1500);
-        extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
+        raiseRearLeft(dxl,DXL_ID_REAR_LEFT);
         delay(2000);
+        pullRearRight(dxl,DXL_ID_REAR_RIGHT);
+        delay(1000);
+        extensionRearLeft(dxl,DXL_ID_REAR_LEFT);
+        delay(4000);
         digitalWrite(10,HIGH);
         delay(1500);
+        
       }
       
 
       if(rearRightMode!=EXTENDED){
         digitalWrite(11,LOW);
         delay(1500);
-        extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
+        raiseRearRight(dxl,DXL_ID_REAR_RIGHT);
         delay(2000);
+        pullRearLeft(dxl,DXL_ID_REAR_LEFT);
+        delay(1000);
+        extensionRearRight(dxl,DXL_ID_REAR_RIGHT);
+        delay(4000);
         digitalWrite(11,HIGH);
         delay(1500);
+        
       }
-
+      
       nbTurnsFrontRight--;
       nbTurnsRearLeft--;
       nbTurnsRearRight--;
@@ -285,7 +351,7 @@ void robotStep(Dynamixel2Arduino dxl, int direction){
       extensionFrontRight(dxl,DXL_ID_FRONT_RIGHT);
 
       nbTurnsFrontLeft--;
-      delay(2000);
+      delay(4000);
     }
 }
 
