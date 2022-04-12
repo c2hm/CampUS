@@ -82,5 +82,7 @@ int rearRightMode;
 int objectif;
 const float DXL_PROTOCOL_VERSION = 2.0;
 
+bool synchro;
+
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 Servo servomotors[4] = {};
