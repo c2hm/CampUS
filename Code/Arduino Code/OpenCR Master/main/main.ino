@@ -478,7 +478,27 @@ void auto_distance(int dist)
 {
 
   //starting procedure to move
-  
+  float stepReach = 7.0;
+  int walkedDist = 0;
+
+  if(dist>0)
+  {
+    while(walkedDist<dist)
+    {
+      robotStep(dxl,1);
+      
+      walkedDist = walkedDist+stepReach;
+    }
+  }
+  if(dist<0)
+  {
+    while(walkedDist>dist)
+    {
+      robotStep(dxl,-1);
+      
+      walkedDist = walkedDist-stepReach;
+    }
+  }
   
 
   write_order(FINISHED); 
@@ -489,7 +509,28 @@ void auto_reverse(int dist)
 {
 
   //stopping procedure to move in reverse
+  float stepReach = 7.0;
+  int walkedDist = 0;
 
+  if(dist>0)
+  {
+    while(walkedDist<dist)
+    {
+      robotStep(dxl,1);
+      
+      walkedDist = walkedDist+stepReach;
+    }
+  }
+  if(dist<0)
+  {
+    while(walkedDist>dist)
+    {
+      robotStep(dxl,-1);
+      
+      walkedDist = walkedDist-stepReach;
+    }
+  }
+  
   write_order(FINISHED); 
   
 }
