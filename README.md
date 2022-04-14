@@ -4,7 +4,9 @@ University of Sherbrooke robotics project
   ![Isometric view](https://user-images.githubusercontent.com/98042679/154827627-ff07e487-ea2e-4c38-a949-d4acb07813e9.JPG)
   
 The CampUS robot is a quadriped articulated robot. Each leg is independent and contains two degrees of freedom, but all of these allow the robot to move from all sides.   An electromagnet is attached to each leg to allow the robot to move on metal surfaces. All components are controlled by an OpenCR card programmed in C++. This program handles the low-level commands needed for the move. A user interface is used to communicate to the robot the sequences of high-level movements to be executed according to the user's intention. A Bluetooth module makes it possible to make the wireless link between the two programs. The diagram below summarizes the general architecture explained above:
- 
+
+
+https://user-images.githubusercontent.com/61423054/163423602-716784be-e185-4637-add3-56b7fac88ded.mp4
 ![Image1](https://user-images.githubusercontent.com/61423054/162639507-b5bcffe8-850c-49e4-9823-b323be120eb4.png)
 
 # Code
