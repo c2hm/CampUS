@@ -9,6 +9,8 @@ The diagram below summarizes the general architecture explained above:
 
  ![image](https://user-images.githubusercontent.com/61423054/163424046-3e1ea1a0-8857-4d9c-8dd7-5045ebd48828.png)
 
+Here is a demonstration of the robot : 40 cm at 0°, 20 cm at 10° and 20 cm at -10°  
+
 https://user-images.githubusercontent.com/61423054/163423675-e28aa425-6067-4ee7-8b0e-fbca73a94658.mp4
 
 # Code
