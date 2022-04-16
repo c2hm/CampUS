@@ -66,6 +66,12 @@ Python code point of view for the communications below :
 15. enable rear-right magnet
 16. repeat steps 3 to 15 until goal is reached
 
+# State machine of the arduino code
+Note that the automatic mode is a series of semi-automatic orders
+
+![image](https://user-images.githubusercontent.com/61423054/163688451-134a45d9-1bfe-43b0-afed-6a8d9aef8d49.png)
+
+
 # Communication protocol
 The communication is based on the Robust Arduino Serial Protocol in Python:
 https://github.com/araffin/python-arduino-serial
